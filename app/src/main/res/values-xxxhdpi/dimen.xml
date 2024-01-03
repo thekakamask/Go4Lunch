@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="size_text_button">25sp</dimen>
+    <dimen name="size_text_message">20sp</dimen>
+    <dimen name="size_text_land_button">20sp</dimen>
+    <dimen name="size_text_land_message">15sp</dimen>
+    <dimen name="margin_button">12dp</dimen>
+    <dimen name="margin_button_bottom_to_text_view">25dp</dimen>
+    <dimen name="margin_button_bottom_land_to_text_view">20dp</dimen>
+    <dimen name="margin_button_bottom">45dp</dimen>
+    <dimen name="margin_button_land_start">390dp</dimen>
+    <dimen name="margin_button_land_end">10dp</dimen>
+    <dimen name="margin_button_land_bottom">100dp</dimen>
+
+</resources>

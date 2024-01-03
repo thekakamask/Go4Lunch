@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        //classpath ("com.google.gms:google-services:4.4.0")
+        classpath ("com.google.gms:google-services:4.4.0")
         classpath ("com.android.tools.build:gradle:8.0.2")
     }
 }
