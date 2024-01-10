@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/go4lunch_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/welcome_activity_layout">
 
     <EditText
         android:id="@+id/email_input"
@@ -43,10 +44,10 @@
         android:layout_marginBottom="@dimen/margin_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttonGoogle"/>
+        app:layout_constraintBottom_toTopOf="@id/button_sign_in"/>
 
     <Button
-        android:id="@+id/buttonGoogle"
+        android:id="@+id/button_sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
@@ -60,10 +61,10 @@
         android:layout_marginBottom="@dimen/margin_button_bottom_to_text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/signUpLink" />
+        app:layout_constraintBottom_toBottomOf="@id/sign_up_link" />
 
     <TextView
-        android:id="@+id/signUpLink"
+        android:id="@+id/sign_up_link"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/text_sign_up"

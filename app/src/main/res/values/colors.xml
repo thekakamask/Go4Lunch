@@ -4,4 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#ffcc0000</color>
     <color name="blue">#ff0099cc</color>
+
+    <!-- Array of colors that will be used by ViewPager as background colors -->
+    <array name="colorPagesViewPager">
+        <item>#EDD9CF</item>
+        <item>#BED4D6</item>
+        <item>#ADCEB7</item>
+    </array>
 </resources>
