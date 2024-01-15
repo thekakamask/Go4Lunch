@@ -11,31 +11,31 @@ import com.dcac.go4lunch.ui.fragments.WorkMatesFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
-    private int [] colors;
 
-    public ViewPagerAdapter(FragmentActivity activity, int []colors) {
-        super(activity);
-        this.colors= colors;
+    public ViewPagerAdapter(FragmentActivity fragment) {
+        super(fragment);
     }
 
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return RestaurantsMapFragment.newInstance(position, colors[position]);
+                return RestaurantsMapFragment.newInstance(position);
             case 1:
-                return RestaurantsListFragment.newInstance(position, colors[position]);
+                return RestaurantsListFragment.newInstance(position);
             case 2:
-                return WorkMatesFragment.newInstance(position, colors[position]);
+                return WorkMatesFragment.newInstance(position);
             default:
-                return null;
+                throw new IllegalStateException("Unexpected position: " + position);
         }
     }
 
     @Override
     public int getItemCount() {
-        return colors.length;
+        return 3;
     }
+
+
 
 
 

@@ -5,6 +5,8 @@
         <item name="password_logo">@drawable/password_eye_white</item>
         <item name="password_logo_close">@drawable/password_eye_closed_white</item>
 
+        <item name="password_logo_land">@drawable/password_eye_white_land</item>
+        <item name="password_logo_close_land">@drawable/password_eye_closed_white_land</item>
 
     </style>
 

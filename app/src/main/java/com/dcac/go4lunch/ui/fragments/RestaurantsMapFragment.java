@@ -23,12 +23,11 @@ public class RestaurantsMapFragment extends Fragment {
     private static final String KEY_COLOR="color";
 
 
-    public static RestaurantsMapFragment newInstance(int position, int color) {
+    public static RestaurantsMapFragment newInstance(int position) {
         RestaurantsMapFragment mapFragment = new RestaurantsMapFragment();
 
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
-        args.putInt(KEY_COLOR, color);
         mapFragment.setArguments(args);
 
 

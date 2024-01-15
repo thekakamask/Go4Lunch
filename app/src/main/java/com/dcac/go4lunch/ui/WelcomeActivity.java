@@ -71,7 +71,14 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
                 }
         );
 
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            launchMainActivity();
+            finish();
+            return;
+        }
+
         initializeViews();
+
 
     }
 
@@ -184,6 +191,7 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
     private void launchMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void showSnackBar(String message) {

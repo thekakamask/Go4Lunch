@@ -28,12 +28,11 @@ public class RestaurantsListFragment extends Fragment {
     private static final String KEY_POSITION="position";
     private static final String KEY_COLOR="color";
 
-    public static RestaurantsListFragment newInstance(int position, int color) {
+    public static RestaurantsListFragment newInstance(int position) {
         RestaurantsListFragment listFragment = new RestaurantsListFragment();
 
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
-        args.putInt(KEY_COLOR, color);
         listFragment.setArguments(args);
 
         return(listFragment);

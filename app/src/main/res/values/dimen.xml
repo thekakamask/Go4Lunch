@@ -1,16 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--    WelcomeActivityLayout-->
     <dimen name="size_text_button">20sp</dimen>
-    <dimen name="size_text_message">18sp</dimen>
-    <dimen name="size_text_land_button">18sp</dimen>
-    <dimen name="size_text_land_message">15sp</dimen>
-    <dimen name="margin_button">12dp</dimen>
-    <dimen name="margin_button_bottom">43dp</dimen>
-    <dimen name="margin_button_bottom_to_text_view">22dp</dimen>
-    <dimen name="margin_button_bottom_land_to_text_view">20dp</dimen>
-    <dimen name="margin_button_land_start">340dp</dimen>
-    <dimen name="margin_button_land_end">10dp</dimen>
-    <dimen name="margin_button_land_bottom">85dp</dimen>
+    <dimen name="margin_button">10dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom">20dp</dimen>
+    <dimen name="size_text_message">15sp</dimen>
+    <dimen name="margin_text_view_bottom">60dp</dimen>
+
+    <!--    WelcomeActivityLand-->
+    <dimen name="size_text_button_land">18sp</dimen>
+    <dimen name="margin_button_start_land">345dp</dimen>
+    <dimen name="margin_button_end_land">5dp</dimen>
+    <dimen name="margin_button_land">10dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land">18dp</dimen>
+    <dimen name="size_text_message_land">15sp</dimen>
+    <dimen name="margin_button_bottom_land">100dp</dimen>
+
+    <!--    WelcomeActivityLayoutSmall-->
+    <dimen name="size_text_button_small">9sp</dimen>
+    <dimen name="margin_button_small">0dp</dimen>
+    <dimen name="margin_button_start_small">10dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_small">6dp</dimen>
+    <dimen name="size_text_message_small">7sp</dimen>
+    <dimen name="margin_text_view_bottom_small">8dp</dimen>
+
+    <!--    WelcomeActivityLayoutNormal-->
+    <dimen name="size_text_button_normal">20sp</dimen>
+    <dimen name="margin_button_normal">10dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_normal">20dp</dimen>
+    <dimen name="size_text_message_normal">15sp</dimen>
+    <dimen name="margin_text_view_bottom_normal">40dp</dimen>
+
+    <!--    WelcomeActivityLandNormal-->
+    <dimen name="size_text_button_land_normal">15sp</dimen>
+    <dimen name="margin_button_start_land_normal">290dp</dimen>
+    <dimen name="margin_button_end_land_normal">10dp</dimen>
+    <dimen name="margin_button_land_normal">10dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_normal">13dp</dimen>
+    <dimen name="size_text_message_land_normal">10sp</dimen>
+    <dimen name="margin_button_bottom_land_normal">70dp</dimen>
+
+    <!--    WelcomeActivityLayoutLarge-->
+    <dimen name="size_text_button_large">40sp</dimen>
+    <dimen name="margin_button_large">15dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_large">45dp</dimen>
+    <dimen name="size_text_message_large">30sp</dimen>
+    <dimen name="margin_text_view_bottom_large">60dp</dimen>
+
+    <!--    WelcomeActivityLandLarge-->
+    <dimen name="size_text_button_land_large">30sp</dimen>
+    <dimen name="margin_button_start_land_large">520dp</dimen>
+    <dimen name="margin_button_end_land_large">10dp</dimen>
+    <dimen name="margin_button_land_large">10dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_large">25dp</dimen>
+    <dimen name="size_text_message_land_large">20sp</dimen>
+    <dimen name="margin_button_bottom_land_large">170dp</dimen>
+
+
+    <!--    WelcomeActivityLayoutXLarge-->
+    <dimen name="size_text_button_xlarge">40sp</dimen>
+    <dimen name="margin_button_xlarge">40dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_xlarge">45dp</dimen>
+    <dimen name="size_text_message_xlarge">30sp</dimen>
+    <dimen name="margin_text_view_bottom_xlarge">80dp</dimen>
+
+    <!--    WelcomeActivityLandXLarge-->
+    <dimen name="size_text_button_land_xlarge">30sp</dimen>
+    <dimen name="margin_button_start_land_xlarge">550dp</dimen>
+    <dimen name="margin_button_end_land_xlarge">10dp</dimen>
+    <dimen name="margin_button_land_xlarge">20dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_xlarge">30dp</dimen>
+    <dimen name="size_text_message_land_xlarge">22sp</dimen>
+    <dimen name="margin_button_bottom_land_xlarge">250dp</dimen>
+
+
+    <!--    MainActivityLayout-->
+    <dimen name="main_activity_nav_header_height">300dp</dimen>
+    <dimen name="main_activity_size_text_button">25sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start">35dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button">30dp</dimen>
+    <dimen name="main_activity_nav_header_size_text">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text">15dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2">15sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom">50dp</dimen>
+
+    <!--    MainActivityLand-->
+    <dimen name="main_activity_nav_header_height_land">200dp</dimen>
+    <dimen name="main_activity_size_text_button_land">30sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land">30dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land">65dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land">15dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land">15dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land">15sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land">25dp</dimen>
+
+    <!--    MainActivityLayoutSmall-->
+    <dimen name="main_activity_nav_header_height_small">70dp</dimen>
+    <dimen name="main_activity_size_text_button_small">13sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_small">15dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_small">12dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_small">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_small">10sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_small">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_small">6sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_small">8dp</dimen>
+
+    <!--    MainActivityLandSmall-->
+    <dimen name="main_activity_nav_header_height_land_small">50dp</dimen>
+    <dimen name="main_activity_size_text_button_land_small">15sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_small">15dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_small">30dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_small">0dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land_small">8sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_small">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land_small">6sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_small">3dp</dimen>
+
+    <!--    MainActivityLayoutNormal-->
+    <dimen name="main_activity_nav_header_height_normal">200dp</dimen>
+    <dimen name="main_activity_size_text_button_normal">20sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_normal">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_normal">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_normal">20dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_normal">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_normal">10dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_normal">10sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_normal">33dp</dimen>
+
+    <!--    MainActivityLandNormal-->
+    <dimen name="main_activity_nav_header_height_land_normal">140dp</dimen>
+    <dimen name="main_activity_size_text_button_land_normal">25sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_normal">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_normal">70dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_normal">3dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land_normal">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_normal">10dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land_normal">13sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_normal">8dp</dimen>
+
+    <!--    MainActivityLayoutLarge-->
+    <dimen name="main_activity_nav_header_height_large">"350dp</dimen>
+    <dimen name="main_activity_size_text_button_large">30sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_large">30dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_large">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_large">50dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_large">25sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_large">10dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_large">15sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_large">70dp</dimen>
+
+    <!--    MainActivityLandLarge-->
+    <dimen name="main_activity_nav_header_height_land_large">250dp</dimen>
+    <dimen name="main_activity_size_text_button_land_large">25sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_large">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_large">25dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_large">14dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land_large">25sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_large">10dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land_large">15sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_large">30dp</dimen>
 
 </resources>

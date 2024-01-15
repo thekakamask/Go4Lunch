@@ -19,4 +19,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- ActivityMainNavHeader -->
+
+
+    <!-- ActivityMainMenuDrawer -->
+    <string name="your_lunch">Your lunch</string>
+    <string name="parameters">Parameters</string>
+    <string name="log_out">Log out</string>
+    <string name="user_name_text">John SMITH</string>
+    <string name="user_email_text">jsmith.1337@gmail.com</string>
+    <string name="navigation_drawer_open">drawer opened</string>
+    <string name="navigation_drawer_close">Drawer closed</string>
+    <string name="you_are_hungry">You are hungry !</string>
+    <string name="glass">glass</string>
+
 </resources>

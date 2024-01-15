@@ -26,12 +26,11 @@ public class WorkMatesFragment extends Fragment {
 
     private static final String KEY_POSITION="position";
     private static final String KEY_COLOR="color";
-    public static WorkMatesFragment newInstance(int position, int color) {
+    public static WorkMatesFragment newInstance(int position) {
         WorkMatesFragment WorkMatesFragment = new WorkMatesFragment();
 
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
-        args.putInt(KEY_COLOR, color);
         WorkMatesFragment.setArguments(args);
 
         return(WorkMatesFragment);
