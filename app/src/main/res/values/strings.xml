@@ -8,16 +8,14 @@
     <string name="sign_in">Sign in</string>
     <string name="email_edit">Email</string>
     <string name="text_sign_up">Don\'t have an account? Sign Up</string>
-
-    <!-- UserRepository -->
+    <string name="connection_succeed">Auth successful !</string>
     <string name="unknown_error">Unknown error</string>
-    <string name="connection_succeed">Auth successfull !</string>
     <string name="error_authentication_canceled">Auth cancelled !</string>
     <string name="error_no_internet">No internet connection !</string>
     <string name="error_unknown_error">Unknown error happened...</string>
     <string name="authentication_failed">Auth Failed !</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_creating_user">Error about user creation</string>
+
 
     <!-- ActivityMainNavHeader -->
 
@@ -32,5 +30,18 @@
     <string name="navigation_drawer_close">Drawer closed</string>
     <string name="you_are_hungry">You are hungry !</string>
     <string name="glass">glass</string>
+
+    <!-- UserRepository -->
+
+
+    <!-- UserViewModel -->
+
+
+    <!-- UserViewModelFactory -->
+
+
+    <!-- AuthService -->
+
+    <!-- Resource -->
 
 </resources>

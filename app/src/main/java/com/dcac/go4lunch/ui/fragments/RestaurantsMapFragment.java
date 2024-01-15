@@ -2,8 +2,6 @@ package com.dcac.go4lunch.ui.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,13 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dcac.go4lunch.databinding.FragmentRestaurantsMapBinding;
-import com.dcac.go4lunch.viewModels.UserManager;
+import com.dcac.go4lunch.viewModels.UserViewModel;
 
 public class RestaurantsMapFragment extends Fragment {
 
     private FragmentRestaurantsMapBinding binding;
 
-    private UserManager userManager = UserManager.getInstance();
 
     private static final String KEY_POSITION="position";
     private static final String KEY_COLOR="color";

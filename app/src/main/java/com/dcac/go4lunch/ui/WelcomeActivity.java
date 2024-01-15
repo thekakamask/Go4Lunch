@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityWelcomeBinding;
-import com.dcac.go4lunch.viewModels.UserManager;
+import com.dcac.go4lunch.injection.UserViewModelFactory;
+import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -31,7 +33,8 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
 
     private ActivityResultLauncher<Intent> signInOrUpLauncher;
     private FirebaseAuth mAuth;
-    private UserManager userManager = UserManager.getInstance();
+
+    private UserViewModel userViewModel;
 
     protected ActivityWelcomeBinding getViewBinding() {
         return ActivityWelcomeBinding.inflate(getLayoutInflater());
@@ -40,8 +43,10 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mAuth=FirebaseAuth.getInstance();
+
+        UserViewModelFactory factory = UserViewModelFactory.getInstance(getApplicationContext());
+        userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
 
         signInOrUpLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -51,9 +56,24 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if (user != null) {
 
-                            userManager.createUser(user.getUid());
-                            showSnackBar(getString(R.string.connection_succeed));
-                            launchMainActivity();
+                            userViewModel.createUser(user.getUid()).observe(this, resource -> {
+                                if (resource != null) {
+                                    switch (resource.status) {
+                                        case SUCCESS:
+                                            if (resource.data != null && resource.data) {
+                                                showSnackBar(getString(R.string.connection_succeed));
+                                                launchMainActivity();
+                                            }
+                                            break;
+                                        case ERROR:
+                                            showSnackBar(getString(R.string.error_creating_user));
+                                            break;
+                                        case LOADING:
+                                            break;
+                                    }
+                                } else {
+                                }
+                            });
 
                         }
                     } else {

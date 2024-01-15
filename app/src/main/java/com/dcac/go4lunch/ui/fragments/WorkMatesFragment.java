@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dcac.go4lunch.R;
-import com.dcac.go4lunch.databinding.FragmentRestaurantsMapBinding;
 import com.dcac.go4lunch.databinding.FragmentWorkMatesBinding;
-import com.dcac.go4lunch.viewModels.UserManager;
+import com.dcac.go4lunch.viewModels.UserViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +20,6 @@ public class WorkMatesFragment extends Fragment {
 
     private FragmentWorkMatesBinding binding;
 
-    private UserManager userManager = UserManager.getInstance();
 
     private static final String KEY_POSITION="position";
     private static final String KEY_COLOR="color";

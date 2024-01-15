@@ -2,25 +2,16 @@ package com.dcac.go4lunch.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityMainBinding;
-import com.dcac.go4lunch.ui.fragments.RestaurantsListFragment;
-import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
-import com.dcac.go4lunch.ui.fragments.WorkMatesFragment;
 import com.dcac.go4lunch.views.ViewPagerAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
