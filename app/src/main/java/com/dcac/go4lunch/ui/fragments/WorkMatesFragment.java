@@ -2,6 +2,8 @@ package com.dcac.go4lunch.ui.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,16 +23,15 @@ public class WorkMatesFragment extends Fragment {
     private FragmentWorkMatesBinding binding;
 
 
-    private static final String KEY_POSITION="position";
-    private static final String KEY_COLOR="color";
-    public static WorkMatesFragment newInstance(int position) {
-        WorkMatesFragment WorkMatesFragment = new WorkMatesFragment();
+    /*private static final String KEY_POSITION="position";
+    private static final String KEY_COLOR="color";*/
+    public static WorkMatesFragment newInstance() {
 
-        Bundle args = new Bundle();
+        /*Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
-        WorkMatesFragment.setArguments(args);
+        WorkMatesFragment.setArguments(args);*/
 
-        return(WorkMatesFragment);
+        return new WorkMatesFragment();
     }
 
     @Override
@@ -44,14 +45,21 @@ public class WorkMatesFragment extends Fragment {
         binding = FragmentWorkMatesBinding.inflate(inflater, container, false);
 
         // Retrieve and use data from Bundle
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             int position = getArguments().getInt(KEY_POSITION, -1);
             int color = getArguments().getInt(KEY_COLOR, -1);
 
             binding.workmatesLayout.setBackgroundColor(color);
             binding.workmatesTitle.setText("List of workmates. Page number "+ position);
-        }
+        }*/
+
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.workmatesTitle.setText("List of workmates");
     }
 }
