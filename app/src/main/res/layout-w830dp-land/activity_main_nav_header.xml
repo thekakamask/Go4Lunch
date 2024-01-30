@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_activity_nav_header_height_land_w830"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/go4lunch_header_land"
+    android:layout_gravity="center"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/header_profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/account_icon_land"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/white"
+        android:layout_marginStart="@dimen/main_activity_nav_header_margin_image_button_start_land_w830"
+        android:layout_marginBottom="@dimen/main_activity_nav_header_margin_image_button_land_w830"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/header_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name_text"
+        android:textSize="@dimen/main_activity_nav_header_size_text_land_w830"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginStart="@dimen/main_activity_nav_header_margin_text_land_w830"
+        app:layout_constraintBottom_toTopOf="@+id/header_user_email"
+        app:layout_constraintStart_toEndOf="@id/header_profile_image" />
+
+    <TextView
+        android:id="@+id/header_user_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_email_text"
+        android:textSize="@dimen/main_activity_nav_header_size_text_2_land_w830"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginStart="@dimen/main_activity_nav_header_margin_text_land_w830"
+        android:layout_marginBottom="@dimen/main_activity_nav_header_margin_text_bottom_land_w830"
+        app:layout_constraintStart_toEndOf="@id/header_profile_image"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

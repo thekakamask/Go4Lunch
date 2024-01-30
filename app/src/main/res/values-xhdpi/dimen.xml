@@ -2,20 +2,106 @@
 <resources>
 
     <!--    WelcomeActivityLayout-->
-    <dimen name="size_text_button">20sp</dimen>
-    <dimen name="margin_button">10dp</dimen>
-    <dimen name="margin_button_to_text_view_bottom">20dp</dimen>
-    <dimen name="size_text_message">15sp</dimen>
-    <dimen name="margin_text_view_bottom">60dp</dimen>
+    <dimen name="size_text_button">35sp</dimen>
+    <dimen name="margin_button_start">20dp</dimen>
+    <dimen name="margin_button">25dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom">40dp</dimen>
+    <dimen name="size_text_message">30sp</dimen>
+    <dimen name="margin_text_view_bottom">20dp</dimen>
 
     <!--    WelcomeActivityLand-->
-    <dimen name="size_text_button_land">18sp</dimen>
-    <dimen name="margin_button_start_land">345dp</dimen>
-    <dimen name="margin_button_end_land">5dp</dimen>
-    <dimen name="margin_button_land">10dp</dimen>
-    <dimen name="margin_button_to_text_view_bottom_land">18dp</dimen>
-    <dimen name="size_text_message_land">15sp</dimen>
-    <dimen name="margin_button_bottom_land">100dp</dimen>
+    <dimen name="size_text_button_land">25sp</dimen>
+    <dimen name="margin_button_start_land">515dp</dimen>
+    <dimen name="margin_button_end_land">10dp</dimen>
+    <dimen name="margin_button_land">30dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land">25dp</dimen>
+    <dimen name="size_text_message_land">20sp</dimen>
+    <dimen name="margin_button_bottom_land">160dp</dimen>
+
+    <!--    WelcomeActivityLayoutw180-->
+    <dimen name="size_text_button_w180">8sp</dimen>
+    <dimen name="margin_button_w180">1dp</dimen>
+    <dimen name="margin_button_start_w180">1dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w180">7dp</dimen>
+    <dimen name="size_text_message_w180">7sp</dimen>
+    <dimen name="margin_text_view_bottom_w180">8dp</dimen>
+
+    <!--    WelcomeActivityLayoutw360-->
+    <dimen name="size_text_button_w360">20sp</dimen>
+    <dimen name="margin_button_w360">20dp</dimen>
+    <dimen name="margin_button_start_w360">15dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w360">25dp</dimen>
+    <dimen name="size_text_message_w360">18sp</dimen>
+    <dimen name="margin_text_view_bottom_w360">45dp</dimen>
+
+    <!--    WelcomeActivityLayoutw390-->
+    <dimen name="size_text_button_w390">25sp</dimen>
+    <dimen name="margin_button_w390">25dp</dimen>
+    <dimen name="margin_button_start_w390">15dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w390">30dp</dimen>
+    <dimen name="size_text_message_w390">20sp</dimen>
+    <dimen name="margin_text_view_bottom_w390">70dp</dimen>
+
+    <!--    WelcomeActivityLayoutw600-->
+    <dimen name="size_text_button_w600">35sp</dimen>
+    <dimen name="margin_button_w600">20dp</dimen>
+    <dimen name="margin_button_start_w600">20dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w600">40dp</dimen>
+    <dimen name="size_text_message_w600">28sp</dimen>
+    <dimen name="margin_text_view_bottom_w600">70dp</dimen>
+
+    <!--    WelcomeActivityLayoutw720-->
+    <dimen name="size_text_button_w720">40sp</dimen>
+    <dimen name="margin_button_w720">30dp</dimen>
+    <dimen name="margin_button_start_w720">20dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w720">40dp</dimen>
+    <dimen name="size_text_message_w720">30sp</dimen>
+    <dimen name="margin_text_view_bottom_w720">70dp</dimen>
+
+    <!--    WelcomeActivityLayoutw900-->
+    <dimen name="size_text_button_w900">50sp</dimen>
+    <dimen name="margin_button_w900">50dp</dimen>
+    <dimen name="margin_button_start_w900">30dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w900">60dp</dimen>
+    <dimen name="size_text_message_w900">40sp</dimen>
+    <dimen name="margin_text_view_bottom_w900">90dp</dimen>
+
+    <!--    WelcomeActivityLandw640-->
+    <dimen name="size_text_button_land_w640">20sp</dimen>
+    <dimen name="margin_button_start_land_w640">340dp</dimen>
+    <dimen name="margin_button_end_land_w640">10dp</dimen>
+    <dimen name="margin_button_land_w640">10dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_w640">20dp</dimen>
+    <dimen name="size_text_message_land_w640">15sp</dimen>
+    <dimen name="margin_button_bottom_land_w640">85dp</dimen>
+
+    <!--    WelcomeActivityLandw960-->
+    <dimen name="size_text_button_land_w960">30sp</dimen>
+    <dimen name="margin_button_start_land_w960">520dp</dimen>
+    <dimen name="margin_button_end_land_w960">20dp</dimen>
+    <dimen name="margin_button_land_w960">30dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_w960">30dp</dimen>
+    <dimen name="size_text_message_land_w960">25sp</dimen>
+    <dimen name="margin_button_bottom_land_w960">150dp</dimen>
+
+    <!--    WelcomeActivityLandw1024-->
+    <dimen name="size_text_button_land_w1024">30sp</dimen>
+    <dimen name="margin_button_start_land_w1024">550dp</dimen>
+    <dimen name="margin_button_end_land_w1024">10dp</dimen>
+    <dimen name="margin_button_land_w1024">20dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_w1024">30dp</dimen>
+    <dimen name="size_text_message_land_w1024">25sp</dimen>
+    <dimen name="margin_button_bottom_land_w1024">240dp</dimen>
+
+    <!--    WelcomeActivityLandw1280-->
+    <dimen name="size_text_button_land_w1280">35sp</dimen>
+    <dimen name="margin_button_start_land_w1280">700dp</dimen>
+    <dimen name="margin_button_end_land_w1280">30dp</dimen>
+    <dimen name="margin_button_land_w1280">30dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_w1280">40dp</dimen>
+    <dimen name="size_text_message_land_w1280">30sp</dimen>
+    <dimen name="margin_button_bottom_land_w1280">280dp</dimen>
+
 
     <!--    MainActivityLayout-->
     <dimen name="main_activity_nav_header_height">300dp</dimen>
@@ -28,6 +114,61 @@
     <dimen name="main_activity_nav_header_size_text_2">15sp</dimen>
     <dimen name="main_activity_nav_header_margin_text_bottom">50dp</dimen>
 
+    <!--    MainActivityLayoutw180-->
+    <dimen name="main_activity_nav_header_height_w180">50dp</dimen>
+    <dimen name="main_activity_size_text_button_w180">10sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_w180">10dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_w180">5dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_w180">1dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_w180">8sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_w180">2dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_w180">5sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_w180">5dp</dimen>
+
+    <!--    MainActivityLayoutw360-->
+    <dimen name="main_activity_nav_header_height_w360">250dp</dimen>
+    <dimen name="main_activity_size_text_button_w360">25sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_w360">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_w360">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_w360">35dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_w360">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_w360">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_w360">14sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_w360">42dp</dimen>
+
+    <!--    MainActivityLayoutw600-->
+    <dimen name="main_activity_nav_header_height_w600">350dp</dimen>
+    <dimen name="main_activity_size_text_button_w600">35sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_w600">30dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_w600">15dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_w600">40dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_w600">30sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_w600">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_w600">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_w600">55dp</dimen>
+
+    <!--    MainActivityLayoutw720-->
+    <dimen name="main_activity_nav_header_height_w720">400dp</dimen>
+    <dimen name="main_activity_size_text_button_w720">35sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_w720">30dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_w720">10dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_w720">60dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_w720">25sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_w720">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_w720">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_w720">80dp</dimen>
+
+    <!--    MainActivityLayoutw900-->
+    <dimen name="main_activity_nav_header_height_w900">500dp</dimen>
+    <dimen name="main_activity_size_text_button_w900">40sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_w900">40dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_w900">15dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_w900">100dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_w900">25sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_w900">10dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_w900">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_w900">120dp</dimen>
+
     <!--    MainActivityLand-->
     <dimen name="main_activity_nav_header_height_land">200dp</dimen>
     <dimen name="main_activity_size_text_button_land">30sp</dimen>
@@ -38,5 +179,50 @@
     <dimen name="main_activity_nav_header_margin_text_land">15dp</dimen>
     <dimen name="main_activity_nav_header_size_text_2_land">15sp</dimen>
     <dimen name="main_activity_nav_header_margin_text_bottom_land">25dp</dimen>
+
+    <!--    MainActivityLandw640-->
+    <dimen name="main_activity_nav_header_height_land_w640">180dp</dimen>
+    <dimen name="main_activity_size_text_button_land_w640">30sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_w640">30dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_w640">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_w640">15dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land_w640">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_w640">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land_w640">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_w640">18dp</dimen>
+
+    <!--    MainActivityLandw960-->
+    <dimen name="main_activity_nav_header_height_land_w960">300dp</dimen>
+    <dimen name="main_activity_size_text_button_land_w960">35sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_w960">40dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_w960">10dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_w960">26dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land_w960">26sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_w960">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land_w960">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_w960">40dp</dimen>
+
+    <!--    MainActivityLandw1024-->
+    <dimen name="main_activity_nav_header_height_land_w1024">370dp</dimen>
+    <dimen name="main_activity_size_text_button_land_w1024">40sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_w1024">50dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_w1024">10dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_w1024">30dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land_w1024">25sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_w1024">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land_w1024">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_w1024">55dp</dimen>
+
+    <!--    MainActivityLandw1280-->
+    <dimen name="main_activity_nav_header_height_land_w1280">380dp</dimen>
+    <dimen name="main_activity_size_text_button_land_w1280">45sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_w1280">60dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_w1280">10dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_w1280">35dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land_w1280">30sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_w1280">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land_w1280">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_w1280">57dp</dimen>
+
 
 </resources>

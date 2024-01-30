@@ -68,14 +68,14 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
-    implementation ("com.google.android.gms:play-services-maps:x.x.x")
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation ("io.reactivex.rxjava3:rxjava:3.0.0")
-    implementation ("io.reactivex.rxjava3:rxandroid:3.x.x")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation ("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
     implementation ("androidx.lifecycle:lifecycle-reactivestreams:2.7.0")
 
