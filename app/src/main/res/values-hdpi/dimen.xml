@@ -167,4 +167,44 @@
     <dimen name="main_activity_nav_header_size_text_2_land_w1700">18sp</dimen>
     <dimen name="main_activity_nav_header_margin_text_bottom_land_w1700">60dp</dimen>
 
+    <!--    RestaurantListFragmentw-->
+    <dimen name="restaurant_list_fragment_padding">16dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext">17sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2">13sp</dimen>
+
+    <!--    RestaurantListFragmentLand-->
+    <dimen name="restaurant_list_fragment_padding_land">16dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_land">17sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_land">13sp</dimen>
+
+    <!--    RestaurantListFragmentw320-->
+    <dimen name="restaurant_list_fragment_padding_w320">10dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_w320">16sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_w320">13sp</dimen>
+
+    <!--    RestaurantListFragmentw430-->
+    <dimen name="restaurant_list_fragment_padding_w430">12dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_w430">20sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_w430">16sp</dimen>
+
+    <!--    RestaurantListFragmentw960-->
+    <dimen name="restaurant_list_fragment_padding_w960">40dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_w960">45sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_w960">35sp</dimen>
+
+    <!--    RestaurantListFragmentLandw530-->
+    <dimen name="restaurant_list_fragment_padding_land_w530">14dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_land_w530">18sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_land_w530">15sp</dimen>
+
+    <!--    RestaurantListFragmentLandw960-->
+    <dimen name="restaurant_list_fragment_padding_land_w960">20dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_land_w960">27sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_land_w960">22sp</dimen>
+
+    <!--    RestaurantListFragmentLandw1700-->
+    <dimen name="restaurant_list_fragment_padding_land_w1700">40dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_land_w1700">50sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_land_w1700">40sp</dimen>
+
 </resources>

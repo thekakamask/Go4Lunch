@@ -34,6 +34,10 @@ public class Results {
     @SerializedName("geometry")
     private Geometry geometry;
 
+    @Expose
+    @SerializedName("vicinity")
+    private String vicinity;
+
     public int getUser_ratings_total() {
         return user_ratings_total;
     }
@@ -104,5 +108,13 @@ public class Results {
 
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
+    }
+
+    public String getVicinity() {
+        return vicinity;
+    }
+
+    public void setVicinity(String vicinity) {
+        this.vicinity = vicinity;
     }
 }

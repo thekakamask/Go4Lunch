@@ -7,11 +7,11 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\adech\.android\avd\XHDPI_Samsung_A52s_API_34.avd" />
+            <value value="C:\Users\adech\.android\avd\Nexus_S_API_21_normal.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2024-01-30T17:15:09.555240300Z" />
+    <timeTargetWasSelectedWithDropDown value="2024-01-31T23:31:51.202841600Z" />
   </component>
 </project>

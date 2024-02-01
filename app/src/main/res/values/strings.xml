@@ -17,10 +17,7 @@
     <string name="error_creating_user">Error about user creation</string>
 
 
-    <!-- ActivityMainNavHeader -->
-
-
-    <!-- ActivityMainMenuDrawer -->
+    <!-- MainActivity -->
     <string name="your_lunch">Your lunch</string>
     <string name="parameters">Parameters</string>
     <string name="log_out">Log out</string>
@@ -44,4 +41,12 @@
 
     <!-- Resource -->
 
+    <!-- RestaurantListFragment -->
+    <string name="restaurant_name">Restaurant name</string>
+    <string name="restaurant_address">Restaurant address</string>
+    <string name="restaurant_time">Restaurant time</string>
+    <string name="restaurant_distance">100m</string>
+    <string name="restaurant_coworkers">(3)</string>
+    <string name="restaurant_opening_hours">Open until 2.30pm</string>
+    <string name="restaurant_star_description">restaurant star</string>
 </resources>
