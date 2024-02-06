@@ -16,6 +16,7 @@ import com.dcac.go4lunch.views.TabLayoutAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener  {
 
     private TabLayoutAdapter tabLayoutAdapter;

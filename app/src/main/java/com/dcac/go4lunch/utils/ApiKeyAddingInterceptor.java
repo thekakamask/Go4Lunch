@@ -4,6 +4,7 @@ package com.dcac.go4lunch.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -25,11 +26,17 @@ public class ApiKeyAddingInterceptor implements Interceptor {
 
         String apiKey = getApiKeyFromManifest();
 
+        //Display API
+        Log.d("ApiKeyInterceptor", "API Key: " + apiKey);
+
         Request newRequest = originalRequest.newBuilder()
                 .url(originalRequest.url().newBuilder()
                         .addQueryParameter("key", apiKey)
                         .build())
                 .build();
+
+        // Display final URL
+        Log.d("ApiKeyInterceptor", "Final URL: " + newRequest.url());
 
         return chain.proceed(newRequest);
     }
@@ -39,8 +46,12 @@ public class ApiKeyAddingInterceptor implements Interceptor {
             Bundle bundle = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
                     .metaData;
-            return bundle.getString("com.google.android.geo.API_KEY");
+            String apiKey = bundle.getString("com.google.android.geo.API_KEY");
+            // Log for check API recuperation on manifest
+            Log.d("ApiKeyInterceptor", "API Key from Manifest: " + apiKey);
+            return apiKey;
         } catch (PackageManager.NameNotFoundException e) {
+            Log.e("ApiKeyInterceptor", "Could not get API key from manifest", e);
             throw new AssertionError("Could not get package name: " + e);
         }
     }

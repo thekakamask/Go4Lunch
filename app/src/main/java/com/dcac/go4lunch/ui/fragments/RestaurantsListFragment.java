@@ -1,5 +1,6 @@
 package com.dcac.go4lunch.ui.fragments;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,16 +9,26 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
+import com.dcac.go4lunch.injection.LocationViewModelFactory;
 import com.dcac.go4lunch.injection.StreamGoogleMapViewModelFactory;
+import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
+import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
+import com.dcac.go4lunch.utils.LocationManager;
+import com.dcac.go4lunch.utils.Resource;
+import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.views.RestaurantListAdapter;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,19 +39,10 @@ public class RestaurantsListFragment extends Fragment {
 
     private FragmentRestaurantsListBinding binding;
     private RestaurantListAdapter adapter;
-    private StreamGoogleMapViewModel viewModel;
+    private StreamGoogleMapViewModel streamGoogleMapViewModel;
+    private LocationViewModel locationViewModel;
 
-    /*private static final String KEY_POSITION="position";
-    private static final String KEY_COLOR="color";*/
-
-    public static RestaurantsListFragment newInstance() {
-
-        /*Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
-        listFragment.setArguments(args);*/
-
-        return new RestaurantsListFragment();
-    }
+    public static RestaurantsListFragment newInstance() {return new RestaurantsListFragment();}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,30 +52,62 @@ public class RestaurantsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentRestaurantsListBinding.inflate(inflater, container, false);
-
-        // Retrieve and use data from Bundle
-        /*if (getArguments() != null) {
-            int position = getArguments().getInt(KEY_POSITION, -1);
-            int color = getArguments().getInt(KEY_COLOR, -1);
-
-            binding.restaurantsListLayout.setBackgroundColor(color);
-            binding.restaurantsListTitle.setText("List of restaurants. Page number "+ position);
-        }*/
-
         return binding.getRoot();
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        locationViewModel = new ViewModelProvider(this, LocationViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(LocationViewModel.class);
+        streamGoogleMapViewModel = new ViewModelProvider(this, StreamGoogleMapViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(StreamGoogleMapViewModel.class);
 
-        viewModel = new ViewModelProvider(requireActivity(), StreamGoogleMapViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(StreamGoogleMapViewModel.class);
 
-        adapter = new RestaurantListAdapter(new ArrayList<>());
-        binding.restaurantListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.restaurantListRecyclerView.setAdapter(adapter);
+        // Observe location updates
+        locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
+            if (location != null) {
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                // Adapter init with location
+                if (adapter == null) {
+                    adapter = new RestaurantListAdapter(requireContext(), location);
+                    binding.restaurantListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    binding.restaurantListRecyclerView.setAdapter(adapter);
+                    fetchNearbyRestaurants(userLocation);
+                } else {
+                    // update location if adapter is already init
+                    adapter.setUserLocation(location);
+                }
+            }
+        });
     }
+    private void fetchNearbyRestaurants(LatLng userLocation) {
+        String location = userLocation.latitude + "," + userLocation.longitude;
+        List<String> types = Arrays.asList("restaurant");
+        streamGoogleMapViewModel.getCombinedNearbyPlaces(location, 1000, types).observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                adapter.submitList(resource.data.get(0).getResults());
+            } else {
+                Log.e("ListFragment", "Error fetching restaurants: " + (resource.message != null ? resource.message : "unknown error"));
+            }
+        });
+    }
+
+    private void transformResultsToPlaceDetails(List<Results> results) {
+        List<PlaceDetails> placeDetailsList = new ArrayList<>();
+
+        for (Results result : results) {
+            streamGoogleMapViewModel.getPlaceDetails(result.getPlace_id()).observe(getViewLifecycleOwner(), resource -> {
+                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                    placeDetailsList.add(resource.data);
+
+                    if (placeDetailsList.size() == results.size()) {
+                        adapter.submitList(results);
+                    }
+                } else {
+                    Log.e("ListFragment", "Error fetching place details: " + (resource.message != null ? resource.message : "unknown error"));
+                }
+            });
+        }
+    }
+
 }

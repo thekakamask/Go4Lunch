@@ -33,10 +33,12 @@ public class Results {
     @Expose
     @SerializedName("geometry")
     private Geometry geometry;
-
     @Expose
     @SerializedName("vicinity")
     private String vicinity;
+    @Expose
+    @SerializedName("photos")
+    private List<Photo> photos;
 
     public int getUser_ratings_total() {
         return user_ratings_total;
@@ -116,5 +118,11 @@ public class Results {
 
     public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
+    }
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
     }
 }

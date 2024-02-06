@@ -49,4 +49,5 @@
     <string name="restaurant_coworkers">(3)</string>
     <string name="restaurant_opening_hours">Open until 2.30pm</string>
     <string name="restaurant_star_description">restaurant star</string>
+    <string name="restaurant_distance_unknown">Distance unknown</string>
 </resources>

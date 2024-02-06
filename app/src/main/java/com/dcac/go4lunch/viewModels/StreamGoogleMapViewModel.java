@@ -12,6 +12,7 @@ import com.dcac.go4lunch.repository.StreamGoogleMapRepository;
 import com.dcac.go4lunch.utils.Resource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StreamGoogleMapViewModel extends ViewModel {
@@ -52,10 +53,14 @@ public class StreamGoogleMapViewModel extends ViewModel {
         observers.put(liveData, observer);
     }
 
-    public LiveData<Resource<PlaceNearbySearch>> getNearbyPlaces(String location, int radius, String type) {
+    public LiveData<Resource<PlaceNearbySearch>> getNearbyPlaces(String location, int radius, String type, String pageToken) {
         MutableLiveData<Resource<PlaceNearbySearch>> liveData = new MutableLiveData<>();
-        observeForever(mapRepository.getNearbyPlaces(location, radius, type), liveData);
+        observeForever(mapRepository.getNearbyPlaces(location, radius, type, pageToken), liveData);
         return liveData;
+    }
+
+    public LiveData<Resource<List<PlaceNearbySearch>>> getCombinedNearbyPlaces(String location, int radius, List<String> types) {
+        return mapRepository.getCombinedNearbyPlaces(location, radius, types);
     }
 
     public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId) {

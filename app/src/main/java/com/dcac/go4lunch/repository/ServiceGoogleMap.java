@@ -16,6 +16,7 @@ public interface ServiceGoogleMap {
             @Query("location") String location,
             @Query("radius") int radius,
             @Query("type") String type,
+            @Query("pagetoken") String pageToken,
             @Query("key") String apiKey);
 
     // Place Details

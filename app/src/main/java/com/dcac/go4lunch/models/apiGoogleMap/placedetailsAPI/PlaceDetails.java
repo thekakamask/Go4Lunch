@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PlaceDetails {
 
@@ -140,6 +141,21 @@ public class PlaceDetails {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlaceDetails that = (PlaceDetails) o;
+        return Double.compare(that.getRating(), getRating()) == 0 &&
+                Objects.equals(getFormattedAddress(), that.getFormattedAddress()) &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getDisplayName(), that.getDisplayName()) &&
+                Objects.equals(getRegularOpeningHours(), that.getRegularOpeningHours()) &&
+                Objects.equals(getWebsiteUri(), that.getWebsiteUri()) &&
+                Objects.equals(getLocation(), that.getLocation()) &&
+                Objects.equals(getInternationalPhoneNumber(), that.getInternationalPhoneNumber());
     }
 
 }
