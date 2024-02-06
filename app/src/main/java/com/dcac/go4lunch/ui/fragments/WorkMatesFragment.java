@@ -5,13 +5,27 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
 import com.dcac.go4lunch.databinding.FragmentWorkMatesBinding;
+import com.dcac.go4lunch.injection.UserViewModelFactory;
+import com.dcac.go4lunch.models.User;
+import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.UserViewModel;
+import com.dcac.go4lunch.views.RestaurantListAdapter;
+import com.dcac.go4lunch.views.WorkmatesListAdapter;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,45 +35,74 @@ import com.dcac.go4lunch.viewModels.UserViewModel;
 public class WorkMatesFragment extends Fragment {
 
     private FragmentWorkMatesBinding binding;
+    private WorkmatesListAdapter adapter;
 
+    private UserViewModel userViewModel;
 
-    /*private static final String KEY_POSITION="position";
-    private static final String KEY_COLOR="color";*/
     public static WorkMatesFragment newInstance() {
-
-        /*Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
-        WorkMatesFragment.setArguments(args);*/
-
         return new WorkMatesFragment();
     }
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserViewModelFactory factory = UserViewModelFactory.getInstance(requireContext().getApplicationContext());
+        userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentWorkMatesBinding.inflate(inflater, container, false);
-
-        // Retrieve and use data from Bundle
-        /*if (getArguments() != null) {
-            int position = getArguments().getInt(KEY_POSITION, -1);
-            int color = getArguments().getInt(KEY_COLOR, -1);
-
-            binding.workmatesLayout.setBackgroundColor(color);
-            binding.workmatesTitle.setText("List of workmates. Page number "+ position);
-        }*/
-
-
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.workmatesTitle.setText("List of workmates");
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+        adapter = new WorkmatesListAdapter(new ArrayList<>());
+        binding.workmatesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.workmatesListRecyclerView.setAdapter(adapter);
+
+        userViewModel.getAllUsers().observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                List<User> users = new ArrayList<>();
+                for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) {
+                    User user = documentSnapshot.toObject(User.class);
+                    if (user != null) {
+                        users.add(user);
+                    }
+                }
+                adapter.setUsers(users);
+            } else if (resource.status == Resource.Status.ERROR) {
+                Toast.makeText(getContext(), "Error charging users: " + resource.message, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Charging users", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
+
+/*UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.getAllUsers().observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                List<User> users = new ArrayList<>();
+                for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) {
+                    User user = documentSnapshot.toObject(User.class);
+                    if (user != null) {
+                        users.add(user);
+                    }
+                }
+                adapter.setUsers(users);
+            } else if (resource.status == Resource.Status.ERROR) {
+                Toast.makeText(getContext(), "Error charging users: " + resource.message, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Charging users", Toast.LENGTH_SHORT).show();
+            }
+        });*/

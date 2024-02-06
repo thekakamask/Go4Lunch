@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/workmates_list_fragment_padding_land_w830">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="@dimen/workmates_list_fragment_image_size_land_w830"
+        android:layout_height="@dimen/workmates_list_fragment_image_size_land_w830"
+        android:src="@drawable/workmates_list_profile"
+        app:civ_border_width="@dimen/workmates_list_fragment_border_size_land_w830"
+        app:civ_border_color="#FF000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/workmates_list_fragment_margin_land_w830"
+        android:textSize="@dimen/workmates_list_fragment_text_size_land_w830"
+        android:textStyle="bold"
+        android:text="@string/scarlett_is_eating_french"
+        app:layout_constraintStart_toEndOf="@id/profile_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/description_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/le_zinc"
+        android:textSize="@dimen/workmates_list_fragment_text_size_land_w830"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/name_text_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

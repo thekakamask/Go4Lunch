@@ -92,7 +92,6 @@ public final class StreamGoogleMapRepository {
                                     fetchPlacesPage(location, radius, type, placeNearbySearch.getNextPageToken(), combinedResults, liveData, callsRemaining);
                                 } catch (InterruptedException e) {
                                     Thread.currentThread().interrupt();
-                                    // Vous devriez également logger cette exception ou la gérer d'une autre manière
                                     Log.e("Repository", "Thread interrupted while waiting for the next page token", e);
                                 }
                             } else if (callsRemaining.decrementAndGet() == 0) {

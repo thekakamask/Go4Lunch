@@ -17,12 +17,14 @@ import android.view.ViewGroup;
 import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
 import com.dcac.go4lunch.injection.LocationViewModelFactory;
 import com.dcac.go4lunch.injection.StreamGoogleMapViewModelFactory;
+import com.dcac.go4lunch.injection.UserViewModelFactory;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
 import com.dcac.go4lunch.utils.LocationManager;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
+import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.RestaurantListAdapter;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -47,6 +49,13 @@ public class RestaurantsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        LocationViewModelFactory locationFactory = LocationViewModelFactory.getInstance(requireContext().getApplicationContext());
+        locationViewModel = new ViewModelProvider(this, locationFactory).get(LocationViewModel.class);
+
+        StreamGoogleMapViewModelFactory streamFactory = StreamGoogleMapViewModelFactory.getInstance(requireContext().getApplicationContext());
+        streamGoogleMapViewModel = new ViewModelProvider(this, streamFactory).get(StreamGoogleMapViewModel.class);
+
     }
 
     @Override
@@ -59,10 +68,10 @@ public class RestaurantsListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        locationViewModel = new ViewModelProvider(this, LocationViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(LocationViewModel.class);
-        streamGoogleMapViewModel = new ViewModelProvider(this, StreamGoogleMapViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(StreamGoogleMapViewModel.class);
+        getLocationUpdates();
+    }
 
-
+    private void getLocationUpdates() {
         // Observe location updates
         locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
             if (location != null) {
@@ -80,6 +89,7 @@ public class RestaurantsListFragment extends Fragment {
             }
         });
     }
+
     private void fetchNearbyRestaurants(LatLng userLocation) {
         String location = userLocation.latitude + "," + userLocation.longitude;
         List<String> types = Arrays.asList("restaurant");
@@ -92,7 +102,7 @@ public class RestaurantsListFragment extends Fragment {
         });
     }
 
-    private void transformResultsToPlaceDetails(List<Results> results) {
+    /*private void transformResultsToPlaceDetails(List<Results> results) {
         List<PlaceDetails> placeDetailsList = new ArrayList<>();
 
         for (Results result : results) {
@@ -108,6 +118,6 @@ public class RestaurantsListFragment extends Fragment {
                 }
             });
         }
-    }
+    }*/
 
 }

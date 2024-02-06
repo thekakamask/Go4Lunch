@@ -49,6 +49,12 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        LocationViewModelFactory locationFactory = LocationViewModelFactory.getInstance(requireContext().getApplicationContext());
+        locationViewModel = new ViewModelProvider(this, locationFactory).get(LocationViewModel.class);
+
+        StreamGoogleMapViewModelFactory streamFactory = StreamGoogleMapViewModelFactory.getInstance(requireContext().getApplicationContext());
+        streamGoogleMapViewModel = new ViewModelProvider(this, streamFactory).get(StreamGoogleMapViewModel.class);
     }
 
     @Override
@@ -63,8 +69,9 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        locationViewModel = new ViewModelProvider(this, LocationViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(LocationViewModel.class);
+        /*locationViewModel = new ViewModelProvider(this, LocationViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(LocationViewModel.class);
         streamGoogleMapViewModel = new ViewModelProvider(this, StreamGoogleMapViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(StreamGoogleMapViewModel.class);
+*/
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.getMapAsync(this);
 

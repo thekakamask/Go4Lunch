@@ -3,19 +3,20 @@
 
     <!--    WelcomeActivityLayout-->
     <dimen name="size_text_button">20sp</dimen>
-    <dimen name="margin_button">5dp</dimen>
+    <dimen name="margin_button">10dp</dimen>
+    <dimen name="margin_button_start">10dp</dimen>
     <dimen name="margin_button_to_text_view_bottom">20dp</dimen>
-    <dimen name="size_text_message">15sp</dimen>
+    <dimen name="size_text_message">16sp</dimen>
     <dimen name="margin_text_view_bottom">40dp</dimen>
 
     <!--    WelcomeActivityLand-->
-    <dimen name="size_text_button_land">13sp</dimen>
+    <dimen name="size_text_button_land">18sp</dimen>
     <dimen name="margin_button_start_land">285dp</dimen>
     <dimen name="margin_button_end_land">5dp</dimen>
     <dimen name="margin_button_land">10dp</dimen>
-    <dimen name="margin_button_to_text_view_bottom_land">15dp</dimen>
-    <dimen name="size_text_message_land">11sp</dimen>
-    <dimen name="margin_button_bottom_land">80dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land">17dp</dimen>
+    <dimen name="size_text_message_land">13sp</dimen>
+    <dimen name="margin_button_bottom_land">75dp</dimen>
 
     <!--    WelcomeActivityLayoutw320-->
     <dimen name="size_text_button_w320">20sp</dimen>
@@ -24,15 +25,6 @@
     <dimen name="margin_button_to_text_view_bottom_w320">20dp</dimen>
     <dimen name="size_text_message_w320">16sp</dimen>
     <dimen name="margin_text_view_bottom_w320">40dp</dimen>
-
-
-    <!--    WelcomeActivityLayoutw390-->
-    <dimen name="size_text_button_w390">25sp</dimen>
-    <dimen name="margin_button_w390">20dp</dimen>
-    <dimen name="margin_button_start_w390">15dp</dimen>
-    <dimen name="margin_button_to_text_view_bottom_w390">30dp</dimen>
-    <dimen name="size_text_message_w390">20sp</dimen>
-    <dimen name="margin_text_view_bottom_w390">50dp</dimen>
 
     <!--    WelcomeActivityLayoutw430-->
     <dimen name="size_text_button_w430">25sp</dimen>
@@ -79,15 +71,15 @@
 
 
     <!--    MainActivityLayout-->
-    <dimen name="main_activity_nav_header_height">200dp</dimen>
-    <dimen name="main_activity_size_text_button">20sp</dimen>
+    <dimen name="main_activity_nav_header_height">220dp</dimen>
+    <dimen name="main_activity_size_text_button">22sp</dimen>
     <dimen name="main_activity_toolbar_margin_button">20dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_start">35dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button">25dp</dimen>
-    <dimen name="main_activity_nav_header_size_text">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start">10dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button">30dp</dimen>
+    <dimen name="main_activity_nav_header_size_text">20sp</dimen>
     <dimen name="main_activity_nav_header_margin_text">10dp</dimen>
-    <dimen name="main_activity_nav_header_size_text_2">12sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_bottom">35dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2">13sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom">40dp</dimen>
 
 
     <!--    MainActivityLayoutw320-->
@@ -125,14 +117,14 @@
 
     <!--    MainActivityLand-->
     <dimen name="main_activity_nav_header_height_land">150dp</dimen>
-    <dimen name="main_activity_size_text_button_land">25sp</dimen>
-    <dimen name="main_activity_toolbar_margin_button_land">25dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_start_land">85dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_land">12dp</dimen>
-    <dimen name="main_activity_nav_header_size_text_land">16sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_land">10dp</dimen>
-    <dimen name="main_activity_nav_header_size_text_2_land">13sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_bottom_land">15dp</dimen>
+    <dimen name="main_activity_size_text_button_land">30sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land">30dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land">8dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_land">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land">5dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_land">15sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land">10dp</dimen>
 
     <!--    MainActivityLandw530dp-->
     <dimen name="main_activity_nav_header_height_land_w530">150dp</dimen>
@@ -168,14 +160,14 @@
     <dimen name="main_activity_nav_header_margin_text_bottom_land_w1700">60dp</dimen>
 
     <!--    RestaurantListFragmentw-->
-    <dimen name="restaurant_list_fragment_padding">16dp</dimen>
-    <dimen name="restaurant_list_fragment_sizetext">17sp</dimen>
+    <dimen name="restaurant_list_fragment_padding">10dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext">16sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2">13sp</dimen>
 
     <!--    RestaurantListFragmentLand-->
-    <dimen name="restaurant_list_fragment_padding_land">16dp</dimen>
-    <dimen name="restaurant_list_fragment_sizetext_land">17sp</dimen>
-    <dimen name="restaurant_list_fragment_sizetext2_land">13sp</dimen>
+    <dimen name="restaurant_list_fragment_padding_land">14dp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext_land">18sp</dimen>
+    <dimen name="restaurant_list_fragment_sizetext2_land">15sp</dimen>
 
     <!--    RestaurantListFragmentw320-->
     <dimen name="restaurant_list_fragment_padding_w320">10dp</dimen>
@@ -206,5 +198,61 @@
     <dimen name="restaurant_list_fragment_padding_land_w1700">40dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land_w1700">50sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land_w1700">40sp</dimen>
+
+    <!--    WorkmatesListFragment-->
+    <dimen name="workmates_list_fragment_padding">10dp</dimen>
+    <dimen name="workmates_list_fragment_image_size">55dp</dimen>
+    <dimen name="workmates_list_fragment_border_size">2dp</dimen>
+    <dimen name="workmates_list_fragment_margin">8dp</dimen>
+    <dimen name="workmates_list_fragment_text_size">13sp</dimen>
+
+    <!--    WorkmatesListFragmentLand-->
+    <dimen name="workmates_list_fragment_padding_land">5dp</dimen>
+    <dimen name="workmates_list_fragment_image_size_land">60dp</dimen>
+    <dimen name="workmates_list_fragment_border_size_land">2dp</dimen>
+    <dimen name="workmates_list_fragment_margin_land">20dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_land">20sp</dimen>
+
+    <!--    WorkmatesListFragmentw320-->
+    <dimen name="workmates_list_fragment_padding_w320">10dp</dimen>
+    <dimen name="workmates_list_fragment_image_size_w320">55dp</dimen>
+    <dimen name="workmates_list_fragment_border_size_w320">2dp</dimen>
+    <dimen name="workmates_list_fragment_margin_w320">8dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_w320">13sp</dimen>
+
+    <!--    WorkmatesListFragmentw430-->
+    <dimen name="workmates_list_fragment_padding_w430">15dp</dimen>
+    <dimen name="workmates_list_fragment_image_size_w430">80dp</dimen>
+    <dimen name="workmates_list_fragment_border_size_w430">2dp</dimen>
+    <dimen name="workmates_list_fragment_margin_w430">10dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_w430">17sp</dimen>
+
+    <!--    WorkmatesListFragmentw960-->
+    <dimen name="workmates_list_fragment_padding_w960">25dp</dimen>
+    <dimen name="workmates_list_fragment_image_size_w960">200dp</dimen>
+    <dimen name="workmates_list_fragment_border_size_w960">5dp</dimen>
+    <dimen name="workmates_list_fragment_margin_w960">20dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_w960">38sp</dimen>
+
+    <!--    WorkmatesListFragmentLandw530-->
+    <dimen name="workmates_list_fragment_padding_land_w530">5dp</dimen>
+    <dimen name="workmates_list_fragment_image_size_land_w530">60dp</dimen>
+    <dimen name="workmates_list_fragment_border_size_land_w530">2dp</dimen>
+    <dimen name="workmates_list_fragment_margin_land_w530">20dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_land_w530">20sp</dimen>
+
+    <!--    WorkmatesListFragmentLandw960-->
+    <dimen name="workmates_list_fragment_padding_land_w960">15dp</dimen>
+    <dimen name="workmates_list_fragment_image_size_land_w960">80dp</dimen>
+    <dimen name="workmates_list_fragment_border_size_land_w960">3dp</dimen>
+    <dimen name="workmates_list_fragment_margin_land_w960">40dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_land_w960">25sp</dimen>
+
+    <!--    WorkmatesListFragmentLandw1700-->
+    <dimen name="workmates_list_fragment_padding_land_w1700">30dp</dimen>
+    <dimen name="workmates_list_fragment_image_size_land_w1700">150dp</dimen>
+    <dimen name="workmates_list_fragment_border_size_land_w1700">5dp</dimen>
+    <dimen name="workmates_list_fragment_margin_land_w1700">100dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_land_w1700">50sp</dimen>
 
 </resources>
