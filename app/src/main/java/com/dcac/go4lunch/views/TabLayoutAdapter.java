@@ -1,15 +1,12 @@
 package com.dcac.go4lunch.views;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.ui.fragments.RestaurantsListFragment;
 import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
-import com.dcac.go4lunch.ui.fragments.WorkMatesFragment;
+import com.dcac.go4lunch.ui.fragments.WorkMatesListFragment;
 
 public class TabLayoutAdapter {
 
@@ -34,7 +31,7 @@ public class TabLayoutAdapter {
                 selectedFragment = new RestaurantsListFragment();
                 break;
             case 2:
-                selectedFragment = new WorkMatesFragment();
+                selectedFragment = new WorkMatesListFragment();
                 break;
             default:
                 throw new IllegalArgumentException("Position not handled");

@@ -1,8 +1,10 @@
 package com.dcac.go4lunch.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,21 +16,19 @@ import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ItemRestaurantListBinding;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
-import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
+import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.ApiKeyUtil;
-import com.google.android.libraries.places.api.model.Place;
 
-import java.util.List;
 import java.util.Locale;
 
-public class RestaurantListAdapter extends ListAdapter<Results, RestaurantListAdapter.RestaurantListViewHolder> {
+public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsListAdapter.RestaurantsListViewHolder> {
 
     //List.Adapter in replacement of RecyclerView.Adapter. it is more performant
 
     private Location userLocation;
     private Context context;
 
-    public RestaurantListAdapter(Context context, Location userLocation) {
+    public RestaurantsListAdapter(Context context, Location userLocation) {
         super(DIFF_CALLBACK);
         this.context = context;
         this.userLocation = userLocation;
@@ -48,14 +48,14 @@ public class RestaurantListAdapter extends ListAdapter<Results, RestaurantListAd
 
     @NonNull
     @Override
-    public RestaurantListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RestaurantsListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemRestaurantListBinding itemBinding = ItemRestaurantListBinding.inflate(layoutInflater, parent, false);
-        return new RestaurantListViewHolder(itemBinding, userLocation, context);
+        return new RestaurantsListViewHolder(itemBinding, userLocation, context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RestaurantListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RestaurantsListViewHolder holder, int position) {
         Results restaurant = getItem(position);
         holder.bind(restaurant);
     }
@@ -65,16 +65,28 @@ public class RestaurantListAdapter extends ListAdapter<Results, RestaurantListAd
         notifyDataSetChanged();
     }
 
-    static class RestaurantListViewHolder extends RecyclerView.ViewHolder {
+    static class RestaurantsListViewHolder extends RecyclerView.ViewHolder {
         private final ItemRestaurantListBinding binding;
         private Location userLocation;
         private String apiKey;
 
-        public RestaurantListViewHolder(ItemRestaurantListBinding binding, Location userLocation, Context context) {
+        public RestaurantsListViewHolder(ItemRestaurantListBinding binding, Location userLocation, Context context) {
             super(binding.getRoot());
             this.binding = binding;
             this.userLocation = userLocation;
             this.apiKey = ApiKeyUtil.getApiKey(context);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Intent intent = new Intent(context, RestaurantActivity.class);
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
 
         public void bind(Results results) {
@@ -88,10 +100,16 @@ public class RestaurantListAdapter extends ListAdapter<Results, RestaurantListAd
             if (results.getPhotos() != null && !results.getPhotos().isEmpty()) {
                 String photoReference = results.getPhotos().get(0).getPhotoReference();
                 String photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + photoReference + "&key=" + apiKey;
-                Glide.with(binding.restaurantImageView.getContext()).load(photoUrl).into(binding.restaurantImageView);
+                Glide.with(itemView.getContext())
+                        .load(photoUrl)
+                        .placeholder(R.drawable.restaurant_list_image)
+                        .error(R.drawable.restaurant_list_image)
+                        .into(binding.restaurantImageView);
             } else {
                 // Default image
-                binding.restaurantImageView.setImageResource(R.drawable.restaurant_list_image);
+                Glide.with(itemView.getContext())
+                        .load(R.drawable.restaurant_list_image)
+                        .into(binding.restaurantImageView);
             }
 
             if (userLocation != null) {

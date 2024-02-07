@@ -16,7 +16,7 @@ import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
-import com.dcac.go4lunch.views.RestaurantListAdapter;
+import com.dcac.go4lunch.views.RestaurantsListAdapter;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
 public class RestaurantsListFragment extends Fragment {
 
     private FragmentRestaurantsListBinding binding;
-    private RestaurantListAdapter adapter;
+    private RestaurantsListAdapter adapter;
     private StreamGoogleMapViewModel streamGoogleMapViewModel;
     private LocationViewModel locationViewModel;
 
@@ -64,7 +64,7 @@ public class RestaurantsListFragment extends Fragment {
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 // Adapter init with location
                 if (adapter == null) {
-                    adapter = new RestaurantListAdapter(requireContext(), location);
+                    adapter = new RestaurantsListAdapter(requireContext(), location);
                     binding.restaurantListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     binding.restaurantListRecyclerView.setAdapter(adapter);
                     fetchNearbyRestaurants(userLocation);

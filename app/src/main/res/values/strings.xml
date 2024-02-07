@@ -63,4 +63,8 @@
     <!-- WorkmatesListFragment -->
     <string name="scarlett_is_eating_french">%1$s is eating french</string>
     <string name="le_zinc">\u0020(le Zinc)</string>
+
+    <!-- RestaurantActivity-->
+    <string name="is_joining">" is joining"</string>
+
 </resources>

@@ -24,18 +24,18 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WorkMatesFragment#newInstance} factory method to
+ * Use the {@link WorkMatesListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WorkMatesFragment extends Fragment {
+public class WorkMatesListFragment extends Fragment {
 
     private FragmentWorkMatesBinding binding;
     private WorkmatesListAdapter adapter;
 
     private UserViewModel userViewModel;
 
-    public static WorkMatesFragment newInstance() {
-        return new WorkMatesFragment();
+    public static WorkMatesListFragment newInstance() {
+        return new WorkMatesListFragment();
     }
 
 
