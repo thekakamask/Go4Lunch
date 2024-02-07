@@ -1,6 +1,5 @@
 package com.dcac.go4lunch.ui.fragments;
 
-import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,27 +7,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
-import com.dcac.go4lunch.injection.LocationViewModelFactory;
-import com.dcac.go4lunch.injection.StreamGoogleMapViewModelFactory;
-import com.dcac.go4lunch.injection.UserViewModelFactory;
-import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
-import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
-import com.dcac.go4lunch.utils.LocationManager;
+import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
-import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.RestaurantListAdapter;
 import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,12 +39,9 @@ public class RestaurantsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LocationViewModelFactory locationFactory = LocationViewModelFactory.getInstance(requireContext().getApplicationContext());
-        locationViewModel = new ViewModelProvider(this, locationFactory).get(LocationViewModel.class);
-
-        StreamGoogleMapViewModelFactory streamFactory = StreamGoogleMapViewModelFactory.getInstance(requireContext().getApplicationContext());
-        streamGoogleMapViewModel = new ViewModelProvider(this, streamFactory).get(StreamGoogleMapViewModel.class);
-
+        ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
+        locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
+        streamGoogleMapViewModel = new ViewModelProvider(this,factory).get(StreamGoogleMapViewModel.class);
     }
 
     @Override

@@ -10,14 +10,12 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityWelcomeBinding;
-import com.dcac.go4lunch.injection.UserViewModelFactory;
+import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -45,7 +43,7 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
         super.onCreate(savedInstanceState);
         mAuth=FirebaseAuth.getInstance();
 
-        UserViewModelFactory factory = UserViewModelFactory.getInstance(getApplicationContext());
+        ViewModelFactory factory = ViewModelFactory.getInstance(getApplicationContext());
         userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
 
         signInOrUpLauncher = registerForActivityResult(

@@ -13,7 +13,7 @@ import com.google.android.gms.location.LocationServices;
 
 import android.annotation.SuppressLint;
 
-public class LocationRepository {
+public final class LocationRepository {
 
     private static LocationRepository instance;
     private final FusedLocationProviderClient fusedLocationClient;

@@ -27,14 +27,21 @@
     <string name="navigation_drawer_close">Drawer closed</string>
     <string name="you_are_hungry">You are hungry !</string>
     <string name="glass">glass</string>
+    <string name="deconnection_failed">Log out failed</string>
 
     <!-- UserRepository -->
 
+    <!-- StreamRepository -->
+
+    <!-- LocationRepository -->
 
     <!-- UserViewModel -->
 
+    <!-- StreamViewModel -->
 
-    <!-- UserViewModelFactory -->
+    <!-- LocationViewModel -->
+
+    <!-- ViewModelFactory -->
 
 
     <!-- AuthService -->

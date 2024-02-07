@@ -14,10 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.dcac.go4lunch.databinding.FragmentRestaurantsMapBinding;
-import com.dcac.go4lunch.injection.LocationViewModelFactory;
-import com.dcac.go4lunch.injection.StreamGoogleMapViewModelFactory;
+import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.utils.Resource;
@@ -28,7 +26,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,11 +47,9 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LocationViewModelFactory locationFactory = LocationViewModelFactory.getInstance(requireContext().getApplicationContext());
-        locationViewModel = new ViewModelProvider(this, locationFactory).get(LocationViewModel.class);
-
-        StreamGoogleMapViewModelFactory streamFactory = StreamGoogleMapViewModelFactory.getInstance(requireContext().getApplicationContext());
-        streamGoogleMapViewModel = new ViewModelProvider(this, streamFactory).get(StreamGoogleMapViewModel.class);
+        ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
+        locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
+        streamGoogleMapViewModel = new ViewModelProvider(this,factory).get(StreamGoogleMapViewModel.class);
     }
 
     @Override
@@ -69,9 +64,6 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*locationViewModel = new ViewModelProvider(this, LocationViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(LocationViewModel.class);
-        streamGoogleMapViewModel = new ViewModelProvider(this, StreamGoogleMapViewModelFactory.getInstance(requireActivity().getApplicationContext())).get(StreamGoogleMapViewModel.class);
-*/
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.getMapAsync(this);
 

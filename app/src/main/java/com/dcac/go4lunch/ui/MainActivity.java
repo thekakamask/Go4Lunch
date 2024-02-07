@@ -4,14 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityMainBinding;
+import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
+import com.dcac.go4lunch.utils.Resource;
+import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.TabLayoutAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -21,13 +28,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     private TabLayoutAdapter tabLayoutAdapter;
 
-protected ActivityMainBinding getViewBinding() {
+    private UserViewModel userViewModel;
+
+    protected ActivityMainBinding getViewBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
         }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ViewModelFactory factory = ViewModelFactory.getInstance(getApplicationContext());
+        userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
 
         Toolbar toolbar = binding.activityMainToolbar;
         setSupportActionBar(toolbar);
@@ -82,12 +94,6 @@ protected ActivityMainBinding getViewBinding() {
         return super.onOptionsItemSelected(item);
     }
 
-    /*private void displayDefaultFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_main_frame_layout, new RestaurantsMapFragment())
-                .commit();
-    }*/
-
     private void setUpNavigationDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, binding.activityMainDrawerLayout, binding.activityMainToolbar,
@@ -101,11 +107,56 @@ protected ActivityMainBinding getViewBinding() {
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //int id = item.getItemId();
 
         binding.activityMainDrawerLayout.closeDrawer(GravityCompat.START);
 
-        return true;
+        int id = item.getItemId();
+
+        if (id == R.id.activity_main_drawer_lunch) {
+            openLunchActivity();
+            return true;
+        } else if (id == R.id.activity_main_drawer_parameters) {
+            openSettingsActivity();
+            return true;
+        } else if (id == R.id.activity_main_drawer_log_out) {
+            logOut();
+            return true;
+        }
+
+        return false;
+    }
+
+
+    private void openLunchActivity() {
+
+    }
+
+    private void openSettingsActivity() {
+
+    }
+
+    private void logOut() {
+        userViewModel.signOut().observe(this, signOutResource -> {
+            if (signOutResource != null) {
+                if (signOutResource.status == Resource.Status.SUCCESS) {
+                    redirectToWelcomeFragment("LoggedOut");
+                } else if (signOutResource.status == Resource.Status.ERROR) {
+                    Toast.makeText(this, R.string.deconnection_failed, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void redirectToWelcomeFragment(String action){
+        SharedPreferences prefs = getSharedPreferences("AppSettingsPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("LastAction", action);
+        editor.apply();
+
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
