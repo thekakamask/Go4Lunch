@@ -27,7 +27,9 @@
     <string name="navigation_drawer_close">Drawer closed</string>
     <string name="you_are_hungry">You are hungry !</string>
     <string name="glass">glass</string>
-    <string name="deconnection_failed">Log out failed</string>
+    <string name="disconnection_failed">Log out failed</string>
+    <string name="error_fetching_user_data">Error fetching user data</string>
+    <string name="user_data_not_found">User data not found.</string>
 
     <!-- UserRepository -->
 

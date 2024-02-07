@@ -11,17 +11,26 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityMainBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
+import com.dcac.go4lunch.models.User;
 import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.TabLayoutAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener  {
@@ -103,6 +112,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
         toggle.syncState();
         binding.activityMainNavView.setNavigationItemSelectedListener(this);
+        //binding.activityMainNavView.getHeaderView(0);
+
+        // Access to the header view
+        View headerView = binding.activityMainNavView.getHeaderView(0);
+
+        // Access elements of the header view
+        CircleImageView profileImageView = headerView.findViewById(R.id.header_profile_image);
+        TextView userNameTextView = headerView.findViewById(R.id.header_user_name);
+        TextView userEmailTextView = headerView.findViewById(R.id.header_user_email);
+
+        setupUserProfile();
+
     }
 
     @Override
@@ -141,7 +162,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 if (signOutResource.status == Resource.Status.SUCCESS) {
                     redirectToWelcomeFragment("LoggedOut");
                 } else if (signOutResource.status == Resource.Status.ERROR) {
-                    Toast.makeText(this, R.string.deconnection_failed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.disconnection_failed, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -158,6 +179,39 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         startActivity(intent);
         finish();
     }
+
+    private void setupUserProfile() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            userViewModel.getUserData(uid).observe(this, resource -> {
+                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                    User user = resource.data.toObject(User.class);
+                    if (user != null) {
+                        updateHeaderView(user);
+                    }
+                } else if (resource.status == Resource.Status.ERROR) {
+                    Toast.makeText(MainActivity.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void updateHeaderView(User user) {
+        View headerView = binding.activityMainNavView.getHeaderView(0);
+        CircleImageView profileImageView = headerView.findViewById(R.id.header_profile_image);
+        TextView userNameTextView = headerView.findViewById(R.id.header_user_name);
+        TextView userEmailTextView = headerView.findViewById(R.id.header_user_email);
+
+        userNameTextView.setText(user.getUserName());
+        userEmailTextView.setText(user.getEmail());
+        // Assume you have a default or a placeholder image for users without a profile image
+        Glide.with(this)
+                .load(user.getUrlPicture())
+                .placeholder(R.drawable.account_icon)
+                .into(profileImageView);
+    }
+
 
     @Override
     public void onBackPressed() {
