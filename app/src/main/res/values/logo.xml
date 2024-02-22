@@ -3,7 +3,4 @@
     <attr name="password_logo" format="reference"/>
     <attr name="password_logo_close" format="reference"/>
 
-    <attr name="password_logo_land" format="reference"/>
-    <attr name="password_logo_close_land" format="reference"/>
-
 </resources>

@@ -30,6 +30,9 @@
     <string name="disconnection_failed">Log out failed</string>
     <string name="error_fetching_user_data">Error fetching user data</string>
     <string name="user_data_not_found">User data not found.</string>
+    <string name="map_view">Map view</string>
+    <string name="list_view">List view</string>
+    <string name="workmates">Workmates</string>
 
     <!-- UserRepository -->
 
@@ -65,6 +68,6 @@
     <string name="le_zinc">\u0020(le Zinc)</string>
 
     <!-- RestaurantActivity-->
-    <string name="is_joining">" is joining"</string>
+    <string name="is_joining">" is joining !"</string>
 
 </resources>

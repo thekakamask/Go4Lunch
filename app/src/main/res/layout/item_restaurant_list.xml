@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/restaurant_list_fragment_padding">
+    android:padding="@dimen/restaurant_list_fragment_padding_w390">
 
     <ImageView
         android:id="@+id/restaurantImageView"
@@ -20,7 +20,7 @@
         android:id="@+id/restaurantName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/restaurant_list_fragment_sizetext_w320"
+        android:textSize="@dimen/restaurant_list_fragment_sizetext_w390"
         android:text="@string/restaurant_name"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/restaurant_distance"
-        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w320"
+        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w390"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/restaurantName"
@@ -46,7 +46,7 @@
         android:id="@+id/restaurantAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w320"
+        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w390"
         android:text="@string/restaurant_address"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/restaurantName"
@@ -57,7 +57,7 @@
         android:id="@+id/restaurantWorkers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w320"
+        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w390"
         android:text="@string/restaurant_coworkers"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -71,7 +71,7 @@
         android:id="@+id/restaurantOpeningHours"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w320"
+        android:textSize="@dimen/restaurant_list_fragment_sizetext2_w390"
         android:text="@string/restaurant_opening_hours"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/restaurantAddress"

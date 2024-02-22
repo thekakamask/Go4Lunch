@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="@dimen/item_restaurant_activity_padding_land_w960">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/item_restaurant_activity_imageview_width_land_w960"
+        android:layout_height="@dimen/item_restaurant_activity_imageview_height_land_w960"
         android:src="@drawable/workmates_list_profile"
-        app:civ_border_width="2dp"
+        app:civ_border_width="@dimen/item_restaurant_activity_imageview_border_land_w960"
         app:civ_border_color="#FF000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,8 +20,8 @@
         android:id="@+id/name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:textSize="20sp"
+        android:layout_marginStart="@dimen/item_restaurant_activity_textview_margin_start_land_w960"
+        android:textSize="@dimen/item_restaurant_activity_text_size_land_w960"
         android:textStyle="bold"
         android:text="@string/user_name_text"
         app:layout_constraintStart_toEndOf="@id/profile_image"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/is_joining"
-        android:textSize="20sp"
+        android:textSize="@dimen/item_restaurant_activity_text_size_land_w960"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/name_text_view"
         app:layout_constraintTop_toTopOf="parent"

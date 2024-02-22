@@ -19,39 +19,39 @@
     <dimen name="margin_button_bottom_land">160dp</dimen>
 
     <!--    WelcomeActivityLayoutw600-->
-    <dimen name="size_text_button_w600">35sp</dimen>
-    <dimen name="margin_button_w600">25dp</dimen>
+    <dimen name="size_text_button_w600">30sp</dimen>
+    <dimen name="margin_button_w600">30dp</dimen>
     <dimen name="margin_button_start_w600">20dp</dimen>
-    <dimen name="margin_button_to_text_view_bottom_w600">45dp</dimen>
-    <dimen name="size_text_message_w600">30sp</dimen>
-    <dimen name="margin_text_view_bottom_w600">70dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w600">35dp</dimen>
+    <dimen name="size_text_message_w600">25sp</dimen>
+    <dimen name="margin_text_view_bottom_w600">100dp</dimen>
 
 
     <!--    WelcomeActivityLayoutw1080-->
-    <dimen name="size_text_button_w1080">75sp</dimen>
-    <dimen name="margin_button_w1080">50dp</dimen>
-    <dimen name="margin_button_start_w1080">40dp</dimen>
-    <dimen name="margin_button_to_text_view_bottom_w1080">80dp</dimen>
-    <dimen name="size_text_message_w1080">60sp</dimen>
-    <dimen name="margin_text_view_bottom_w1080">200dp</dimen>
+    <dimen name="size_text_button_w1080">54sp</dimen>
+    <dimen name="margin_button_w1080">54dp</dimen>
+    <dimen name="margin_button_start_w1080">36dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_w1080">68dp</dimen>
+    <dimen name="size_text_message_w1080">45sp</dimen>
+    <dimen name="margin_text_view_bottom_w1080">180dp</dimen>
 
     <!--    WelcomeActivityLandw1024-->
     <dimen name="size_text_button_land_w1024">30sp</dimen>
-    <dimen name="margin_button_start_land_w1024">550dp</dimen>
-    <dimen name="margin_button_end_land_w1024">15dp</dimen>
+    <dimen name="margin_button_start_land_w1024">160dp</dimen>
+    <dimen name="margin_button_end_land_w1024">160dp</dimen>
     <dimen name="margin_button_land_w1024">30dp</dimen>
     <dimen name="margin_button_to_text_view_bottom_land_w1024">35dp</dimen>
-    <dimen name="size_text_message_land_w1024">25</dimen>
-    <dimen name="margin_button_bottom_land_w1024">160dp</dimen>
+    <dimen name="size_text_message_land_w1024">25sp</dimen>
+    <dimen name="margin_button_bottom_land_w1024">60dp</dimen>
 
     <!--    WelcomeActivityLandw1920-->
-    <dimen name="size_text_button_land_w1920">50sp</dimen>
-    <dimen name="margin_button_start_land_w1920">1030dp</dimen>
-    <dimen name="margin_button_end_land_w1920">20dp</dimen>
-    <dimen name="margin_button_land_w1920">50dp</dimen>
-    <dimen name="margin_button_to_text_view_bottom_land_w1920">70dp</dimen>
-    <dimen name="size_text_message_land_w1920">45sp</dimen>
-    <dimen name="margin_button_bottom_land_w1920">350dp</dimen>
+    <dimen name="size_text_button_land_w1920">56sp</dimen>
+    <dimen name="margin_button_start_land_w1920">300dp</dimen>
+    <dimen name="margin_button_end_land_w1920">300dp</dimen>
+    <dimen name="margin_button_land_w1920">56dp</dimen>
+    <dimen name="margin_button_to_text_view_bottom_land_w1920">66dp</dimen>
+    <dimen name="size_text_message_land_w1920">47sp</dimen>
+    <dimen name="margin_button_bottom_land_w1920">113dp</dimen>
 
 
     <!--    MainActivityLayout-->
@@ -68,24 +68,24 @@
     <!--    MainActivityLayoutw600-->
     <dimen name="main_activity_nav_header_height_w600">400dp</dimen>
     <dimen name="main_activity_size_text_button_w600">35sp</dimen>
-    <dimen name="main_activity_toolbar_margin_button_w600">30dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_start_w600">15dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_w600">60dp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_w600">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_w600">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_w600">80dp</dimen>
     <dimen name="main_activity_nav_header_size_text_w600">30sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_w600">5dp</dimen>
-    <dimen name="main_activity_nav_header_size_text_2_w600">17sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_bottom_w600">78dp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_w600">10dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_w600">18sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_w600">76dp</dimen>
 
     <!--    MainActivityLayoutw1080-->
     <dimen name="main_activity_nav_header_height_w1080">600dp</dimen>
     <dimen name="main_activity_size_text_button_w1080">40sp</dimen>
-    <dimen name="main_activity_toolbar_margin_button_w1080">50dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_start_w1080">15dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_w1080">120dp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_w1080">25dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_w1080">25dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_w1080">160dp</dimen>
     <dimen name="main_activity_nav_header_size_text_w1080">30sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_w1080">5dp</dimen>
-    <dimen name="main_activity_nav_header_size_text_2_w1080">17sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_bottom_w1080">140dp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_w1080">10dp</dimen>
+    <dimen name="main_activity_nav_header_size_text_2_w1080">20sp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_w1080">155dp</dimen>
 
     <!--    MainActivityLand-->
     <dimen name="main_activity_nav_header_height_land">300dp</dimen>
@@ -99,26 +99,26 @@
     <dimen name="main_activity_nav_header_margin_text_bottom_land">35dp</dimen>
 
     <!--    MainActivityLandw1024-->
-    <dimen name="main_activity_nav_header_height_land_w1024">300dp</dimen>
-    <dimen name="main_activity_size_text_button_land_w1024">35sp</dimen>
-    <dimen name="main_activity_toolbar_margin_button_land_w1024">40dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_start_land_w1024">10dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_land_w1024">25dp</dimen>
+    <dimen name="main_activity_nav_header_height_land_w1024">350dp</dimen>
+    <dimen name="main_activity_size_text_button_land_w1024">30sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_w1024">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_w1024">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_w1024">60dp</dimen>
     <dimen name="main_activity_nav_header_size_text_land_w1024">25sp</dimen>
     <dimen name="main_activity_nav_header_margin_text_land_w1024">10dp</dimen>
     <dimen name="main_activity_nav_header_size_text_2_land_w1024">20sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_bottom_land_w1024">35dp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_w1024">55dp</dimen>
 
     <!--    MainActivityLandw1920-->
-    <dimen name="main_activity_nav_header_height_land_w1920">400dp</dimen>
-    <dimen name="main_activity_size_text_button_land_w1920">45sp</dimen>
-    <dimen name="main_activity_toolbar_margin_button_land_w1920">70dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_start_land_w1920">10dp</dimen>
-    <dimen name="main_activity_nav_header_margin_image_button_land_w1920">40dp</dimen>
+    <dimen name="main_activity_nav_header_height_land_w1920">600dp</dimen>
+    <dimen name="main_activity_size_text_button_land_w1920">50sp</dimen>
+    <dimen name="main_activity_toolbar_margin_button_land_w1920">35dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_start_land_w1920">20dp</dimen>
+    <dimen name="main_activity_nav_header_margin_image_button_land_w1920">130dp</dimen>
     <dimen name="main_activity_nav_header_size_text_land_w1920">25sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_land_w1920">5dp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_land_w1920">10dp</dimen>
     <dimen name="main_activity_nav_header_size_text_2_land_w1920">20sp</dimen>
-    <dimen name="main_activity_nav_header_margin_text_bottom_land_w1920">60dp</dimen>
+    <dimen name="main_activity_nav_header_margin_text_bottom_land_w1920">130dp</dimen>
 
     <!--    RestaurantListFragmentw-->
     <dimen name="restaurant_list_fragment_padding">20dp</dimen>
@@ -191,4 +191,114 @@
     <dimen name="workmates_list_fragment_border_size_land_w1920">5dp</dimen>
     <dimen name="workmates_list_fragment_margin_land_w1920">80dp</dimen>
     <dimen name="workmates_list_fragment_text_size_land_w1920">50sp</dimen>
+
+    <!--    RestaurantActivityw600-->
+    <dimen name="restaurant_activity_image_view_width_w600">0dp</dimen>
+    <dimen name="restaurant_activity_image_view_height_w600">350dp</dimen>
+    <dimen name="restaurant_activity_image_button_height_w600">70dp</dimen>
+    <dimen name="restaurant_activity_image_button_width_w600">70dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_width_w600">0dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_padding_w600">20dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_textview_margin_start_w600">10dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size_w600">38sp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_start_w600">10dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_bottom_w600">10dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size2_w600">28sp</dimen>
+    <dimen name="restaurant_activity_button_layout_padding_w600">5dp</dimen>
+    <dimen name="restaurant_activity_button_layout_width_w600">0dp</dimen>
+    <dimen name="restaurant_activity_button_text_size_w600">30sp</dimen>
+    <dimen name="restaurant_activity_recyclerview_width_w600">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_height_w600">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_margin_top_w600">8dp</dimen>
+
+    <!--    ItemRestaurantActivityw600-->
+    <dimen name="item_restaurant_activity_padding_w600">20dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_width_w600">90dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_height_w600">90dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_border_w600">3dp</dimen>
+    <dimen name="item_restaurant_activity_textview_margin_start_w600">20dp</dimen>
+    <dimen name="item_restaurant_activity_text_size_w600">30sp</dimen>
+
+    <!--    RestaurantActivityw1080-->
+    <dimen name="restaurant_activity_image_view_width_w1080">0dp</dimen>
+    <dimen name="restaurant_activity_image_view_height_w1080">650dp</dimen>
+    <dimen name="restaurant_activity_image_button_height_w1080">180dp</dimen>
+    <dimen name="restaurant_activity_image_button_width_w1080">180dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_width_w1080">0dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_padding_w1080">30dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_textview_margin_start_w1080">10dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size_w1080">70sp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_start_w1080">20dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_bottom_w1080">20dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size2_w1080">45sp</dimen>
+    <dimen name="restaurant_activity_button_layout_padding_w1080">20dp</dimen>
+    <dimen name="restaurant_activity_button_layout_width_w1080">0dp</dimen>
+    <dimen name="restaurant_activity_button_text_size_w1080">50sp</dimen>
+    <dimen name="restaurant_activity_recyclerview_width_w1080">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_height_w1080">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_margin_top_w1080">15dp</dimen>
+
+    <!--    ItemRestaurantActivityw1080-->
+    <dimen name="item_restaurant_activity_padding_w1080">30dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_width_w1080">150dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_height_w1080">150dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_border_w1080">5dp</dimen>
+    <dimen name="item_restaurant_activity_textview_margin_start_w1080">40dp</dimen>
+    <dimen name="item_restaurant_activity_text_size_w1080">50sp</dimen>
+
+    <!--    RestaurantActivitylandw1024-->
+    <dimen name="restaurant_activity_image_view_width_land_w1024">400dp</dimen>
+    <dimen name="restaurant_activity_image_view_height_land_w1024">0dp</dimen>
+    <dimen name="restaurant_activity_image_button_height_land_w1024">80dp</dimen>
+    <dimen name="restaurant_activity_image_button_width_land_w1024">80dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_width_land_w1024">0dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_padding_land_w1024">20dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_textview_margin_start_land_w1024">10dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_textview_margin_top_land_w1024">0dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size_land_w1024">35sp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_start_land_w1024">10dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_bottom_land_w1024">8dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size2_land_w1024">25sp</dimen>
+    <dimen name="restaurant_activity_button_layout_padding_land_w1024">10dp</dimen>
+    <dimen name="restaurant_activity_button_layout_width_land_w1024">0dp</dimen>
+    <dimen name="restaurant_activity_button_text_size_land_w1024">25sp</dimen>
+    <dimen name="restaurant_activity_recyclerview_width_land_w1024">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_height_land_w1024">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_margin_top_land_w1024">10dp</dimen>
+
+    <!--    ItemRestaurantActivitylandw1024-->
+    <dimen name="item_restaurant_activity_padding_land_w1024">20dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_width_land_w1024">80dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_height_land_w1024">80dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_border_land_w1024">2dp</dimen>
+    <dimen name="item_restaurant_activity_textview_margin_start_land_w1024">35dp</dimen>
+    <dimen name="item_restaurant_activity_text_size_land_w1024">30sp</dimen>
+
+    <!--    RestaurantActivitylandw1920-->
+    <dimen name="restaurant_activity_image_view_width_land_w1920">700dp</dimen>
+    <dimen name="restaurant_activity_image_view_height_land_w1920">0dp</dimen>
+    <dimen name="restaurant_activity_image_button_height_land_w1920">200dp</dimen>
+    <dimen name="restaurant_activity_image_button_width_land_w1920">200dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_width_land_w1920">0dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_layout_padding_land_w1920">30dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_textview_margin_start_land_w1920">10dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_textview_margin_top_land_w1920">0dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size_land_w1920">80sp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_start_land_w1920">20dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_imageview_margin_bottom_land_w1920">20dp</dimen>
+    <dimen name="restaurant_activity_info_restaurant_text_size2_land_w1920">55sp</dimen>
+    <dimen name="restaurant_activity_button_layout_padding_land_w1920">20dp</dimen>
+    <dimen name="restaurant_activity_button_layout_width_land_w1920">0dp</dimen>
+    <dimen name="restaurant_activity_button_text_size_land_w1920">50sp</dimen>
+    <dimen name="restaurant_activity_recyclerview_width_land_w1920">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_height_land_w1920">0dp</dimen>
+    <dimen name="restaurant_activity_recyclerview_margin_top_land_w1920">20dp</dimen>
+
+    <!--    ItemRestaurantActivitylandw1920-->
+    <dimen name="item_restaurant_activity_padding_land_w1920">25dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_width_land_w1920">150dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_height_land_w1920">150dp</dimen>
+    <dimen name="item_restaurant_activity_imageview_border_land_w1920">4dp</dimen>
+    <dimen name="item_restaurant_activity_textview_margin_start_land_w1920">60dp</dimen>
+    <dimen name="item_restaurant_activity_text_size_land_w1920">50sp</dimen>
 </resources>

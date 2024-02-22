@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/activity_restaurant_image"
-        android:layout_width="0dp"
-        android:layout_height="220dp"
+        android:layout_width="@dimen/restaurant_activity_image_view_width_w480"
+        android:layout_height="@dimen/restaurant_activity_image_view_height_w480"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,50 +17,64 @@
 
     <ImageButton
         android:id="@+id/activity_restaurant_button_select"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/restaurant_activity_image_button_width_w480"
+        android:layout_height="@dimen/restaurant_activity_image_button_height_w480"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/button_round_background"
-        android:src="@drawable/ic_check"
         android:contentDescription="selection button"
+        android:src="@drawable/uncheck_button"
         app:layout_constraintBottom_toBottomOf="@id/activity_restaurant_image"
         app:layout_constraintEnd_toEndOf="@id/activity_restaurant_image" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_info_restaurant"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/restaurant_activity_info_restaurant_layout_width_w480"
         android:background="@color/orange"
         android:layout_height="wrap_content"
+        android:padding="@dimen/restaurant_activity_info_restaurant_layout_padding_w480"
         app:layout_constraintTop_toBottomOf="@id/activity_restaurant_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/activity_restaurant_name"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Le Zinc"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/restaurant_activity_info_restaurant_textview_margin_start_w480"
+            android:textSize="@dimen/restaurant_activity_info_restaurant_text_size_w480"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/restaurant_activity_info_restaurant_imageview_margin_start_w480"
+            android:layout_marginBottom="@dimen/restaurant_activity_info_restaurant_imageview_margin_bottom_w480"
+            app:layout_constraintBottom_toTopOf="@+id/activity_restaurant_address"
+            app:layout_constraintStart_toEndOf="@+id/activity_restaurant_name"
+            app:srcCompat="@drawable/restaurant_activity_star" />
 
         <TextView
             android:id="@+id/activity_restaurant_address"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/restaurant_activity_info_restaurant_textview_margin_start_w480"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="12sp"
+            android:textSize="@dimen/restaurant_activity_info_restaurant_text_size2_w480"
+            android:textColor="@color/white"
             android:text="French restaurant - 12 rue du Faubourg Poissonnière"
             app:layout_constraintTop_toBottomOf="@id/activity_restaurant_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_buttons"
-        android:layout_width="0dp"
+        android:padding="@dimen/restaurant_activity_button_layout_padding_w480"
+        android:layout_width="@dimen/restaurant_activity_button_layout_width_w480"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/layout_info_restaurant"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,15 +84,25 @@
             android:id="@+id/activity_restaurant_button_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableTop="@drawable/phone_button"
+            android:textColor="@color/orange"
             android:text="Call"
+            android:textSize="@dimen/restaurant_activity_button_text_size_w480"
+            android:textStyle="bold"
+            android:backgroundTint="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/activity_restaurant_button_like"/>
+            app:layout_constraintEnd_toStartOf="@id/activity_restaurant_button_like" />
 
         <Button
             android:id="@+id/activity_restaurant_button_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableTop="@drawable/star_button"
+            android:textSize="@dimen/restaurant_activity_button_text_size_w480"
+            android:textColor="@color/orange"
+            android:backgroundTint="@color/white"
+            android:textStyle="bold"
             android:text="Like"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_restaurant_button_call"
@@ -88,6 +112,11 @@
             android:id="@+id/activity_restaurant_button_website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableTop="@drawable/website_button"
+            android:textSize="@dimen/restaurant_activity_button_text_size_w480"
+            android:textColor="@color/orange"
+            android:backgroundTint="@color/white"
+            android:textStyle="bold"
             android:text="Website"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/activity_restaurant_button_like"
@@ -96,9 +125,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_workmates"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/restaurant_activity_recyclerview_width_w480"
+        android:layout_height="@dimen/restaurant_activity_recyclerview_height_w480"
+        android:layout_marginTop="@dimen/restaurant_activity_recyclerview_margin_top_w480"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_restaurant_activity"
         tools:itemCount="4"

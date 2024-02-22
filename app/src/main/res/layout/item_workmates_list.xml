@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/workmates_list_fragment_padding">
+    android:padding="@dimen/workmates_list_fragment_padding_w390">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="@dimen/workmates_list_fragment_image_size"
-        android:layout_height="@dimen/workmates_list_fragment_image_size"
+        android:layout_width="@dimen/workmates_list_fragment_image_size_w390"
+        android:layout_height="@dimen/workmates_list_fragment_image_size_w390"
         android:src="@drawable/workmates_list_profile"
-        app:civ_border_width="@dimen/workmates_list_fragment_border_size"
+        app:civ_border_width="@dimen/workmates_list_fragment_border_size_w390"
         app:civ_border_color="#FF000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,8 +20,8 @@
         android:id="@+id/name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/workmates_list_fragment_margin"
-        android:textSize="@dimen/workmates_list_fragment_text_size"
+        android:layout_marginStart="@dimen/workmates_list_fragment_margin_w390"
+        android:textSize="@dimen/workmates_list_fragment_text_size_w390"
         android:textStyle="bold"
         android:text="@string/scarlett_is_eating_french"
         app:layout_constraintStart_toEndOf="@id/profile_image"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/le_zinc"
-        android:textSize="@dimen/workmates_list_fragment_text_size"
+        android:textSize="@dimen/workmates_list_fragment_text_size_w390"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/name_text_view"
         app:layout_constraintTop_toTopOf="parent"
