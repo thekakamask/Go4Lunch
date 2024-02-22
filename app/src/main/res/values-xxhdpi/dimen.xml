@@ -182,46 +182,55 @@
     <dimen name="restaurant_list_fragment_padding">10dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext">20sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2">16sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding">5dp</dimen>
 
     <!--    RestaurantListFragmentLand-->
     <dimen name="restaurant_list_fragment_padding_land">20dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land">25sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land">20sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land">5dp</dimen>
 
     <!--    RestaurantListFragmentw390-->
     <dimen name="restaurant_list_fragment_padding_w390">10dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_w390">20sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_w390">16sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_w390">5dp</dimen>
 
     <!--    RestaurantListFragmentw430-->
     <dimen name="restaurant_list_fragment_padding_w430">14dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_w430">22sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_w430">18sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_w430">5dp</dimen>
 
     <!--    RestaurantListFragmentw480-->
     <dimen name="restaurant_list_fragment_padding_w480">15dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_w480">23sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_w480">18sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_w480">5dp</dimen>
 
     <!--    RestaurantListFragmentLandw830-->
     <dimen name="restaurant_list_fragment_padding_land_w830">20dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land_w830">25sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land_w830">20sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land_w830">8dp</dimen>
 
     <!--    RestaurantListFragmentLandw860-->
     <dimen name="restaurant_list_fragment_padding_land_w860">20dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land_w860">25sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land_w860">20sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land_w860">8dp</dimen>
 
     <!--    RestaurantListFragmentLandw960-->
     <dimen name="restaurant_list_fragment_padding_land_w960">25dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land_w960">28sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land_w960">23sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land_w960">10dp</dimen>
 
     <!--    RestaurantListFragmentLandw1024-->
     <dimen name="restaurant_list_fragment_padding_land_w1024">20dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land_w1024">26sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land_w1024">22sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land_w1024">10dp</dimen>
 
     <!--    WorkmatesListFragment-->
     <dimen name="workmates_list_fragment_padding">15dp</dimen>

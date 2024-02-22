@@ -43,11 +43,14 @@
     <dimen name="restaurant_list_fragment_padding">8dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext">12sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2">10sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding">2dp</dimen>
+
 
     <!--    RestaurantListFragmentLand-->
     <dimen name="restaurant_list_fragment_padding_land">8dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land">12sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land">10sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land">2dp</dimen>
 
     <!--    WorkmatesListFragment-->
     <dimen name="workmates_list_fragment_padding">2dp</dimen>

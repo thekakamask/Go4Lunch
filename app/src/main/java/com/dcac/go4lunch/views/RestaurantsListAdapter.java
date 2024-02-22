@@ -97,6 +97,7 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             // MODIFY THE NUMBER OF WORKERS WHEN OTHER FUNCTIONNALITY ARE IMPLEMENTED
             binding.restaurantWorkers.setText("3");
 
+
             if (results.getPhotos() != null && !results.getPhotos().isEmpty()) {
                 String photoReference = results.getPhotos().get(0).getPhotoReference();
                 String photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + photoReference + "&key=" + apiKey;

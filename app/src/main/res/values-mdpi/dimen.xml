@@ -124,31 +124,37 @@
     <dimen name="restaurant_list_fragment_padding">20dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext">27sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2">22sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding">2dp</dimen>
 
     <!--    RestaurantListFragmentLand-->
     <dimen name="restaurant_list_fragment_padding_land">25dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land">30sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land">25sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land">2dp</dimen>
 
     <!--    RestaurantListFragmentw600-->
     <dimen name="restaurant_list_fragment_padding_w600">20dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_w600">27sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_w600">22sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_w600">3dp</dimen>
 
     <!--    RestaurantListFragmentw1080-->
     <dimen name="restaurant_list_fragment_padding_w1080">50dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_w1080">60sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_w1080">50sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_w1080">5dp</dimen>
 
     <!--    RestaurantListFragmentLandw1024-->
     <dimen name="restaurant_list_fragment_padding_land_w1024">25dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land_w1024">30sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land_w1024">25sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land_w1024">7dp</dimen>
 
     <!--    RestaurantListFragmentLandw1920-->
     <dimen name="restaurant_list_fragment_padding_land_w1920">40dp</dimen>
     <dimen name="restaurant_list_fragment_sizetext_land_w1920">55sp</dimen>
     <dimen name="restaurant_list_fragment_sizetext2_land_w1920">45sp</dimen>
+    <dimen name="restaurant_list_fragment_imageview_padding_land_w1920">10dp</dimen>
 
     <!--    WorkmatesListFragment-->
     <dimen name="workmates_list_fragment_padding">20dp</dimen>

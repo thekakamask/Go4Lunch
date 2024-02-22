@@ -14,7 +14,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.25"/>
+        app:layout_constraintWidth_percent="0.25"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        android:padding="@dimen/restaurant_list_fragment_imageview_padding_land_w640"/>
 
     <TextView
         android:id="@+id/restaurantName"
