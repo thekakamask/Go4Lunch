@@ -6,48 +6,49 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Photos {
+
     @Expose
-    @SerializedName("authorAttributions")
-    private List<AuthorAttributions> authorAttributions;
+    @SerializedName("width")
+    private int width;
     @Expose
-    @SerializedName("heightPx")
-    private int heightPx;
+    @SerializedName("photo_reference")
+    private String photo_reference;
     @Expose
-    @SerializedName("widthPx")
-    private int widthPx;
+    @SerializedName("html_attributions")
+    private List<String> html_attributions;
     @Expose
-    @SerializedName("name")
-    private String name;
+    @SerializedName("height")
+    private int height;
 
-    public List<AuthorAttributions> getAuthorAttributions() {
-        return authorAttributions;
+    public int getWidth() {
+        return width;
     }
 
-    public void setAuthorAttributions(List<AuthorAttributions> authorAttributions) {
-        this.authorAttributions = authorAttributions;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    public int getHeightPx() {
-        return heightPx;
+    public String getPhoto_reference() {
+        return photo_reference;
     }
 
-    public void setHeightPx(int heightPx) {
-        this.heightPx = heightPx;
+    public void setPhoto_reference(String photo_reference) {
+        this.photo_reference = photo_reference;
     }
 
-    public int getWidthPx() {
-        return widthPx;
+    public List<String> getHtml_attributions() {
+        return html_attributions;
     }
 
-    public void setWidthPx(int widthPx) {
-        this.widthPx = widthPx;
+    public void setHtml_attributions(List<String> html_attributions) {
+        this.html_attributions = html_attributions;
     }
 
-    public String getName() {
-        return name;
+    public int getHeight() {
+        return height;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

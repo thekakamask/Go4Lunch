@@ -3,6 +3,7 @@ package com.dcac.go4lunch.views;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         notifyDataSetChanged();
     }
 
-    static class RestaurantsListViewHolder extends RecyclerView.ViewHolder {
+    public class RestaurantsListViewHolder extends RecyclerView.ViewHolder {
         private final ItemRestaurantListBinding binding;
         private Location userLocation;
         private String apiKey;
@@ -76,15 +77,14 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             this.userLocation = userLocation;
             this.apiKey = ApiKeyUtil.getApiKey(context);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        Intent intent = new Intent(context, RestaurantActivity.class);
-                        context.startActivity(intent);
-                    }
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Results restaurant = getItem(position);
+                    Log.d("RestaurantSelected", "Place ID: " + restaurant.getPlace_id());
+                    Intent intent = new Intent(context, RestaurantActivity.class);
+                    intent.putExtra(RestaurantActivity.EXTRA_PLACE_ID, restaurant.getPlace_id());
+                    context.startActivity(intent);
                 }
             });
         }

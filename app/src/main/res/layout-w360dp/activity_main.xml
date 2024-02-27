@@ -113,7 +113,8 @@
         app:menu="@menu/activity_main_menu_drawer"
         android:background="@color/orange"
         app:itemTextColor="@color/white"
-        app:itemIconTint="@color/white"/>
+        app:itemIconTint="@color/white"
+        android:visibility="gone"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

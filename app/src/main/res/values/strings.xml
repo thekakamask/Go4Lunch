@@ -69,5 +69,10 @@
 
     <!-- RestaurantActivity-->
     <string name="is_joining">" is joining !"</string>
+    <string name="error_fetching_details">Error in restaurant details recuperation</string>
+    <string name="website_not_available">Website is not available</string>
+    <string name="phone_not_available">Phone number is not available</string>
+    <string name="restaurant_name_not_available">Restaurant name is not available</string>
+    <string name="restaurant_address_not_available">Restaurant adress is not available</string>
 
 </resources>

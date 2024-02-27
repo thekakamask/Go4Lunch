@@ -51,6 +51,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
+            android:id="@+id/restaurantLiked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/restaurant_activity_info_restaurant_imageview_margin_start_land_w860"

@@ -1,6 +1,7 @@
 package com.dcac.go4lunch.repository;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -16,9 +17,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Nullable;
@@ -82,7 +86,8 @@ public final class UserRepository {
             String urlPicture = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
             String userName = user.getDisplayName();
             String email = user.getEmail();
-            User userToCreate = new User(uid, userName, urlPicture, email);
+            List<String> restaurantsLike = new ArrayList<>();
+            User userToCreate = new User(uid, userName, urlPicture, email, restaurantsLike);
             usersCollection.document(uid).set(userToCreate)
                     .addOnCompleteListener(task -> liveData.setValue(task.isSuccessful()));
         } else {
@@ -104,6 +109,103 @@ public final class UserRepository {
                 .addOnCompleteListener(task -> liveData.setValue(task.isSuccessful()));
         return liveData;
     }
+
+    public LiveData<Boolean> addRestaurantToLiked(String uid, String restaurantId) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        Log.d("ToggleLikeRepo", "Adding to liked list: " + restaurantId);
+        usersCollection.document(uid)
+                .update("restaurantsLike", FieldValue.arrayUnion(restaurantId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("ToggleLikeRepo", "Successfully added to liked list: " + restaurantId);
+                    liveData.setValue(true);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("ToggleLikeRepo", "Failed to add to liked list: " + restaurantId, e);
+                    liveData.setValue(false);
+                });
+        return liveData;
+    }
+
+    public LiveData<Boolean> removeRestaurantFromLiked(String uid, String restaurantId) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        Log.d("ToggleLikeRepo", "Removing from liked list: " + restaurantId);
+        usersCollection.document(uid)
+                .update("restaurantsLike", FieldValue.arrayRemove(restaurantId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("ToggleLikeRepo", "Successfully removed from liked list: " + restaurantId);
+                    liveData.setValue(true);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("ToggleLikeRepo", "Failed to remove from liked list: " + restaurantId, e);
+                    liveData.setValue(false);
+                });
+        return liveData;
+    }
+
+
+
+    /*public LiveData<Boolean> toggleRestaurantLike(String uid, String restaurantId, boolean isLiked) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+
+        if (isLiked) {
+            Log.d("ToggleLikeRepo", "Removing from liked list: " + restaurantId);
+            usersCollection.document(uid)
+                    .update("restaurantsLike", FieldValue.arrayRemove(restaurantId))
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("ToggleLikeRepo", "Successfully removed from liked list: " + restaurantId);
+                        liveData.setValue(true);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("ToggleLikeRepo", "Failed to remove from liked list: " + restaurantId, e);
+                        liveData.setValue(false);
+                    });
+        } else {
+            Log.d("ToggleLikeRepo", "Adding to liked list: " + restaurantId);
+            usersCollection.document(uid)
+                    .update("restaurantsLike", FieldValue.arrayUnion(restaurantId))
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("ToggleLikeRepo", "Successfully added to liked list: " + restaurantId);
+                        liveData.setValue(true);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("ToggleLikeRepo", "Failed to add to liked list: " + restaurantId, e);
+                        liveData.setValue(false);
+                    });
+        }
+        return liveData;
+    }*/
+
+    /*public LiveData<Boolean> toggleRestaurantLike(String uid, String restaurantId, boolean isLiked) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        if (!isLiked) { // if the restaurant is not liked, add to the liked list.
+            Log.d("ToggleLikeRepo", "Adding to liked list: " + restaurantId);
+            usersCollection.document(uid)
+                    .update("restaurantsLike", FieldValue.arrayUnion(restaurantId))
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("ToggleLikeRepo", "Successfully added to liked list: " + restaurantId);
+                        liveData.setValue(true);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("ToggleLikeRepo", "Failed to add to liked list: " + restaurantId, e);
+                        liveData.setValue(false);
+                    });
+        } else { // if the restaurant is already liked, withdraw it from the liked list
+            Log.d("ToggleLikeRepo", "Removing from liked list: " + restaurantId);
+            usersCollection.document(uid)
+                    .update("restaurantsLike", FieldValue.arrayRemove(restaurantId))
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("ToggleLikeRepo", "Successfully removed from liked list: " + restaurantId);
+                        liveData.setValue(true);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("ToggleLikeRepo", "Failed to remove from liked list: " + restaurantId, e);
+                        liveData.setValue(false);
+                    });
+        }
+        return liveData;
+    }*/
+
+
 
     public LiveData<Resource<Void>> signOut() {
         return authService.signOut();

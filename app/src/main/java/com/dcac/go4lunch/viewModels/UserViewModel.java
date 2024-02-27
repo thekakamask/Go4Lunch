@@ -1,6 +1,8 @@
 package com.dcac.go4lunch.viewModels;
 
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -190,6 +192,56 @@ public class UserViewModel extends ViewModel {
         observeForever(userRepository.updateUrlPicture(uid, urlPicture), observer);
         return liveData;
     }
+
+    public LiveData<Resource<Boolean>> addRestaurantToLiked(String uid, String restaurantId) {
+        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
+        liveData.setValue(Resource.loading(null));
+        userRepository.addRestaurantToLiked(uid, restaurantId).observeForever(isSuccess -> {
+            if (Boolean.TRUE.equals(isSuccess)) {
+                Log.d("ViewModel", "Success: Added to liked list.");
+                liveData.setValue(Resource.success(true));
+            } else {
+                Log.d("ViewModel", "Error: Failed to add to liked list.");
+                liveData.setValue(Resource.error("Failed to add to liked list", false));
+            }
+        });
+        return liveData;
+    }
+
+    public LiveData<Resource<Boolean>> removeRestaurantFromLiked(String uid, String restaurantId) {
+        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
+        liveData.setValue(Resource.loading(null));
+        userRepository.removeRestaurantFromLiked(uid, restaurantId).observeForever(isSuccess -> {
+            if (Boolean.TRUE.equals(isSuccess)) {
+                Log.d("ViewModel", "Success: Removed from liked list.");
+                liveData.setValue(Resource.success(true));
+            } else {
+                Log.d("ViewModel", "Error: Failed to remove from liked list.");
+                liveData.setValue(Resource.error("Failed to remove from liked list", false));
+            }
+        });
+        return liveData;
+    }
+
+    /*public LiveData<Resource<Boolean>> toggleRestaurantLike(String uid, String restaurantId, boolean isLiked) {
+        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
+        liveData.setValue(Resource.loading(null));
+        LiveData<Boolean> repositoryResponse = userRepository.toggleRestaurantLike(uid, restaurantId, isLiked);
+
+        repositoryResponse.observeForever(isSuccess -> {
+            if (Boolean.TRUE.equals(isSuccess)) {
+                Log.d("ToggleLike", "Success: Restaurant like status toggled.");
+                liveData.setValue(Resource.success(true));
+            } else {
+                Log.d("ToggleLike", "Error: Failed to toggle like status.");
+                liveData.setValue(Resource.error("Failed to toggle like status", false));
+            }
+        });
+
+        return liveData;
+    }*/
+
+
 
     /*private static volatile UserViewModel instance;
     private final UserRepository userRepository;

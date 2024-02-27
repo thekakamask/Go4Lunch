@@ -5,19 +5,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Periods {
     @Expose
-    @SerializedName("close")
-    private Close close;
-    @Expose
     @SerializedName("open")
     private Open open;
-
-    public Close getClose() {
-        return close;
-    }
-
-    public void setClose(Close close) {
-        this.close = close;
-    }
+    @Expose
+    @SerializedName("close")
+    private Close close;
 
     public Open getOpen() {
         return open;
@@ -25,5 +17,13 @@ public class Periods {
 
     public void setOpen(Open open) {
         this.open = open;
+    }
+
+    public Close getClose() {
+        return close;
+    }
+
+    public void setClose(Close close) {
+        this.close = close;
     }
 }

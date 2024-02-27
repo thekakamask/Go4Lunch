@@ -5,29 +5,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class Close {
     @Expose
-    @SerializedName("minute")
-    private int minute;
-    @Expose
-    @SerializedName("hour")
-    private int hour;
+    @SerializedName("time")
+    private String time;
     @Expose
     @SerializedName("day")
     private int day;
+    @Expose
+    @SerializedName("date")
+    private String date;
 
-    public int getMinute() {
-        return minute;
+    public String getTime() {
+        return time;
     }
 
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
-
-    public int getHour() {
-        return hour;
-    }
-
-    public void setHour(int hour) {
-        this.hour = hour;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getDay() {
@@ -36,5 +28,13 @@ public class Close {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
