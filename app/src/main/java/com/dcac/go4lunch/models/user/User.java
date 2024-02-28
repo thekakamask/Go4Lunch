@@ -1,5 +1,6 @@
-package com.dcac.go4lunch.models;
+package com.dcac.go4lunch.models.user;
 
+import java.util.Date;
 import java.util.List;
 
 public class User {
@@ -9,17 +10,18 @@ public class User {
     private String urlPicture;
     private String email;
     private List<String> restaurantsLike;
+    private RestaurantChoice restaurantChoice;
 
-    public User(String uid, String userName, String urlPicture, String email, List<String> restaurantsLike) {
+    public User(String uid, String userName, String urlPicture, String email, List<String> restaurantsLike, RestaurantChoice restaurantChoice) {
         this.uid=uid;
         this.userName=userName;
         this.urlPicture=urlPicture;
         this.email=email;
         this.restaurantsLike = restaurantsLike;
+        this.restaurantChoice= restaurantChoice;
     }
 
     public User() {
-
     }
 
     public String getUserName() {
@@ -60,5 +62,13 @@ public class User {
 
     public void setRestaurantsLike(List<String> restaurantsLike) {
         this.restaurantsLike = restaurantsLike;
+    }
+
+    public RestaurantChoice getRestaurantChoice() {
+        return restaurantChoice;
+    }
+
+    public void setRestaurantChoice(RestaurantChoice restaurantChoice) {
+        this.restaurantChoice= restaurantChoice;
     }
 }

@@ -7,13 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 ;import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
-import com.dcac.go4lunch.models.User;
+import com.dcac.go4lunch.models.user.User;
 
 import java.util.List;
 

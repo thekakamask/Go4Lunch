@@ -1,18 +1,13 @@
 package com.dcac.go4lunch.repository;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.dcac.go4lunch.R;
-import com.dcac.go4lunch.models.User;
+import com.dcac.go4lunch.models.user.RestaurantChoice;
+import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.utils.Resource;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,9 +18,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import javax.annotation.Nullable;
 
 public final class UserRepository {
 
@@ -87,7 +79,7 @@ public final class UserRepository {
             String userName = user.getDisplayName();
             String email = user.getEmail();
             List<String> restaurantsLike = new ArrayList<>();
-            User userToCreate = new User(uid, userName, urlPicture, email, restaurantsLike);
+            User userToCreate = new User(uid, userName, urlPicture, email, restaurantsLike, null);
             usersCollection.document(uid).set(userToCreate)
                     .addOnCompleteListener(task -> liveData.setValue(task.isSuccessful()));
         } else {
@@ -141,6 +133,45 @@ public final class UserRepository {
                 });
         return liveData;
     }
+
+    public LiveData<RestaurantChoice> getRestaurantChoice(String uid) {
+        MutableLiveData<RestaurantChoice> liveData = new MutableLiveData<>();
+
+        usersCollection.document(uid).get().addOnSuccessListener(documentSnapshot -> {
+            User user = documentSnapshot.toObject(User.class);
+            if (user != null && user.getRestaurantChoice() != null) {
+                liveData.setValue(user.getRestaurantChoice());
+            } else {
+                liveData.setValue(null);
+            }
+        }).addOnFailureListener(e -> liveData.setValue(null));
+
+        return liveData;
+    }
+
+    public LiveData<Boolean> setRestaurantChoice(String uid, String restaurantId, String choiceDate) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        RestaurantChoice restaurantChoice = new RestaurantChoice(restaurantId, choiceDate);
+
+        usersCollection.document(uid)
+                .update("restaurantChoice", restaurantChoice)
+                .addOnSuccessListener(aVoid -> liveData.setValue(true))
+                .addOnFailureListener(e -> liveData.setValue(false));
+
+        return liveData;
+    }
+
+    public LiveData<Boolean> removeRestaurantChoice(String uid) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        usersCollection.document(uid)
+                .update("restaurantChoice", null)
+                .addOnSuccessListener(aVoid -> liveData.setValue(true))
+                .addOnFailureListener(e -> liveData.setValue(false));
+
+        return liveData;
+    }
+
+
 
 
 

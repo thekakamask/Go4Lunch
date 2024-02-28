@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import com.dcac.go4lunch.databinding.FragmentWorkMatesBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
-import com.dcac.go4lunch.models.User;
+import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.WorkmatesListAdapter;

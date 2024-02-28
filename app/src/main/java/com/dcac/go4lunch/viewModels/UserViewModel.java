@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.repository.UserRepository;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.firebase.auth.FirebaseUser;
@@ -220,6 +221,55 @@ public class UserViewModel extends ViewModel {
                 liveData.setValue(Resource.error("Failed to remove from liked list", false));
             }
         });
+        return liveData;
+    }
+
+    public LiveData<Resource<RestaurantChoice>> getRestaurantChoice(String uid) {
+        MutableLiveData<Resource<RestaurantChoice>> liveData = new MutableLiveData<>();
+        liveData.setValue(Resource.loading(null));
+
+        userRepository.getRestaurantChoice(uid).observeForever(restaurantChoice -> {
+            if (restaurantChoice != null) {
+                liveData.setValue(Resource.success(restaurantChoice));
+            } else {
+                liveData.setValue(Resource.error("No choice found", null));
+            }
+        });
+
+        return liveData;
+    }
+
+    public LiveData<Resource<Boolean>> setRestaurantChoice(String uid, String restaurantId, String choiceDate) {
+        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
+        liveData.setValue(Resource.loading(null));
+
+        userRepository.setRestaurantChoice(uid, restaurantId, choiceDate).observeForever(isSuccess -> {
+            if (Boolean.TRUE.equals(isSuccess)) {
+                Log.d("UserViewModel", "Success: Restaurant choice set.");
+                liveData.setValue(Resource.success(true));
+            } else {
+                Log.d("UserViewModel", "Error: Failed to set restaurant choice.");
+                liveData.setValue(Resource.error("Failed to set restaurant choice", false));
+            }
+        });
+
+        return liveData;
+    }
+
+    public LiveData<Resource<Boolean>> removeRestaurantChoice(String uid) {
+        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
+        liveData.setValue(Resource.loading(null));
+
+        userRepository.removeRestaurantChoice(uid).observeForever(isSuccess -> {
+            if (Boolean.TRUE.equals(isSuccess)) {
+                Log.d("UserViewModel", "Success: Restaurant choice removed.");
+                liveData.setValue(Resource.success(true));
+            } else {
+                Log.d("UserViewModel", "Error: Failed to remove restaurant choice.");
+                liveData.setValue(Resource.error("Failed to remove restaurant choice", false));
+            }
+        });
+
         return liveData;
     }
 

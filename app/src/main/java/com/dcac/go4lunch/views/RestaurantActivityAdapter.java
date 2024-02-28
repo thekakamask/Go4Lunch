@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ItemRestaurantActivityBinding;
-import com.dcac.go4lunch.models.User;
+import com.dcac.go4lunch.models.user.User;
 
 public class RestaurantActivityAdapter  extends ListAdapter<User, RestaurantActivityAdapter.RestaurantActivityViewHolder> {
 

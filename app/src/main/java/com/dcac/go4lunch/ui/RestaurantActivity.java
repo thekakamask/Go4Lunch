@@ -16,7 +16,8 @@ import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityRestaurantBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
-import com.dcac.go4lunch.models.User;
+import com.dcac.go4lunch.models.user.RestaurantChoice;
+import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
 import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.Result;
 import com.dcac.go4lunch.utils.ApiKeyUtil;
@@ -24,8 +25,13 @@ import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.RestaurantActivityAdapter;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> {
@@ -143,6 +149,51 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
             }
         });
 
+        binding.activityRestaurantButtonSelect.setOnClickListener(v -> {
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (firebaseUser != null) {
+                String uid = firebaseUser.getUid();
+                // Retrieve actual Date for mark the choice
+                String choiceDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                // Call the method to define or pull restaurant choice
+                handleRestaurantChoice(uid, placeId, choiceDate);
+            }
+        });
+    }
+
+
+    private void handleRestaurantChoice(String uid, String restaurantId, String choiceDate) {
+        userViewModel.getUserData(uid).observe(this, resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                User user = resource.data.toObject(User.class);
+                if (user != null) {
+                    RestaurantChoice currentChoice = user.getRestaurantChoice();
+                    if (currentChoice != null && restaurantId.equals(currentChoice.getRestaurantId())) {
+                        // remove choice
+                        userViewModel.removeRestaurantChoice(uid).observe(this, successResource -> updateUIBasedOnChoice(successResource, true));
+                    } else {
+                        // Define new choice
+                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate).observe(this, successResource -> updateUIBasedOnChoice(successResource, false));
+                    }
+                }
+            }
+        });
+    }
+
+    private void updateUIBasedOnChoice(Resource<Boolean> resource, boolean isChoiceRemoved) {
+        if (resource.status == Resource.Status.SUCCESS) {
+            if (isChoiceRemoved) {
+                Log.d("RestaurantActivity", "Choice removed successfully.");
+                binding.activityRestaurantButtonSelect.setImageResource(R.drawable.uncheck_button);
+                Snackbar.make(binding.getRoot(), "Success pull restaurant .", Snackbar.LENGTH_SHORT).show();
+            } else {
+                Log.d("RestaurantActivity", "Choice updated successfully.");
+                binding.activityRestaurantButtonSelect.setImageResource(R.drawable.check_button);
+                Snackbar.make(binding.getRoot(), "Restaurant choose with success !", Snackbar.LENGTH_SHORT).show();
+            }
+        } else if (resource.status == Resource.Status.ERROR) {
+            Toast.makeText(this, "fail update choice", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void checkRestaurantLikedStatus(String placeId) {
