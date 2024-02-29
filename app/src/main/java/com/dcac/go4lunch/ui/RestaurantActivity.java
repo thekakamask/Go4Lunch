@@ -159,6 +159,9 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                 handleRestaurantChoice(uid, placeId, choiceDate);
             }
         });
+
+        updateWorkmatesList(placeId);
+
     }
 
 
@@ -169,32 +172,31 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                 if (user != null) {
                     RestaurantChoice currentChoice = user.getRestaurantChoice();
                     if (currentChoice != null && restaurantId.equals(currentChoice.getRestaurantId())) {
-                        // remove choice
-                        userViewModel.removeRestaurantChoice(uid).observe(this, successResource -> updateUIBasedOnChoice(successResource, true));
+                        // If choice exists and matches, remove it
+                        userViewModel.removeRestaurantChoice(uid).observe(this, resourceRemove -> updateUIAfterChoiceUpdate(resourceRemove, true, restaurantId));
                     } else {
-                        // Define new choice
-                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate).observe(this, successResource -> updateUIBasedOnChoice(successResource, false));
+                        // If choice doesn't exist or doesn't match, add it
+                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate).observe(this, resourceSet -> updateUIAfterChoiceUpdate(resourceSet, false, restaurantId));
                     }
                 }
             }
         });
     }
 
-    private void updateUIBasedOnChoice(Resource<Boolean> resource, boolean isChoiceRemoved) {
+    private void updateUIAfterChoiceUpdate(Resource<Boolean> resource, boolean isChoiceRemoved, String restaurantId) {
         if (resource.status == Resource.Status.SUCCESS) {
-            if (isChoiceRemoved) {
-                Log.d("RestaurantActivity", "Choice removed successfully.");
-                binding.activityRestaurantButtonSelect.setImageResource(R.drawable.uncheck_button);
-                Snackbar.make(binding.getRoot(), "Success pull restaurant .", Snackbar.LENGTH_SHORT).show();
-            } else {
-                Log.d("RestaurantActivity", "Choice updated successfully.");
-                binding.activityRestaurantButtonSelect.setImageResource(R.drawable.check_button);
-                Snackbar.make(binding.getRoot(), "Restaurant choose with success !", Snackbar.LENGTH_SHORT).show();
-            }
+            String message = isChoiceRemoved ? getString(R.string.choice_removed_success) : getString(R.string.restaurant_chosen_success);
+            Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show();
+            binding.activityRestaurantButtonSelect.setImageResource(isChoiceRemoved ? R.drawable.uncheck_button : R.drawable.check_button);
+            updateWorkmatesList(restaurantId);
         } else if (resource.status == Resource.Status.ERROR) {
-            Toast.makeText(this, "fail update choice", Toast.LENGTH_SHORT).show();
+            String errorMessage = resource.message != null && !resource.message.isEmpty() ? resource.message : getString(R.string.default_error_message);
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    //Toast.makeText(this, "Failed to update choice", Toast.LENGTH_SHORT).show();
 
     private void checkRestaurantLikedStatus(String placeId) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -233,7 +235,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                         userViewModel.addRestaurantToLiked(uid, placeId).observe(this, successResource -> {
                             if (successResource.status == Resource.Status.SUCCESS) {
                                 Log.d("RestaurantActivity", "Added to likes.");
-                                // Assurez-vous de mettre à jour l'UI immédiatement après la modification
+
                                 binding.restaurantLiked.setVisibility(View.VISIBLE);
                             }
                         });
@@ -245,18 +247,25 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
         });
     }
 
-    /*private void toggleRestaurantLike(String uid, String placeId, boolean isLiked) {
-        Log.d("TOR RestaurantActivity", "Toggling like status for place ID: " + placeId + " to " + isLiked);
-        userViewModel.toggleRestaurantLike(uid, placeId, isLiked).observe(this, resource -> {
+
+    private void updateWorkmatesList(String restaurantId) {
+        adapter.submitList(null);
+        userViewModel.getUsersByRestaurantChoice(restaurantId).observe(this, resource -> {
             if (resource.status == Resource.Status.SUCCESS) {
-                Log.d("TOR RestaurantActivity", "Successfully toggled like status for place ID: " + placeId);
-                checkIfRestaurantIsLiked(placeId);
-            } else {
-                Log.e("TOR RestaurantActivity", "Failed to toggle like status for place ID: " + placeId);
-                Toast.makeText(this, "Error updating like status", Toast.LENGTH_SHORT).show();
+                if (resource.data != null && !resource.data.isEmpty()) {
+                    adapter.setPlaceId(restaurantId);
+                    adapter.submitList(resource.data);
+                } else {
+                    Log.d("RestaurantActivity", "No workmates found for this restaurant.");
+                }
+            } else if (resource.status == Resource.Status.ERROR) {
+
+                Toast.makeText(this, resource.message != null ? resource.message : getString(R.string.error_loading_workmates), Toast.LENGTH_LONG).show();
             }
         });
-    }*/
+    }
+
+    //Toast.makeText(this, resource.message, Toast.LENGTH_LONG).show();
 
     private void initRecyclerView(){
         adapter= new RestaurantActivityAdapter();

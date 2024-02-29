@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.dcac.go4lunch.models.user.RestaurantChoice;
+import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.repository.UserRepository;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,7 +17,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserViewModel extends ViewModel {
@@ -273,93 +276,21 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
-    /*public LiveData<Resource<Boolean>> toggleRestaurantLike(String uid, String restaurantId, boolean isLiked) {
-        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
+    public LiveData<Resource<List<User>>> getUsersByRestaurantChoice(String restaurantId) {
+        MutableLiveData<Resource<List<User>>> liveData = new MutableLiveData<>();
         liveData.setValue(Resource.loading(null));
-        LiveData<Boolean> repositoryResponse = userRepository.toggleRestaurantLike(uid, restaurantId, isLiked);
 
-        repositoryResponse.observeForever(isSuccess -> {
-            if (Boolean.TRUE.equals(isSuccess)) {
-                Log.d("ToggleLike", "Success: Restaurant like status toggled.");
-                liveData.setValue(Resource.success(true));
+        userRepository.getUsersByRestaurantChoice(restaurantId).observeForever(users -> {
+            if (users != null) {
+                liveData.setValue(Resource.success(users));
             } else {
-                Log.d("ToggleLike", "Error: Failed to toggle like status.");
-                liveData.setValue(Resource.error("Failed to toggle like status", false));
+                liveData.setValue(Resource.error("Error fetching users", null));
+                // liveData.setValue(Resource.success(new ArrayList<>())); // Optionnally for clarify the intention
             }
         });
 
         return liveData;
-    }*/
-
-
-
-    /*private static volatile UserViewModel instance;
-    private final UserRepository userRepository;
-
-    private UserViewModel() {
-        userRepository = UserRepository.getInstance();
     }
-
-    //REMPALCER USER MANAGER PAR UN VIEWMODEL A PROPREMENT PARLER
-
-
-    public static UserViewModel getInstance() {
-        UserViewModel result=instance;
-        if(result != null) {
-            return result;
-        }
-        synchronized (UserRepository.class) {
-            if(instance == null) {
-                instance = new UserViewModel();
-            }
-            return instance;
-        }
-    }
-
-    //REMPALCER USER MANAGER PAR UN VIEWMODEL A PROPREMENT PARLER
-
-
-    public FirebaseUser getCurrentUser(){
-        return userRepository.getCurrentUser();
-    }
-
-    public Boolean isCurrentUserLogged(){
-        return (this.getCurrentUser() != null);
-    }
-
-    public Task<Void> signOut(Context context) {
-        return userRepository.signOut(context);
-    }
-
-    public Task<Void> deleteUser(Context context) {
-        return userRepository.deleteUser(context);
-    }
-
-    public void createUser(String uid) {
-        userRepository.createUserInFirestore(uid);
-    }
-
-    public Task<DocumentSnapshot> getUserData(String uid) {
-        userRepository.getUserData(uid);
-        return userRepository.getUsersCollection().document(uid).get();
-    }
-
-    public CollectionReference getUsersCollection() {
-        return userRepository.getUsersCollection();
-    }
-
-    public Task<QuerySnapshot> getAllUsers() {
-        return userRepository.getAllusers();
-    }
-
-    public void updateUserName(String uid, String userName) {
-        userRepository.updateUserName(uid, userName);
-    }
-
-    public void updateUrlPicture(String uid, String urlPicture) {
-        userRepository.updateUrlPicture(uid, urlPicture);
-    }*/
-
 
 
 

@@ -15,6 +15,12 @@ import com.dcac.go4lunch.models.user.User;
 
 public class RestaurantActivityAdapter  extends ListAdapter<User, RestaurantActivityAdapter.RestaurantActivityViewHolder> {
 
+    private String placeId;
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
     public RestaurantActivityAdapter() {
         super(DIFF_CALLBACK);
     }
@@ -42,7 +48,7 @@ public class RestaurantActivityAdapter  extends ListAdapter<User, RestaurantActi
     @Override
     public void onBindViewHolder(@NonNull RestaurantActivityAdapter.RestaurantActivityViewHolder holder, int position) {
         User user=getItem(position);
-        holder.bind(user);
+        holder.bind(user, placeId);
     }
 
     static class RestaurantActivityViewHolder extends RecyclerView.ViewHolder {
@@ -53,7 +59,7 @@ public class RestaurantActivityAdapter  extends ListAdapter<User, RestaurantActi
             this.binding=binding;
         }
 
-        public void bind(User user) {
+        public void bind(User user, String placeId) {
 
 
             if (user.getUrlPicture() != null && !user.getUrlPicture().isEmpty()) {
@@ -69,7 +75,12 @@ public class RestaurantActivityAdapter  extends ListAdapter<User, RestaurantActi
             }
 
             binding.nameTextView.setText(user.getUserName());
-            binding.descriptionTextView.setText(R.string.is_joining);
+
+            if (user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantId().equals(placeId)) {
+                binding.descriptionTextView.setText(itemView.getContext().getString(R.string.is_joining));
+            } else {
+                binding.descriptionTextView.setText("");
+            }
         }
     }
 }

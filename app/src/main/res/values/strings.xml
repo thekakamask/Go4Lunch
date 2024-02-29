@@ -74,5 +74,9 @@
     <string name="phone_not_available">Phone number is not available</string>
     <string name="restaurant_name_not_available">Restaurant name is not available</string>
     <string name="restaurant_address_not_available">Restaurant adress is not available</string>
+    <string name="choice_removed_success">Choice Removal Successes</string>
+    <string name="restaurant_chosen_success">Achievements of adding choice</string>
+    <string name="default_error_message">Error message by default</string>
+    <string name="error_loading_workmates">Error loading workmates</string>
 
 </resources>

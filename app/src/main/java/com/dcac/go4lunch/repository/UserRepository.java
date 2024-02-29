@@ -11,6 +11,7 @@ import com.dcac.go4lunch.utils.Resource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -163,78 +164,53 @@ public final class UserRepository {
 
     public LiveData<Boolean> removeRestaurantChoice(String uid) {
         MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-        usersCollection.document(uid)
-                .update("restaurantChoice", null)
-                .addOnSuccessListener(aVoid -> liveData.setValue(true))
-                .addOnFailureListener(e -> liveData.setValue(false));
+
+        DocumentReference userDocRef = usersCollection.document(uid);
+
+        userDocRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+                    userDocRef.update("restaurantChoice", null)
+                            .addOnSuccessListener(aVoid -> liveData.setValue(true))
+                            .addOnFailureListener(e -> {
+                                Log.e("removeRestaurantChoice", "Error updating document", e);
+                                liveData.setValue(false);
+                            });
+                } else {
+                    Log.e("removeRestaurantChoice", "Document does not exist");
+                    liveData.setValue(true);
+                }
+            } else {
+                Log.e("removeRestaurantChoice", "Failed to fetch document", task.getException());
+                liveData.setValue(false);
+            }
+        });
 
         return liveData;
     }
 
+    public LiveData<List<User>> getUsersByRestaurantChoice(String restaurantId) {
+        MutableLiveData<List<User>> liveData = new MutableLiveData<>();
 
+        usersCollection.whereEqualTo("restaurantChoice.restaurantId", restaurantId).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<User> userList = new ArrayList<>();
+                    for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
+                        User user = snapshot.toObject(User.class);
+                        if (user != null) {
+                            userList.add(user);
+                        }
+                    }
+                    liveData.setValue(userList);
+                })
+                .addOnFailureListener(e -> {
+                    liveData.setValue(new ArrayList<>());
+                    Log.e("UserRepository", "Error getting users by restaurant choice", e);
+                });
 
-
-
-    /*public LiveData<Boolean> toggleRestaurantLike(String uid, String restaurantId, boolean isLiked) {
-        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-
-        if (isLiked) {
-            Log.d("ToggleLikeRepo", "Removing from liked list: " + restaurantId);
-            usersCollection.document(uid)
-                    .update("restaurantsLike", FieldValue.arrayRemove(restaurantId))
-                    .addOnSuccessListener(aVoid -> {
-                        Log.d("ToggleLikeRepo", "Successfully removed from liked list: " + restaurantId);
-                        liveData.setValue(true);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e("ToggleLikeRepo", "Failed to remove from liked list: " + restaurantId, e);
-                        liveData.setValue(false);
-                    });
-        } else {
-            Log.d("ToggleLikeRepo", "Adding to liked list: " + restaurantId);
-            usersCollection.document(uid)
-                    .update("restaurantsLike", FieldValue.arrayUnion(restaurantId))
-                    .addOnSuccessListener(aVoid -> {
-                        Log.d("ToggleLikeRepo", "Successfully added to liked list: " + restaurantId);
-                        liveData.setValue(true);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e("ToggleLikeRepo", "Failed to add to liked list: " + restaurantId, e);
-                        liveData.setValue(false);
-                    });
-        }
         return liveData;
-    }*/
-
-    /*public LiveData<Boolean> toggleRestaurantLike(String uid, String restaurantId, boolean isLiked) {
-        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-        if (!isLiked) { // if the restaurant is not liked, add to the liked list.
-            Log.d("ToggleLikeRepo", "Adding to liked list: " + restaurantId);
-            usersCollection.document(uid)
-                    .update("restaurantsLike", FieldValue.arrayUnion(restaurantId))
-                    .addOnSuccessListener(aVoid -> {
-                        Log.d("ToggleLikeRepo", "Successfully added to liked list: " + restaurantId);
-                        liveData.setValue(true);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e("ToggleLikeRepo", "Failed to add to liked list: " + restaurantId, e);
-                        liveData.setValue(false);
-                    });
-        } else { // if the restaurant is already liked, withdraw it from the liked list
-            Log.d("ToggleLikeRepo", "Removing from liked list: " + restaurantId);
-            usersCollection.document(uid)
-                    .update("restaurantsLike", FieldValue.arrayRemove(restaurantId))
-                    .addOnSuccessListener(aVoid -> {
-                        Log.d("ToggleLikeRepo", "Successfully removed from liked list: " + restaurantId);
-                        liveData.setValue(true);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e("ToggleLikeRepo", "Failed to remove from liked list: " + restaurantId, e);
-                        liveData.setValue(false);
-                    });
-        }
-        return liveData;
-    }*/
+    }
 
 
 
