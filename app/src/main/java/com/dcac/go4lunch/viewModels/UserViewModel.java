@@ -292,6 +292,21 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
+    public LiveData<Resource<List<String>>> getChosenRestaurantIds() {
+        MutableLiveData<Resource<List<String>>> liveData = new MutableLiveData<>();
+        liveData.setValue(Resource.loading(null));
+
+        userRepository.getChosenRestaurantIds().observeForever(restaurantIds -> {
+            if (restaurantIds != null) {
+                liveData.setValue(Resource.success(restaurantIds));
+            } else {
+                liveData.setValue(Resource.error("Error fetching chosen restaurant ids", null));
+            }
+        });
+
+        return liveData;
+    }
+
 
 
 

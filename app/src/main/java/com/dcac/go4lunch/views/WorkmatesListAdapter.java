@@ -20,16 +20,29 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdapter.ViewHolder> {
 
     private List<User> mUsers;
+    private OnItemClickListener listener;
 
-    public WorkmatesListAdapter (List<User> users) {
+    public WorkmatesListAdapter (List<User> users, OnItemClickListener listener) {
         mUsers = users;
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(User user);
     }
 
     @NonNull
     @Override
     public WorkmatesListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workmates_list, parent, false);
-        return new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(v -> {
+            int position = viewHolder.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(mUsers.get(position));
+            }
+        });
+        return viewHolder;
     }
 
     @Override

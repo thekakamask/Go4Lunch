@@ -212,6 +212,24 @@ public final class UserRepository {
         return liveData;
     }
 
+    public LiveData<List<String>> getChosenRestaurantIds() {
+        MutableLiveData<List<String>> liveData = new MutableLiveData<>();
+
+        usersCollection.get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<String> restaurantIds = new ArrayList<>();
+                    for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                        User user = snapshot.toObject(User.class);
+                        if (user != null && user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantId() != null && !user.getRestaurantChoice().getRestaurantId().isEmpty()) {
+                            restaurantIds.add(user.getRestaurantChoice().getRestaurantId());
+                        }
+                    }
+                    liveData.setValue(restaurantIds);
+                })
+                .addOnFailureListener(e -> liveData.setValue(new ArrayList<>()));
+        return liveData;
+    }
+
 
 
     public LiveData<Resource<Void>> signOut() {

@@ -1,5 +1,6 @@
 package com.dcac.go4lunch.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.dcac.go4lunch.databinding.FragmentWorkMatesBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.user.User;
+import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.WorkmatesListAdapter;
@@ -61,7 +63,15 @@ public class WorkMatesListFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        adapter = new WorkmatesListAdapter(new ArrayList<>());
+        adapter = new WorkmatesListAdapter(new ArrayList<>(), user -> {
+            if (user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantId() != null) {
+                Intent intent = new Intent(getContext(), RestaurantActivity.class);
+                intent.putExtra(RestaurantActivity.EXTRA_PLACE_ID, user.getRestaurantChoice().getRestaurantId());
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), user.getUserName() + " hasn't decided yet.", Toast.LENGTH_SHORT).show();
+            }
+        });
         binding.workmatesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.workmatesListRecyclerView.setAdapter(adapter);
 
