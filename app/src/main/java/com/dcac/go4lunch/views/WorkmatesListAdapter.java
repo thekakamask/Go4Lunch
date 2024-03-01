@@ -35,26 +35,23 @@ public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdap
     @Override
     public void onBindViewHolder(@NonNull WorkmatesListAdapter.ViewHolder holder, int position) {
         User user = mUsers.get(position);
-        Context context = holder.profileImageView.getContext();
+        Context context = holder.itemView.getContext();
 
-        if (user.getUrlPicture() != null && !user.getUrlPicture().isEmpty()) {
-            Glide.with(context)
-                    .load(user.getUrlPicture())
-                    .placeholder(R.drawable.workmates_list_profile) // Image par défaut pendant le chargement
-                    .error(R.drawable.workmates_list_profile) // Image à afficher en cas d'erreur de chargement
-                    .into(holder.profileImageView);
+        Glide.with(context)
+                .load(user.getUrlPicture())
+                .placeholder(R.drawable.workmates_list_profile)
+                .error(R.drawable.workmates_list_profile)
+                .into(holder.profileImageView);
+
+
+        String text;
+        if (user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
+            text = user.getUserName() + " is eating at " + user.getRestaurantChoice().getRestaurantName();
         } else {
-            Glide.with(context)
-                    .load(R.drawable.workmates_list_profile)
-                    .into(holder.profileImageView);
+            text = user.getUserName() + " hasn't decided yet";
         }
 
-//        holder.nameTextView.setText(user.getUserName() + R.string.scarlett_is_eating_french);
-
-        String formattedText = context.getString(R.string.scarlett_is_eating_french, user.getUserName());
-        holder.nameTextView.setText(formattedText);
-
-        holder.descriptionTextView.setText(R.string.le_zinc);
+        holder.nameTextView.setText(text);
     }
 
     @Override

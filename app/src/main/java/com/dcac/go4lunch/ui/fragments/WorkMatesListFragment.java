@@ -67,20 +67,17 @@ public class WorkMatesListFragment extends Fragment {
 
         userViewModel.getAllUsers().observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                List<User> users = new ArrayList<>();
+                List<User> usersWithChoice = new ArrayList<>();
                 for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) {
                     User user = documentSnapshot.toObject(User.class);
-                    if (user != null) {
-                        users.add(user);
+                    if (user != null && user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
+                        usersWithChoice.add(user);
                     }
                 }
-                adapter.setUsers(users);
+                adapter.setUsers(usersWithChoice);
             } else if (resource.status == Resource.Status.ERROR) {
-                Toast.makeText(getContext(), "Error charging users: " + resource.message, Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getContext(), "Charging users", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error fetching users: " + resource.message, Toast.LENGTH_LONG).show();
             }
         });
-
     }
 }

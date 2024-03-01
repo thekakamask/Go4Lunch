@@ -242,11 +242,11 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
-    public LiveData<Resource<Boolean>> setRestaurantChoice(String uid, String restaurantId, String choiceDate) {
+    public LiveData<Resource<Boolean>> setRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName) {
         MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
         liveData.setValue(Resource.loading(null));
 
-        userRepository.setRestaurantChoice(uid, restaurantId, choiceDate).observeForever(isSuccess -> {
+        userRepository.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
                 Log.d("UserViewModel", "Success: Restaurant choice set.");
                 liveData.setValue(Resource.success(true));

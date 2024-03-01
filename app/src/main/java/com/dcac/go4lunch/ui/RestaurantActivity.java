@@ -42,6 +42,9 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
     StreamGoogleMapViewModel streamGoogleMapViewModel;
     private String apiKey;
     private boolean isRestaurantLiked = false;
+    private String placeId;
+
+
 
 
     @Override
@@ -58,7 +61,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
         streamGoogleMapViewModel = new ViewModelProvider(this,factory).get(StreamGoogleMapViewModel.class);
         apiKey = ApiKeyUtil.getApiKey(getApplicationContext());
 
-        String placeId = getIntent().getStringExtra(EXTRA_PLACE_ID);
+        placeId = getIntent().getStringExtra(EXTRA_PLACE_ID);
         Log.d("PlaceDetailsRequest", "Received Place ID: " + placeId);
         if (placeId != null) {
             streamGoogleMapViewModel.getPlaceDetails(placeId).observe(this, this::handlePlaceDetailsResponse);
@@ -66,6 +69,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
 
 
         initRecyclerView();
+        checkRestaurantChoiceState();
     }
 
     private void handlePlaceDetailsResponse(Resource<PlaceDetails> resource) {
@@ -84,8 +88,9 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
     private void updateUIWithDetails(PlaceDetails placeDetails) {
 
         Result result = placeDetails.getResult();
+        String restaurantName = result.getName();
+        placeId = result.getPlace_id();
 
-        String placeId = result.getPlace_id();
         Log.d("UPUI RestaurantActivity", "Checking like status for place ID: " + placeId);
 
         checkRestaurantLikedStatus(placeId);
@@ -156,7 +161,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                 // Retrieve actual Date for mark the choice
                 String choiceDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
                 // Call the method to define or pull restaurant choice
-                handleRestaurantChoice(uid, placeId, choiceDate);
+                handleRestaurantChoice(uid, placeId, choiceDate, restaurantName);
             }
         });
 
@@ -165,7 +170,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
     }
 
 
-    private void handleRestaurantChoice(String uid, String restaurantId, String choiceDate) {
+    private void handleRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName) {
         userViewModel.getUserData(uid).observe(this, resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 User user = resource.data.toObject(User.class);
@@ -176,7 +181,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                         userViewModel.removeRestaurantChoice(uid).observe(this, resourceRemove -> updateUIAfterChoiceUpdate(resourceRemove, true, restaurantId));
                     } else {
                         // If choice doesn't exist or doesn't match, add it
-                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate).observe(this, resourceSet -> updateUIAfterChoiceUpdate(resourceSet, false, restaurantId));
+                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName).observe(this, resourceSet -> updateUIAfterChoiceUpdate(resourceSet, false, restaurantId));
                     }
                 }
             }
@@ -273,6 +278,30 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
         binding.recyclerViewWorkmates.setAdapter(adapter);
     }
 
+    private void checkRestaurantChoiceState() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null && placeId != null) {
+            String uid = firebaseUser.getUid();
+            userViewModel.getRestaurantChoice(uid).observe(this, resource -> {
+                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                    RestaurantChoice choice = resource.data;
+                    if (choice != null && placeId.equals(choice.getRestaurantId())) {
+                        binding.activityRestaurantButtonSelect.setImageResource(R.drawable.check_button);
+                    } else {
+                        binding.activityRestaurantButtonSelect.setImageResource(R.drawable.uncheck_button);
+                    }
+                } else {
+                    binding.activityRestaurantButtonSelect.setImageResource(R.drawable.uncheck_button);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkRestaurantChoiceState();
+    }
 
 
 

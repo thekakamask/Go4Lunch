@@ -150,9 +150,9 @@ public final class UserRepository {
         return liveData;
     }
 
-    public LiveData<Boolean> setRestaurantChoice(String uid, String restaurantId, String choiceDate) {
+    public LiveData<Boolean> setRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName) {
         MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-        RestaurantChoice restaurantChoice = new RestaurantChoice(restaurantId, choiceDate);
+        RestaurantChoice restaurantChoice = new RestaurantChoice(restaurantId, choiceDate, restaurantName);
 
         usersCollection.document(uid)
                 .update("restaurantChoice", restaurantChoice)
