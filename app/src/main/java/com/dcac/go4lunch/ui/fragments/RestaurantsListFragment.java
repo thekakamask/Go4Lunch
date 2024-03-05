@@ -1,5 +1,6 @@
 package com.dcac.go4lunch.ui.fragments;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,12 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
+import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.views.RestaurantsListAdapter;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -77,7 +81,20 @@ public class RestaurantsListFragment extends Fragment {
     }
 
     private void fetchNearbyRestaurants(LatLng userLocation) {
+
         String location = userLocation.latitude + "," + userLocation.longitude;
+        List<String> types = Arrays.asList("restaurant");
+        streamGoogleMapViewModel.getCombinedNearbyPlaces(location, 1000, types).observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                // Trier les restaurants par distance
+                List<Results> sortedRestaurants = sortRestaurantsByDistance(resource.data.get(0).getResults(), userLocation);
+                adapter.submitList(sortedRestaurants);
+            } else {
+                Log.e("ListFragment", "Error fetching restaurants: " + (resource.message != null ? resource.message : "unknown error"));
+            }
+        });
+
+        /*String location = userLocation.latitude + "," + userLocation.longitude;
         List<String> types = Arrays.asList("restaurant");
         streamGoogleMapViewModel.getCombinedNearbyPlaces(location, 1000, types).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
@@ -85,25 +102,36 @@ public class RestaurantsListFragment extends Fragment {
             } else {
                 Log.e("ListFragment", "Error fetching restaurants: " + (resource.message != null ? resource.message : "unknown error"));
             }
-        });
+        });*/
     }
 
-    /*private void transformResultsToPlaceDetails(List<Results> results) {
-        List<PlaceDetails> placeDetailsList = new ArrayList<>();
+    private List<Results> sortRestaurantsByDistance(List<Results> restaurants, final LatLng userLatLng) {
 
-        for (Results result : results) {
-            streamGoogleMapViewModel.getPlaceDetails(result.getPlace_id()).observe(getViewLifecycleOwner(), resource -> {
-                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                    placeDetailsList.add(resource.data);
+        final Location userLocation = new Location("");
+        userLocation.setLatitude(userLatLng.latitude);
+        userLocation.setLongitude(userLatLng.longitude);
 
-                    if (placeDetailsList.size() == results.size()) {
-                        adapter.submitList(results);
-                    }
-                } else {
-                    Log.e("ListFragment", "Error fetching place details: " + (resource.message != null ? resource.message : "unknown error"));
-                }
-            });
-        }
-    }*/
+        Collections.sort(restaurants, new Comparator<Results>() {
+            @Override
+            public int compare(Results r1, Results r2) {
+                Location location1 = new Location("");
+                location1.setLatitude(r1.getGeometry().getLocation().getLat());
+                location1.setLongitude(r1.getGeometry().getLocation().getLng());
+
+                Location location2 = new Location("");
+                location2.setLatitude(r2.getGeometry().getLocation().getLat());
+                location2.setLongitude(r2.getGeometry().getLocation().getLng());
+
+                Float distance1 = userLocation.distanceTo(location1);
+                Float distance2 = userLocation.distanceTo(location2);
+
+                return distance1.compareTo(distance2);
+            }
+        });
+
+        return restaurants;
+    }
+
+
 
 }

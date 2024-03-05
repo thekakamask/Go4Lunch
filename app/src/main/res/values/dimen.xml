@@ -66,5 +66,13 @@
     <dimen name="workmates_list_fragment_margin_land">5dp</dimen>
     <dimen name="workmates_list_fragment_text_size_land">8sp</dimen>
 
+    <!--    SearchActivity-->
+    <dimen name="item_search_activity_item_height">40dp</dimen>
+    <dimen name="item_search_activity_text_size">15sp</dimen>
+
+    <!--    SearchActivityLand-->
+    <dimen name="item_search_activity_item_height_land">40dp</dimen>
+    <dimen name="item_search_activity_text_size_land">15sp</dimen>
+
 
 </resources>

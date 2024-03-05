@@ -187,4 +187,12 @@
     <dimen name="item_restaurant_activity_textview_margin_start_land_w730">25dp</dimen>
     <dimen name="item_restaurant_activity_text_size_land_w730">20sp</dimen>
 
+    <!--    SearchActivityw390-->
+    <dimen name="item_search_activity_item_height_w390">80dp</dimen>
+    <dimen name="item_search_activity_text_size_w390">35sp</dimen>
+
+    <!--    SearchActivityLandw730-->
+    <dimen name="item_search_activity_item_height_land_w730">80dp</dimen>
+    <dimen name="item_search_activity_text_size_land_w730">35sp</dimen>
+
 </resources>

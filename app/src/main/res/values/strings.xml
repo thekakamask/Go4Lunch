@@ -79,4 +79,7 @@
     <string name="default_error_message">Error message by default</string>
     <string name="error_loading_workmates">Error loading workmates</string>
 
+    <!-- SearchActivity-->
+    <string name="search_hint">Your search</string>
+
 </resources>

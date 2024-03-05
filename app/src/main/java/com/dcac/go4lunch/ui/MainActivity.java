@@ -97,23 +97,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         Log.d("MainActivity", "onCreate: end");
 
+        binding.toolbarSearchButton.setOnClickListener(v -> launchSearch());
+
 
 
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }*/
-
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_filter) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+    private void launchSearch() {
+        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+        startActivity(intent);
+    }
 
     private void setUpNavigationDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

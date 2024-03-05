@@ -488,4 +488,32 @@
     <dimen name="item_restaurant_activity_textview_margin_start_land_w1024">35dp</dimen>
     <dimen name="item_restaurant_activity_text_size_land_w1024">30sp</dimen>
 
+    <!--    SearchActivityw390-->
+    <dimen name="item_search_activity_item_height_w390">80dp</dimen>
+    <dimen name="item_search_activity_text_size_w390">35sp</dimen>
+
+    <!--    SearchActivityw430-->
+    <dimen name="item_search_activity_item_height_w430">100dp</dimen>
+    <dimen name="item_search_activity_text_size_w430">35sp</dimen>
+
+    <!--    SearchActivityw480-->
+    <dimen name="item_search_activity_item_height_w480">100dp</dimen>
+    <dimen name="item_search_activity_text_size_w480">40sp</dimen>
+
+    <!--    SearchActivityLandw830-->
+    <dimen name="item_search_activity_item_height_land_w830">70dp</dimen>
+    <dimen name="item_search_activity_text_size_land_w830">30sp</dimen>
+
+    <!--    SearchActivityLandw860-->
+    <dimen name="item_search_activity_item_height_land_w860">80dp</dimen>
+    <dimen name="item_search_activity_text_size_land_w860">40sp</dimen>
+
+    <!--    SearchActivityLandw960-->
+    <dimen name="item_search_activity_item_height_land_w960">80dp</dimen>
+    <dimen name="item_search_activity_text_size_land_w960">40sp</dimen>
+
+    <!--    SearchActivityLandw1024-->
+    <dimen name="item_search_activity_item_height_land_w1024">90dp</dimen>
+    <dimen name="item_search_activity_text_size_land_w1024">45sp</dimen>
+
 </resources>

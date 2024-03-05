@@ -307,4 +307,21 @@
     <dimen name="item_restaurant_activity_imageview_border_land_w1920">4dp</dimen>
     <dimen name="item_restaurant_activity_textview_margin_start_land_w1920">60dp</dimen>
     <dimen name="item_restaurant_activity_text_size_land_w1920">50sp</dimen>
+
+    <!--    SearchActivityw600-->
+    <dimen name="item_search_activity_item_height_w600">110dp</dimen>
+    <dimen name="item_search_activity_text_size_w600">45sp</dimen>
+
+    <!--    SearchActivityw1080-->
+    <dimen name="item_search_activity_item_height_w1080">200dp</dimen>
+    <dimen name="item_search_activity_text_size_w1080">80sp</dimen>
+
+    <!--    SearchActivityLandw1024-->
+    <dimen name="item_search_activity_item_height_land_w1024">100dp</dimen>
+    <dimen name="item_search_activity_text_size_land_w1024">50sp</dimen>
+
+    <!--    SearchActivityLandw1920-->
+    <dimen name="item_search_activity_item_height_land_w1920">220dp</dimen>
+    <dimen name="item_search_activity_text_size_land_w1920">100sp</dimen>
+
 </resources>
