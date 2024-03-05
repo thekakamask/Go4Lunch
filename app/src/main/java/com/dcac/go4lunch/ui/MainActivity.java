@@ -100,6 +100,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         binding.toolbarSearchButton.setOnClickListener(v -> launchSearch());
 
 
+        int size = binding.activityMainNavView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            binding.activityMainNavView.getMenu().getItem(i).setChecked(false);
+        }
 
     }
 
@@ -140,20 +144,47 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         if (id == R.id.activity_main_drawer_lunch) {
             openLunchActivity();
-            return true;
         } else if (id == R.id.activity_main_drawer_parameters) {
             openSettingsActivity();
-            return true;
         } else if (id == R.id.activity_main_drawer_log_out) {
             logOut();
-            return true;
+        } else {
+            return false;
         }
 
-        return false;
+        int size = binding.activityMainNavView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            binding.activityMainNavView.getMenu().getItem(i).setChecked(false);
+        }
+
+        return true;
     }
 
 
     private void openLunchActivity() {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            userViewModel.getUserData(uid).observe(this, resource -> {
+                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                    User user = resource.data.toObject(User.class);
+                    if (user != null && user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantId() != null) {
+                        // User choose a restaurant , open RestaurantActivity with ID of restaurant
+                        String restaurantId = user.getRestaurantChoice().getRestaurantId();
+                        Intent intent = new Intent(MainActivity.this, RestaurantActivity.class);
+                        intent.putExtra(RestaurantActivity.EXTRA_PLACE_ID, restaurantId);
+                        startActivity(intent);
+                    } else {
+                        // no restaurant choose, display message
+                        Toast.makeText(MainActivity.this, R.string.choose_a_restaurant_first, Toast.LENGTH_SHORT).show();
+                    }
+                } else if (resource.status == Resource.Status.ERROR) {
+                    Log.e("MainActivity", "Error fetching user data: " + resource.message);
+                    Toast.makeText(MainActivity.this, R.string.error_fetching_user_data, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 
@@ -218,6 +249,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 .load(user.getUrlPicture())
                 .placeholder(R.drawable.account_icon)
                 .into(profileImageView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int size = binding.activityMainNavView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            binding.activityMainNavView.getMenu().getItem(i).setChecked(false);
+        }
     }
 
 
