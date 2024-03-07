@@ -83,4 +83,10 @@
     <!-- SearchActivity-->
     <string name="search_hint">Your search</string>
 
+    <!-- ParametersActivity-->
+    <string name="title_parameters_activity">Parameters</string>
+    <string name="header_example">Header example</string>
+    <string name="description_example">Description example</string>
+    <string name="header_group_example">Header group example</string>
+
 </resources>

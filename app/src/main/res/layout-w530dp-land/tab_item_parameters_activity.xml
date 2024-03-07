@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabs_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/tab_title_parameters_activity_padding_left_land_w530"
+    android:paddingTop="@dimen/tab_title_parameters_activity_padding_top_land_w530"
+    android:paddingBottom="@dimen/tab_title_parameters_activity_padding_bottom_land_w530"
+    android:textSize="@dimen/tab_title_parameters_activity_text_size_land_w530"
+    android:textStyle="bold"
+    android:textColor="@color/black"
+    android:text="@string/header_group_example"
+    android:background="@color/white"
+    />

@@ -99,12 +99,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         binding.toolbarSearchButton.setOnClickListener(v -> launchSearch());
 
-
-        int size = binding.activityMainNavView.getMenu().size();
-        for (int i = 0; i < size; i++) {
-            binding.activityMainNavView.getMenu().getItem(i).setChecked(false);
-        }
-
     }
 
     private void launchSearch() {
@@ -189,7 +183,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     private void openSettingsActivity() {
-
+        Intent intent = new Intent(MainActivity.this, ParametersActivity.class);
+        startActivity(intent);
     }
 
     private void logOut() {

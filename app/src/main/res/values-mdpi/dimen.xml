@@ -324,4 +324,69 @@
     <dimen name="item_search_activity_item_height_land_w1920">220dp</dimen>
     <dimen name="item_search_activity_text_size_land_w1920">100sp</dimen>
 
+    <!--    ParametersActivityw600-->
+    <dimen name="title_parameters_activity_image_padding_w600">50dp</dimen>
+    <dimen name="title_parameters_activity_textview_margin_w600">10dp</dimen>
+    <dimen name="title_parameters_activity_textview_size_w600">60sp</dimen>
+    <dimen name="title_parameters_activity_textview_padding_w600">20dp</dimen>
+    <dimen name="expandable_parameters_activity_divider_height_w600">4dp</dimen>
+
+    <dimen name="tab_title_parameters_activity_padding_left_w600">40dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_top_w600">30dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_bottom_w600">30dp</dimen>
+    <dimen name="tab_title_parameters_activity_text_size_w600">45sp</dimen>
+
+    <dimen name="item_parameters_activity_padding_w600">30dp</dimen>
+    <dimen name="item_parameters_activity_text_size1_w600">40sp</dimen>
+    <dimen name="item_parameters_activity_text_size2_w600">30sp</dimen>
+
+    <!--    ParametersActivityw1080-->
+    <dimen name="title_parameters_activity_image_padding_w1080">100dp</dimen>
+    <dimen name="title_parameters_activity_textview_margin_w1080">30dp</dimen>
+    <dimen name="title_parameters_activity_textview_size_w1080">100sp</dimen>
+    <dimen name="title_parameters_activity_textview_padding_w1080">20dp</dimen>
+    <dimen name="expandable_parameters_activity_divider_height_w1080">8dp</dimen>
+
+    <dimen name="tab_title_parameters_activity_padding_left_w1080">70dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_top_w1080">50dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_bottom_w1080">50dp</dimen>
+    <dimen name="tab_title_parameters_activity_text_size_w1080">70sp</dimen>
+
+    <dimen name="item_parameters_activity_padding_w1080">50dp</dimen>
+    <dimen name="item_parameters_activity_text_size1_w1080">60sp</dimen>
+    <dimen name="item_parameters_activity_text_size2_w1080">50sp</dimen>
+
+    <!--    ParametersActivityLandw1024-->
+    <dimen name="title_parameters_activity_image_padding_land_w1024">30dp</dimen>
+    <dimen name="title_parameters_activity_textview_margin_land_w1024">80dp</dimen>
+    <dimen name="title_parameters_activity_textview_size_land_w1024">50sp</dimen>
+    <dimen name="title_parameters_activity_textview_padding_land_w1024">20dp</dimen>
+    <dimen name="expandable_parameters_activity_divider_height_land_w1024">4dp</dimen>
+
+    <dimen name="tab_title_parameters_activity_padding_left_land_w1024">40dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_top_land_w1024">30dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_bottom_land_w1024">30dp</dimen>
+    <dimen name="tab_title_parameters_activity_text_size_land_w1024">40sp</dimen>
+
+    <dimen name="item_parameters_activity_padding_land_w1024">30dp</dimen>
+    <dimen name="item_parameters_activity_text_size1_land_w1024">35sp</dimen>
+    <dimen name="item_parameters_activity_text_size2_land_w1024">25sp</dimen>
+
+    <!--    ParametersActivityLandw1920-->
+    <dimen name="title_parameters_activity_image_padding_land_w1920">80dp</dimen>
+    <dimen name="title_parameters_activity_textview_margin_land_w1920">80dp</dimen>
+    <dimen name="title_parameters_activity_textview_size_land_w1920">100sp</dimen>
+    <dimen name="title_parameters_activity_textview_padding_land_w1920">20dp</dimen>
+    <dimen name="expandable_parameters_activity_divider_height_land_w1920">10dp</dimen>
+
+    <dimen name="tab_title_parameters_activity_padding_left_land_w1920">60dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_top_land_w1920">50dp</dimen>
+    <dimen name="tab_title_parameters_activity_padding_bottom_land_w1920">50dp</dimen>
+    <dimen name="tab_title_parameters_activity_text_size_land_w1920">70sp</dimen>
+
+    <dimen name="item_parameters_activity_padding_land_w1920">50dp</dimen>
+    <dimen name="item_parameters_activity_text_size1_land_w1920">60sp</dimen>
+    <dimen name="item_parameters_activity_text_size2_land_w1920">50sp</dimen>
+
+
 </resources>
