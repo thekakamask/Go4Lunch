@@ -5,6 +5,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,12 +25,15 @@ import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.ui.fragments.RestaurantsListFragment;
 import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
 import com.dcac.go4lunch.ui.fragments.WorkMatesListFragment;
+import com.dcac.go4lunch.utils.MyBroadcastReceiver;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -98,6 +104,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         Log.d("MainActivity", "onCreate: end");
 
         binding.toolbarSearchButton.setOnClickListener(v -> launchSearch());
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, MyBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        calendar.set(Calendar.MINUTE, 22);
+        calendar.set(Calendar.SECOND, 0);
+
+        // Make sure the alarm is not scheduled in the past for today
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        if (alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+
+        Log.d("MainActivity", "Alarme quotidienne à 12h planifiée.");
+
 
     }
 

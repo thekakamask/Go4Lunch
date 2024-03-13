@@ -90,6 +90,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
         Result result = placeDetails.getResult();
         String restaurantName = result.getName();
         placeId = result.getPlace_id();
+        String restaurantAddress = result.getAdr_address();
 
         Log.d("UPUI RestaurantActivity", "Checking like status for place ID: " + placeId);
 
@@ -161,7 +162,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                 // Retrieve actual Date for mark the choice
                 String choiceDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
                 // Call the method to define or pull restaurant choice
-                handleRestaurantChoice(uid, placeId, choiceDate, restaurantName);
+                handleRestaurantChoice(uid, placeId, choiceDate, restaurantName, restaurantAddress);
             }
         });
 
@@ -170,7 +171,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
     }
 
 
-    private void handleRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName) {
+    private void handleRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName, String restaurantAddress) {
         userViewModel.getUserData(uid).observe(this, resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 User user = resource.data.toObject(User.class);
@@ -181,7 +182,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                         userViewModel.removeRestaurantChoice(uid).observe(this, resourceRemove -> updateUIAfterChoiceUpdate(resourceRemove, true, restaurantId));
                     } else {
                         // If choice doesn't exist or doesn't match, add it
-                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName).observe(this, resourceSet -> updateUIAfterChoiceUpdate(resourceSet, false, restaurantId));
+                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName, restaurantAddress).observe(this, resourceSet -> updateUIAfterChoiceUpdate(resourceSet, false, restaurantId));
                     }
                 }
             }

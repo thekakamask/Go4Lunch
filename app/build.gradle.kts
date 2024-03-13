@@ -80,4 +80,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
     implementation ("androidx.lifecycle:lifecycle-reactivestreams:2.7.0")
 
+    implementation ("androidx.work:work-runtime:2.9.0")
+
 }

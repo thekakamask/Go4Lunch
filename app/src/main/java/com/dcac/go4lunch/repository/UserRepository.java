@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.utils.Resource;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -59,6 +60,11 @@ public final class UserRepository {
                 .addOnFailureListener(e -> liveData.setValue(null));
         return liveData;
     }
+
+    public Task<QuerySnapshot> getAllUsersTask() {
+        return usersCollection.get();
+    }
+
 
     public LiveData<DocumentSnapshot> getUserData(String uid) {
         MutableLiveData<DocumentSnapshot> liveData = new MutableLiveData<>();
@@ -150,9 +156,9 @@ public final class UserRepository {
         return liveData;
     }
 
-    public LiveData<Boolean> setRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName) {
+    public LiveData<Boolean> setRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName, String restaurantAddress) {
         MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-        RestaurantChoice restaurantChoice = new RestaurantChoice(restaurantId, choiceDate, restaurantName);
+        RestaurantChoice restaurantChoice = new RestaurantChoice(restaurantId, choiceDate, restaurantName, restaurantAddress);
 
         usersCollection.document(uid)
                 .update("restaurantChoice", restaurantChoice)

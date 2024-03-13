@@ -5,12 +5,14 @@ public class RestaurantChoice {
     private String restaurantId;
     private String choiceDate;
     private String restaurantName;
+    private String restaurantAddress;
 
 
-    public RestaurantChoice(String restaurantId, String choiceDate, String restaurantName) {
+    public RestaurantChoice(String restaurantId, String choiceDate, String restaurantName, String restaurantAddress) {
         this.restaurantId = restaurantId;
         this.choiceDate = choiceDate;
         this.restaurantName = restaurantName;
+        this.restaurantAddress=restaurantAddress;
     }
 
     public RestaurantChoice() {
@@ -38,5 +40,13 @@ public class RestaurantChoice {
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public String getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(String restaurantAddress) {
+        this.restaurantAddress=restaurantAddress;
     }
 }
