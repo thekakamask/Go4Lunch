@@ -66,7 +66,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!charSequence.toString().trim().isEmpty()) {
+                if (charSequence.toString().trim().length() >= 3) {
                     fetchAutocompleteResults(charSequence.toString().trim());
                 }
             }
@@ -80,11 +80,28 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
     private void fetchAutocompleteResults(String query) {
         streamGoogleMapViewModel.getAutoCompletePlaces(query).observe(this, autoCompleteResource -> {
             if (autoCompleteResource != null && autoCompleteResource.status == Resource.Status.SUCCESS && autoCompleteResource.data != null) {
-                adapter.updateData(autoCompleteResource.data.getPredictions());
+                // Filtered by restaurant
+                List<Predictions> filteredPredictions = new ArrayList<>();
+                for (Predictions prediction : autoCompleteResource.data.getPredictions()) {
+                    if (prediction.getTypes().contains("restaurant")) {
+                        filteredPredictions.add(prediction);
+                    }
+                }
+
+                // Update with filtered predictions
+                adapter.updateData(filteredPredictions);
             } else if (autoCompleteResource.status == Resource.Status.ERROR) {
                 showError(autoCompleteResource.message);
             }
         });
+
+        /*streamGoogleMapViewModel.getAutoCompletePlaces(query).observe(this, autoCompleteResource -> {
+            if (autoCompleteResource != null && autoCompleteResource.status == Resource.Status.SUCCESS && autoCompleteResource.data != null) {
+                adapter.updateData(autoCompleteResource.data.getPredictions());
+            } else if (autoCompleteResource.status == Resource.Status.ERROR) {
+                showError(autoCompleteResource.message);
+            }
+        });*/
     }
 
     private void handlePredictionClick(Predictions prediction) {

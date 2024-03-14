@@ -172,7 +172,31 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
 
 
     private void handleRestaurantChoice(String uid, String restaurantId, String choiceDate, String restaurantName, String restaurantAddress) {
+        String cleanAddress = restaurantAddress;
+        if (cleanAddress != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                cleanAddress = Html.fromHtml(cleanAddress, Html.FROM_HTML_MODE_LEGACY).toString();
+            } else {
+                cleanAddress = Html.fromHtml(cleanAddress).toString();
+            }
+        }
+
+        final String finalCleanAddress = cleanAddress;
         userViewModel.getUserData(uid).observe(this, resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                User user = resource.data.toObject(User.class);
+                if (user != null) {
+                    RestaurantChoice currentChoice = user.getRestaurantChoice();
+                    if (currentChoice != null && restaurantId.equals(currentChoice.getRestaurantId())) {
+                        userViewModel.removeRestaurantChoice(uid).observe(this, resourceRemove -> updateUIAfterChoiceUpdate(resourceRemove, true, restaurantId));
+                    } else {
+                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName, finalCleanAddress).observe(this, resourceSet -> updateUIAfterChoiceUpdate(resourceSet, false, restaurantId));
+                    }
+                }
+            }
+        });
+
+        /*userViewModel.getUserData(uid).observe(this, resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 User user = resource.data.toObject(User.class);
                 if (user != null) {
@@ -186,7 +210,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                     }
                 }
             }
-        });
+        });*/
     }
 
     private void updateUIAfterChoiceUpdate(Resource<Boolean> resource, boolean isChoiceRemoved, String restaurantId) {
