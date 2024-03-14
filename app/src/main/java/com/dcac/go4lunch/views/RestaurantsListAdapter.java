@@ -129,11 +129,20 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         }
 
         private void setupRatingStars(double rating) {
-            int numberOfStars = (int) (rating / 1.66);
+            int numberOfStars;
+            if (rating >= 4.0) {
+                numberOfStars = 3;
+            } else if (rating >= 3.0) {
+                numberOfStars = 2;
+            } else if (rating >= 2.0) {
+                numberOfStars = 1;
+            } else {
+                numberOfStars = 0; // No stars if rating is less than 2.0
+            }
+
             binding.restaurantStar.setImageResource(numberOfStars >= 1 ? R.drawable.restaurant_list_star : R.drawable.restaurant_list_star_empty);
             binding.restaurantStar2.setImageResource(numberOfStars >= 2 ? R.drawable.restaurant_list_star : R.drawable.restaurant_list_star_empty);
             binding.restaurantStar3.setImageResource(numberOfStars == 3 ? R.drawable.restaurant_list_star : R.drawable.restaurant_list_star_empty);
-
         }
 
     }

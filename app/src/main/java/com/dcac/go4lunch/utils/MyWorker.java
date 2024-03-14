@@ -33,11 +33,13 @@ import java.util.concurrent.ExecutionException;
 public class MyWorker extends Worker {
 
     private final UserRepository userRepository;
+    private final RestaurantChoiceUpdater restaurantChoiceUpdater;
 
     public MyWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         AuthService authService = new AuthService(context);
         this.userRepository = UserRepository.getInstance(authService);
+        this.restaurantChoiceUpdater = new RestaurantChoiceUpdater(userRepository);
         Log.d("MyWorker", "MyWorker initialized");
     }
 
@@ -45,7 +47,7 @@ public class MyWorker extends Worker {
     @Override
     public Result doWork() {
         final Context context = getApplicationContext();
-
+        String userId = getInputData().getString("userId");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentDate = sdf.format(new Date());
         Log.d("MyWorker", "doWork: started");
@@ -82,6 +84,7 @@ public class MyWorker extends Worker {
                 }
                 String message = "Lunch at " + restaurantName + " (" + restaurantAddress + ") with " + String.join(", ", userNames);
                 sendNotification(context, message);
+                restaurantChoiceUpdater.updateRestaurantChoice(userId);
                 Log.d("MyWorker", "Notification sent for restaurant: " + restaurantName);
             }
 

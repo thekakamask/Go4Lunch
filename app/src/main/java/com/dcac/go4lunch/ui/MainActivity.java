@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         Log.d("MainActivity", "onCreate: toolbar set up");
 
         setUpNavigationDrawer();
+        updateToolbarTitleBasedOnRestaurantChoice();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -274,6 +275,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 .into(profileImageView);
     }
 
+    private void updateToolbarTitleBasedOnRestaurantChoice() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            userViewModel.getUserData(uid).observe(this, resource -> {
+                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                    User user = resource.data.toObject(User.class);
+                    TextView toolbarTextView = findViewById(R.id.toolbar_text_view);
+                    if (user != null && user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null) {
+                        toolbarTextView.setText(R.string.selected_restaurant);
+                    } else {
+                        toolbarTextView.setText(R.string.you_are_hungry);
+                    }
+                }
+            });
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -281,6 +299,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         for (int i = 0; i < size; i++) {
             binding.activityMainNavView.getMenu().getItem(i).setChecked(false);
         }
+
+        updateToolbarTitleBasedOnRestaurantChoice();
     }
 
 

@@ -34,6 +34,7 @@
     <string name="list_view">List view</string>
     <string name="workmates">Workmates</string>
     <string name="choose_a_restaurant_first">You need to choose a restaurant first</string>
+    <string name="selected_restaurant">Lunch is chosen</string>
 
     <!-- UserRepository -->
 
@@ -79,6 +80,7 @@
     <string name="restaurant_chosen_success">Achievements of adding choice</string>
     <string name="default_error_message">Error message by default</string>
     <string name="error_loading_workmates">Error loading workmates</string>
+
 
     <!-- SearchActivity-->
     <string name="search_hint">Your search</string>
