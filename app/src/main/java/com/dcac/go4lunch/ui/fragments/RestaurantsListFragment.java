@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
+import com.dcac.go4lunch.ui.MainActivity;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
+import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.RestaurantsListAdapter;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Arrays;
@@ -34,8 +36,9 @@ public class RestaurantsListFragment extends Fragment {
 
     private FragmentRestaurantsListBinding binding;
     private RestaurantsListAdapter adapter;
-    private StreamGoogleMapViewModel streamGoogleMapViewModel;
-    private LocationViewModel locationViewModel;
+    /*private StreamGoogleMapViewModel streamGoogleMapViewModel;
+    private LocationViewModel locationViewModel;*/
+    private MainActivity mainActivity;
 
     public static RestaurantsListFragment newInstance() {return new RestaurantsListFragment();}
 
@@ -43,9 +46,12 @@ public class RestaurantsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
-        locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
-        streamGoogleMapViewModel = new ViewModelProvider(this,factory).get(StreamGoogleMapViewModel.class);
+        mainActivity = (MainActivity) getActivity();
+
+        /*if (getActivity() instanceof MainActivity) {
+            mainActivity = (MainActivity) getActivity();
+        }*/
+
     }
 
     @Override
@@ -58,10 +64,33 @@ public class RestaurantsListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getLocationUpdates();
+        setupAdapter();
+        subscribeToLocationUpdates();
+        /*if (mainActivity != null) {
+            locationViewModel = mainActivity.getLocationViewModel();
+            streamGoogleMapViewModel = mainActivity.getStreamGoogleMapViewModel();
+            getLocationUpdates();
+        }*/
     }
 
-    private void getLocationUpdates() {
+    private void setupAdapter() {
+        adapter = new RestaurantsListAdapter(mainActivity);
+        binding.restaurantListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.restaurantListRecyclerView.setAdapter(adapter);
+    }
+
+    private void subscribeToLocationUpdates() {
+        if (mainActivity != null) {
+            mainActivity.getLocationViewModel().getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
+                if (location != null) {
+                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    fetchNearbyRestaurants(userLocation);
+                }
+            });
+        }
+    }
+
+    /*private void getLocationUpdates() {
         // Observe location updates
         locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
             if (location != null) {
@@ -78,13 +107,27 @@ public class RestaurantsListFragment extends Fragment {
                 }
             }
         });
-    }
+    }*/
 
     private void fetchNearbyRestaurants(LatLng userLocation) {
+        String loc = userLocation.latitude + "," + userLocation.longitude;
+        List<String> types = Arrays.asList("food", "restaurant");
+        mainActivity.getStreamGoogleMapViewModel().getCombinedNearbyPlaces(loc, 1000, types).observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                List<Results> sortedRestaurants = sortRestaurantsByDistance(resource.data.get(0).getResults(), userLocation);
+                Location location = new Location("");
+                location.setLatitude(userLocation.latitude);
+                location.setLongitude(userLocation.longitude);
+                adapter.updateData(sortedRestaurants, location);
+            }
+        });
+    }
+
+    /*private void fetchNearbyRestaurants(LatLng userLocation) {
 
         String location = userLocation.latitude + "," + userLocation.longitude;
-        List<String> types = Arrays.asList("restaurant");
-        streamGoogleMapViewModel.getCombinedNearbyPlaces(location, 1000, types).observe(getViewLifecycleOwner(), resource -> {
+        //List<String> types = Arrays.asList("food", "restaurant");
+        streamGoogleMapViewModel.getCombinedNearbyPlaces(location, 1000, Arrays.asList("food", "restaurant")).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 // Trier les restaurants par distance
                 List<Results> sortedRestaurants = sortRestaurantsByDistance(resource.data.get(0).getResults(), userLocation);
@@ -94,7 +137,7 @@ public class RestaurantsListFragment extends Fragment {
             }
         });
 
-        /*String location = userLocation.latitude + "," + userLocation.longitude;
+        *//*String location = userLocation.latitude + "," + userLocation.longitude;
         List<String> types = Arrays.asList("restaurant");
         streamGoogleMapViewModel.getCombinedNearbyPlaces(location, 1000, types).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
@@ -102,10 +145,51 @@ public class RestaurantsListFragment extends Fragment {
             } else {
                 Log.e("ListFragment", "Error fetching restaurants: " + (resource.message != null ? resource.message : "unknown error"));
             }
-        });*/
-    }
+        });*//*
+    }*/
 
     private List<Results> sortRestaurantsByDistance(List<Results> restaurants, final LatLng userLatLng) {
+        final Location userLocation = new Location("");
+        userLocation.setLatitude(userLatLng.latitude);
+        userLocation.setLongitude(userLatLng.longitude);
+
+        Collections.sort(restaurants, (r1, r2) -> {
+            Location location1 = new Location("");
+            location1.setLatitude(r1.getGeometry().getLocation().getLat());
+            location1.setLongitude(r1.getGeometry().getLocation().getLng());
+
+            Location location2 = new Location("");
+            location2.setLatitude(r2.getGeometry().getLocation().getLat());
+            location2.setLongitude(r2.getGeometry().getLocation().getLng());
+
+            return Float.compare(userLocation.distanceTo(location1), userLocation.distanceTo(location2));
+        });
+
+        return restaurants;
+    }
+
+    /*private List<Results> sortRestaurantsByDistance(List<Results> restaurants, final LatLng userLatLng) {
+        final Location userLocation = new Location("");
+        userLocation.setLatitude(userLatLng.latitude);
+        userLocation.setLongitude(userLatLng.longitude);
+
+        Collections.sort(restaurants, (r1, r2) -> {
+            Location location1 = new Location("");
+            location1.setLatitude(r1.getGeometry().getLocation().getLat());
+            location1.setLongitude(r1.getGeometry().getLocation().getLng());
+
+            Location location2 = new Location("");
+            location2.setLatitude(r2.getGeometry().getLocation().getLat());
+            location2.setLongitude(r2.getGeometry().getLocation().getLng());
+
+            return Float.compare(userLocation.distanceTo(location1), userLocation.distanceTo(location2));
+        });
+
+        return restaurants;
+    }*/
+
+
+    /*private List<Results> sortRestaurantsByDistance(List<Results> restaurants, final LatLng userLatLng) {
 
         final Location userLocation = new Location("");
         userLocation.setLatitude(userLatLng.latitude);
@@ -130,8 +214,10 @@ public class RestaurantsListFragment extends Fragment {
         });
 
         return restaurants;
+    }*/
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
-
-
-
 }

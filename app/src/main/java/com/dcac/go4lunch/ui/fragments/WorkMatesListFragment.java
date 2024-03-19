@@ -2,7 +2,6 @@ package com.dcac.go4lunch.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 import com.dcac.go4lunch.databinding.FragmentWorkMatesBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.user.User;
+import com.dcac.go4lunch.ui.MainActivity;
 import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.UserViewModel;
@@ -34,7 +34,7 @@ public class WorkMatesListFragment extends Fragment {
     private FragmentWorkMatesBinding binding;
     private WorkmatesListAdapter adapter;
 
-    private UserViewModel userViewModel;
+    private MainActivity mainActivity;
 
     public static WorkMatesListFragment newInstance() {
         return new WorkMatesListFragment();
@@ -44,9 +44,9 @@ public class WorkMatesListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
-        userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
+        if (getActivity() instanceof MainActivity) {
+            mainActivity = (MainActivity) getActivity();
+        }
     }
 
     @Override
@@ -75,19 +75,21 @@ public class WorkMatesListFragment extends Fragment {
         binding.workmatesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.workmatesListRecyclerView.setAdapter(adapter);
 
-        userViewModel.getAllUsers().observe(getViewLifecycleOwner(), resource -> {
-            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                List<User> usersWithChoice = new ArrayList<>();
-                for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) {
-                    User user = documentSnapshot.toObject(User.class);
-                    if (user != null && user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
-                        usersWithChoice.add(user);
+        if (mainActivity != null) {
+            mainActivity.getUserViewModel().getAllUsers().observe(getViewLifecycleOwner(), resource -> {
+                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                    List<User> usersWithChoice = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) { // Assume resource.data is a QuerySnapshot
+                        User user = documentSnapshot.toObject(User.class);
+                        if (user != null && user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
+                            usersWithChoice.add(user);
+                        }
                     }
+                    adapter.setUsers(usersWithChoice);
+                } else if (resource.status == Resource.Status.ERROR) {
+                    Toast.makeText(getContext(), "Error fetching users: " + resource.message, Toast.LENGTH_LONG).show();
                 }
-                adapter.setUsers(usersWithChoice);
-            } else if (resource.status == Resource.Status.ERROR) {
-                Toast.makeText(getContext(), "Error fetching users: " + resource.message, Toast.LENGTH_LONG).show();
-            }
-        });
+            });
+        }
     }
 }

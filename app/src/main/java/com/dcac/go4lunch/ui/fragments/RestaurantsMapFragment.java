@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +27,7 @@ import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.models.user.User;
+import com.dcac.go4lunch.ui.MainActivity;
 import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
@@ -51,9 +51,12 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
 
     private FragmentRestaurantsMapBinding binding;
     private GoogleMap mMap;
-    private StreamGoogleMapViewModel streamGoogleMapViewModel;
+
+    /*private StreamGoogleMapViewModel streamGoogleMapViewModel;
     private UserViewModel userViewModel;
-    private LocationViewModel locationViewModel;
+    private LocationViewModel locationViewModel;*/
+
+    MainActivity mainActivity;
     private static final float DEFAULT_ZOOM = 15f;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
@@ -71,10 +74,12 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
+        mainActivity = (MainActivity) getActivity();
+
+        /*ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
         userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
         locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
-        streamGoogleMapViewModel = new ViewModelProvider(this,factory).get(StreamGoogleMapViewModel.class);
+        streamGoogleMapViewModel = new ViewModelProvider(this,factory).get(StreamGoogleMapViewModel.class);*/
     }
 
     @Override
@@ -97,45 +102,53 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        setupMap();
+        if (getActivity() instanceof MainActivity) {
+            mainActivity = (MainActivity) getActivity();
+            setupMap();
+
+            mainActivity.getLocationViewModel().getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
+                if (location != null) {
+                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, DEFAULT_ZOOM));
+                    fetchNearbyRestaurants(userLocation, mainActivity.getStreamGoogleMapViewModel());
+                    fetchChosenRestaurants(mainActivity.getUserViewModel());
+                }
+            });
+        }
         mMap.setOnMarkerClickListener(this);
     }
 
     private void setupMap() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
-            subscribeToLocationUpdates();
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         }
     }
 
-    private void subscribeToLocationUpdates() {
+    /*private void subscribeToLocationUpdates(LocationViewModel locationViewModel) {
         locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
             if (location != null) {
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, DEFAULT_ZOOM));
-                fetchNearbyRestaurants(userLocation);
-                fetchChosenRestaurants();
+                fetchNearbyRestaurants(userLocation,mainActivity.getStreamGoogleMapViewModel());
+                fetchChosenRestaurants(mainActivity.getUserViewModel());
             }
         });
-    }
+    }*/
 
-    private void fetchNearbyRestaurants(LatLng location) {
-        // use the StreamGoogleMapViewModel for recover restaurants near user localisation
+    private void fetchNearbyRestaurants(LatLng location, StreamGoogleMapViewModel streamGoogleMapViewModel) {
         String loc = location.latitude + "," + location.longitude;
-        streamGoogleMapViewModel.getCombinedNearbyPlaces(loc, 1000, Arrays.asList("restaurant")).observe(getViewLifecycleOwner(), resource -> {
+        streamGoogleMapViewModel.getCombinedNearbyPlaces(loc, 1000, Arrays.asList("food", "restaurant")).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 lastFetchedNearbyRestaurants.clear();
                 lastFetchedNearbyRestaurants.addAll(resource.data);
                 updateMapWithRestaurants(resource.data);
-            } else {
-                Log.e("MapFragment", "Error fetching restaurants: " + (resource.message != null ? resource.message : "unknown error"));
             }
         });
     }
 
-    private void fetchChosenRestaurants() {
+    private void fetchChosenRestaurants(UserViewModel userViewModel) {
         userViewModel.getChosenRestaurantIds().observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 chosenRestaurantIds.clear();
@@ -223,7 +236,7 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     public void onResume() {
         super.onResume();
         binding.mapView.onResume();
-        fetchChosenRestaurants();
+        fetchChosenRestaurants(mainActivity.getUserViewModel());
     }
 
     @Override

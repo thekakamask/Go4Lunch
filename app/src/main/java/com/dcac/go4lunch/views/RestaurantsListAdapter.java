@@ -20,6 +20,7 @@ import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.ApiKeyUtil;
 
+import java.util.List;
 import java.util.Locale;
 
 public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsListAdapter.RestaurantsListViewHolder> {
@@ -29,10 +30,9 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
     private Location userLocation;
     private Context context;
 
-    public RestaurantsListAdapter(Context context, Location userLocation) {
+    public RestaurantsListAdapter(Context context) {
         super(DIFF_CALLBACK);
         this.context = context;
-        this.userLocation = userLocation;
     }
 
     private static final DiffUtil.ItemCallback<Results> DIFF_CALLBACK = new DiffUtil.ItemCallback<Results>() {
@@ -55,16 +55,22 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         return new RestaurantsListViewHolder(itemBinding, userLocation, context);
     }
 
+    public void updateData(List<Results> newRestaurants, Location newUserLocation) {
+        this.userLocation = newUserLocation;
+        submitList(newRestaurants);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RestaurantsListViewHolder holder, int position) {
         Results restaurant = getItem(position);
-        holder.bind(restaurant);
+        holder.bind(restaurant, userLocation);
     }
 
-    public void setUserLocation(Location newUserLocation) {
+    /*public void setUserLocation(Location newUserLocation) {
         this.userLocation = newUserLocation;
         notifyDataSetChanged();
-    }
+    }*/
 
     public class RestaurantsListViewHolder extends RecyclerView.ViewHolder {
         private final ItemRestaurantListBinding binding;
@@ -89,7 +95,7 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             });
         }
 
-        public void bind(Results results) {
+        public void bind(Results results, Location userLocation ) {
             binding.restaurantName.setText(results.getName());
             binding.restaurantAddress.setText(results.getVicinity());
             //binding.restaurantOpeningHours.setText((CharSequence) results.getOpening_hours());

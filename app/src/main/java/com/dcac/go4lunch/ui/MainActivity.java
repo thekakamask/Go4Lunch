@@ -27,6 +27,8 @@ import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
 import com.dcac.go4lunch.ui.fragments.WorkMatesListFragment;
 import com.dcac.go4lunch.utils.MyBroadcastReceiver;
 import com.dcac.go4lunch.utils.Resource;
+import com.dcac.go4lunch.viewModels.LocationViewModel;
+import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -42,10 +44,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
 
     private UserViewModel userViewModel;
+    private LocationViewModel locationViewModel;
+    private StreamGoogleMapViewModel streamGoogleMapViewModel;
 
     protected ActivityMainBinding getViewBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
-        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         ViewModelFactory factory = ViewModelFactory.getInstance(getApplicationContext());
         userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
+        locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
+        streamGoogleMapViewModel = new ViewModelProvider(this, factory).get(StreamGoogleMapViewModel.class);
 
         setSupportActionBar(binding.activityMainToolbar);
         getSupportActionBar().setTitle("");
@@ -128,6 +134,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         Log.d("MainActivity", "Alarme quotidienne à 12h planifiée.");
 
 
+    }
+
+    public UserViewModel getUserViewModel() {
+        return userViewModel;
+    }
+
+    public LocationViewModel getLocationViewModel() {
+        return locationViewModel;
+    }
+
+    public StreamGoogleMapViewModel getStreamGoogleMapViewModel() {
+        return streamGoogleMapViewModel;
+    }
+
+    public void navigateToRestaurantDetail(String restaurantId) {
+        Intent intent = new Intent(this, RestaurantActivity.class);
+        intent.putExtra(RestaurantActivity.EXTRA_PLACE_ID, restaurantId);
+        startActivity(intent);
     }
 
     private void launchSearch() {
