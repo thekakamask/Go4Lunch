@@ -56,7 +56,6 @@ public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdap
                 .error(R.drawable.workmates_list_profile)
                 .into(holder.profileImageView);
 
-
         String text;
         if (user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
             text = user.getUserName() + " is eating at " + user.getRestaurantChoice().getRestaurantName();
@@ -65,6 +64,25 @@ public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdap
         }
 
         holder.nameTextView.setText(text);
+
+        /*User user = mUsers.get(position);
+        Context context = holder.itemView.getContext();
+
+        Glide.with(context)
+                .load(user.getUrlPicture())
+                .placeholder(R.drawable.workmates_list_profile)
+                .error(R.drawable.workmates_list_profile)
+                .into(holder.profileImageView);
+
+
+        String text;
+        if (user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
+            text = user.getUserName() + " is eating at " + user.getRestaurantChoice().getRestaurantName();
+        } else {
+            text = user.getUserName() + " hasn't decided yet";
+        }
+
+        holder.nameTextView.setText(text);*/
     }
 
     @Override

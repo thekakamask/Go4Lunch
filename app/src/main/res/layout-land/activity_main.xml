@@ -41,7 +41,7 @@
                 android:text="@string/you_are_hungry"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="@dimen/main_activity_size_text_button_w180"
+                android:textSize="@dimen/main_activity_size_text_button_land_w530"
                 app:layout_constraintTop_toTopOf="@+id/activity_main_toolbar"
                 app:layout_constraintEnd_toEndOf="@+id/activity_main_toolbar"
                 app:layout_constraintStart_toStartOf="@+id/activity_main_toolbar"
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/glass_icon"
-                android:layout_marginEnd="@dimen/main_activity_toolbar_margin_button_w180"
+                android:layout_marginEnd="@dimen/main_activity_toolbar_margin_button_land_w530"
                 android:background="@null"
                 app:layout_constraintTop_toTopOf="@+id/activity_main_layout_toolbar"
                 app:layout_constraintEnd_toEndOf="@+id/activity_main_layout_toolbar"
@@ -90,6 +90,12 @@
                 android:icon="@drawable/workmates_icon"
                 android:text="@string/workmates" />
 
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/chat_icon"
+                android:text="@string/chat"/>
+
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -116,5 +122,3 @@
         app:itemIconTint="@color/white"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
-    <!--    app:itemTextAppearance=""-->

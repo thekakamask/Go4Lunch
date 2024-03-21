@@ -78,6 +78,22 @@ public class WorkMatesListFragment extends Fragment {
         if (mainActivity != null) {
             mainActivity.getUserViewModel().getAllUsers().observe(getViewLifecycleOwner(), resource -> {
                 if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                    List<User> users = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) {
+                        User user = documentSnapshot.toObject(User.class);
+                        if (user != null) {
+                            users.add(user);
+                        }
+                    }
+                    adapter.setUsers(users);
+                } else if (resource.status == Resource.Status.ERROR) {
+                    Toast.makeText(getContext(), "Error fetching users: " + resource.message, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        /*if (mainActivity != null) {
+            mainActivity.getUserViewModel().getAllUsers().observe(getViewLifecycleOwner(), resource -> {
+                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                     List<User> usersWithChoice = new ArrayList<>();
                     for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) { // Assume resource.data is a QuerySnapshot
                         User user = documentSnapshot.toObject(User.class);
@@ -90,6 +106,6 @@ public class WorkMatesListFragment extends Fragment {
                     Toast.makeText(getContext(), "Error fetching users: " + resource.message, Toast.LENGTH_LONG).show();
                 }
             });
-        }
+        }*/
     }
 }

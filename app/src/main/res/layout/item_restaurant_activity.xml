@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/item_restaurant_activity_padding_w390">
+    android:padding="@dimen/item_restaurant_activity_padding_w320">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="@dimen/item_restaurant_activity_imageview_width_w390"
-        android:layout_height="@dimen/item_restaurant_activity_imageview_height_w390"
+        android:layout_width="@dimen/item_restaurant_activity_imageview_width_w320"
+        android:layout_height="@dimen/item_restaurant_activity_imageview_height_w320"
         android:src="@drawable/workmates_list_profile"
-        app:civ_border_width="@dimen/item_restaurant_activity_imageview_border_w390"
+        app:civ_border_width="@dimen/item_restaurant_activity_imageview_border_w320"
         app:civ_border_color="#FF000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,8 +21,8 @@
         android:id="@+id/name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/item_restaurant_activity_textview_margin_start_w390"
-        android:textSize="@dimen/item_restaurant_activity_text_size_w390"
+        android:layout_marginStart="@dimen/item_restaurant_activity_textview_margin_start_w320"
+        android:textSize="@dimen/item_restaurant_activity_text_size_w320"
         android:textStyle="bold"
         android:text="@string/user_name_text"
         app:layout_constraintStart_toEndOf="@id/profile_image"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/is_joining"
-        android:textSize="@dimen/item_restaurant_activity_text_size_w390"
+        android:textSize="@dimen/item_restaurant_activity_text_size_w320"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/name_text_view"
         app:layout_constraintTop_toTopOf="parent"

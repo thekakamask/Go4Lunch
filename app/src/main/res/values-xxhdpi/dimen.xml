@@ -628,6 +628,191 @@
     <dimen name="item_parameters_activity_text_size1_land_w1024">20sp</dimen>
     <dimen name="item_parameters_activity_text_size2_land_w1024">15sp</dimen>
 
+    <!--    chatFragmentw390-->
+    <dimen name="chat_fragment_recycler_view_margin_w390">15dp</dimen>
+    <dimen name="chat_fragment_image_view_width_w390">70dp</dimen>
+    <dimen name="chat_fragment_image_view_height_w390">70dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_w390">15dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_w390">20sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_w390">15dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_w390">5dp</dimen>
+    <dimen name="chat_fragment_button_text_size_w390">25sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_w390">8dp</dimen>
+
+    <!--    chatFragmentw430-->
+    <dimen name="chat_fragment_recycler_view_margin_w430">15dp</dimen>
+    <dimen name="chat_fragment_image_view_width_w430">70dp</dimen>
+    <dimen name="chat_fragment_image_view_height_w430">70dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_w430">15dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_w430">25sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_w430">20dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_w430">10dp</dimen>
+    <dimen name="chat_fragment_button_text_size_w430">25sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_w430">20dp</dimen>
+
+    <!--    chatFragmentw480-->
+    <dimen name="chat_fragment_recycler_view_margin_w480">20dp</dimen>
+    <dimen name="chat_fragment_image_view_width_w480">80dp</dimen>
+    <dimen name="chat_fragment_image_view_height_w480">80dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_w480">10dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_w480">28sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_w480">20dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_w480">10dp</dimen>
+    <dimen name="chat_fragment_button_text_size_w480">35sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_w480">15dp</dimen>
+
+    <!--    chatFragmentLandw830-->
+    <dimen name="chat_fragment_recycler_view_margin_land_w830">20dp</dimen>
+    <dimen name="chat_fragment_image_view_width_land_w830">80dp</dimen>
+    <dimen name="chat_fragment_image_view_height_land_w830">80dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_land_w830">10dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_land_w830">22sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_land_w830">15dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_land_w830">5dp</dimen>
+    <dimen name="chat_fragment_button_text_size_land_w830">32sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_land_w830">10dp</dimen>
+
+    <!--    chatFragmentLandw860-->
+    <dimen name="chat_fragment_recycler_view_margin_land_w860">20dp</dimen>
+    <dimen name="chat_fragment_image_view_width_land_w860">80dp</dimen>
+    <dimen name="chat_fragment_image_view_height_land_w860">80dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_land_w860">10dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_land_w860">22sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_land_w860">15dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_land_w860">5dp</dimen>
+    <dimen name="chat_fragment_button_text_size_land_w860">32sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_land_w860">10dp</dimen>
+
+    <!--    chatFragmentLandw960-->
+    <dimen name="chat_fragment_recycler_view_margin_land_w960">10dp</dimen>
+    <dimen name="chat_fragment_image_view_width_land_w960">60dp</dimen>
+    <dimen name="chat_fragment_image_view_height_land_w960">60dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_land_w960">10dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_land_w960">20sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_land_w960">15dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_land_w960">5dp</dimen>
+    <dimen name="chat_fragment_button_text_size_land_w960">28sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_land_w960">10dp</dimen>
+
+    <!--    chatFragmentLandw1024-->
+    <dimen name="chat_fragment_recycler_view_margin_land_w1024">10dp</dimen>
+    <dimen name="chat_fragment_image_view_width_land_w1024">70dp</dimen>
+    <dimen name="chat_fragment_image_view_height_land_w1024">70dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_land_w1024">10dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_land_w1024">25sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_land_w1024">10dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_land_w1024">5dp</dimen>
+    <dimen name="chat_fragment_button_text_size_land_w1024">35sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_land_w1024">5dp</dimen>
+
+
+    <!--    chatItemw390-->
+    <dimen name="chat_item_layout_user_margin_w390">5dp</dimen>
+    <dimen name="chat_item_user_width_w390">60dp</dimen>
+    <dimen name="chat_item_user_height_w390">60dp</dimen>
+    <dimen name="chat_item_layout_message_margin_w390">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_w390">5dp</dimen>
+    <dimen name="chat_item_image_send_width_w390">140dp</dimen>
+    <dimen name="chat_item_image_send_height_w390">140dp</dimen>
+    <dimen name="chat_item_text_send_margin_w390">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_w390">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_w390">13sp</dimen>
+    <dimen name="chat_item_text_send_size_w390">22sp</dimen>
+    <dimen name="chat_item_date_send_size_w390">15sp</dimen>
+    <dimen name="chat_item_date_send_padding_w390">2dp</dimen>
+
+    <!--    chatItemw430-->
+    <dimen name="chat_item_layout_user_margin_w430">5dp</dimen>
+    <dimen name="chat_item_user_width_w430">60dp</dimen>
+    <dimen name="chat_item_user_height_w430">60dp</dimen>
+    <dimen name="chat_item_layout_message_margin_w430">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_w430">5dp</dimen>
+    <dimen name="chat_item_image_send_width_w430">160dp</dimen>
+    <dimen name="chat_item_image_send_height_w430">160dp</dimen>
+    <dimen name="chat_item_text_send_margin_w430">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_w430">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_w430">15sp</dimen>
+    <dimen name="chat_item_text_send_size_w430">25sp</dimen>
+    <dimen name="chat_item_date_send_size_w430">20sp</dimen>
+    <dimen name="chat_item_date_send_padding_w430">2dp</dimen>
+
+    <!--    chatItemw480-->
+    <dimen name="chat_item_layout_user_margin_w480">5dp</dimen>
+    <dimen name="chat_item_user_width_w480">70dp</dimen>
+    <dimen name="chat_item_user_height_w480">70dp</dimen>
+    <dimen name="chat_item_layout_message_margin_w480">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_w480">5dp</dimen>
+    <dimen name="chat_item_image_send_width_w480">180dp</dimen>
+    <dimen name="chat_item_image_send_height_w480">180dp</dimen>
+    <dimen name="chat_item_text_send_margin_w480">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_w480">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_w480">15sp</dimen>
+    <dimen name="chat_item_text_send_size_w480">29sp</dimen>
+    <dimen name="chat_item_date_send_size_w480">20sp</dimen>
+    <dimen name="chat_item_date_send_padding_w480">2dp</dimen>
+
+    <!--    chatItemLandw830-->
+    <dimen name="chat_item_layout_user_margin_land_w830">5dp</dimen>
+    <dimen name="chat_item_user_width_land_w830">60dp</dimen>
+    <dimen name="chat_item_user_height_land_w830">60dp</dimen>
+    <dimen name="chat_item_layout_message_margin_land_w830">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_land_w830">5dp</dimen>
+    <dimen name="chat_item_image_send_width_land_w830">160dp</dimen>
+    <dimen name="chat_item_image_send_height_land_w830">160dp</dimen>
+    <dimen name="chat_item_text_send_margin_land_w830">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_land_w830">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_land_w830">13sp</dimen>
+    <dimen name="chat_item_text_send_size_land_w830">25sp</dimen>
+    <dimen name="chat_item_date_send_size_land_w830">13sp</dimen>
+    <dimen name="chat_item_date_send_padding_land_w830">2dp</dimen>
+
+
+    <!--    chatItemLandw860-->
+    <dimen name="chat_item_layout_user_margin_land_w860">5dp</dimen>
+    <dimen name="chat_item_user_width_land_w860">70dp</dimen>
+    <dimen name="chat_item_user_height_land_w860">70dp</dimen>
+    <dimen name="chat_item_layout_message_margin_land_w860">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_land_w860">5dp</dimen>
+    <dimen name="chat_item_image_send_width_land_w860">180dp</dimen>
+    <dimen name="chat_item_image_send_height_land_w860">180dp</dimen>
+    <dimen name="chat_item_text_send_margin_land_w860">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_land_w860">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_land_w860">15sp</dimen>
+    <dimen name="chat_item_text_send_size_land_w860">29sp</dimen>
+    <dimen name="chat_item_date_send_size_land_w860">15sp</dimen>
+    <dimen name="chat_item_date_send_padding_land_w860">2dp</dimen>
+
+    <!--    chatItemLandw960-->
+    <dimen name="chat_item_layout_user_margin_land_w960">5dp</dimen>
+    <dimen name="chat_item_user_width_land_w960">60dp</dimen>
+    <dimen name="chat_item_user_height_land_w960">60dp</dimen>
+    <dimen name="chat_item_layout_message_margin_land_w960">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_land_w960">5dp</dimen>
+    <dimen name="chat_item_image_send_width_land_w960">160dp</dimen>
+    <dimen name="chat_item_image_send_height_land_w960">160dp</dimen>
+    <dimen name="chat_item_text_send_margin_land_w960">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_land_w960">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_land_w960">13sp</dimen>
+    <dimen name="chat_item_text_send_size_land_w960">25sp</dimen>
+    <dimen name="chat_item_date_send_size_land_w960">13sp</dimen>
+    <dimen name="chat_item_date_send_padding_land_w960">2dp</dimen>
+
+    <!--    chatItemLandw1024-->
+    <dimen name="chat_item_layout_user_margin_land_w1024">5dp</dimen>
+    <dimen name="chat_item_user_width_land_w1024">60dp</dimen>
+    <dimen name="chat_item_user_height_land_w1024">60dp</dimen>
+    <dimen name="chat_item_layout_message_margin_land_w1024">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_land_w1024">5dp</dimen>
+    <dimen name="chat_item_image_send_width_land_w1024">190dp</dimen>
+    <dimen name="chat_item_image_send_height_land_w1024">190dp</dimen>
+    <dimen name="chat_item_text_send_margin_land_w1024">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_land_w1024">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_land_w1024">15sp</dimen>
+    <dimen name="chat_item_text_send_size_land_w1024">30sp</dimen>
+    <dimen name="chat_item_date_send_size_land_w1024">15sp</dimen>
+    <dimen name="chat_item_date_send_padding_land_w1024">2dp</dimen>
+
+
 
 
 </resources>

@@ -6,8 +6,8 @@
     <EditText
         android:id="@+id/search_edit_text"
         android:layout_width="0dp"
-        android:layout_height="@dimen/item_search_activity_item_height"
-        android:textSize="@dimen/item_search_activity_text_size"
+        android:layout_height="@dimen/item_search_activity_item_height_w320"
+        android:textSize="@dimen/item_search_activity_text_size_w320"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:backgroundTint="@color/black"

@@ -106,5 +106,58 @@
     <dimen name="item_parameters_activity_text_size1_land">10sp</dimen>
     <dimen name="item_parameters_activity_text_size2_land">7sp</dimen>
 
+    <!--    ChatFragment-->
+    <dimen name="chat_fragment_recycler_view_margin">2dp</dimen>
+    <dimen name="chat_fragment_image_view_width">20dp</dimen>
+    <dimen name="chat_fragment_image_view_height">20dp</dimen>
+    <dimen name="chat_fragment_image_view_margin">2dp</dimen>
+    <dimen name="chat_fragment_edit_text_size">5sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom">2dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button">0dp</dimen>
+    <dimen name="chat_fragment_button_text_size">5sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom">0dp</dimen>
+
+    <!--    ChatFragmentLand-->
+    <dimen name="chat_fragment_recycler_view_margin_land">2dp</dimen>
+    <dimen name="chat_fragment_image_view_width_land">20dp</dimen>
+    <dimen name="chat_fragment_image_view_height_land">20dp</dimen>
+    <dimen name="chat_fragment_image_view_margin_land">2dp</dimen>
+    <dimen name="chat_fragment_edit_text_size_land">5sp</dimen>
+    <dimen name="chat_fragment_edit_text_margin_bottom_land">2dp</dimen>
+    <dimen name="chat_fragment_image_button_margin_button_land">0dp</dimen>
+    <dimen name="chat_fragment_button_text_size_land">5sp</dimen>
+    <dimen name="chat_fragment_button_margin_bottom_land">0dp</dimen>
+
+    <!--    ChatItem-->
+    <dimen name="chat_item_layout_user_margin">5dp</dimen>
+    <dimen name="chat_item_user_width">50dp</dimen>
+    <dimen name="chat_item_user_height">50dp</dimen>
+    <dimen name="chat_item_layout_message_margin">5dp</dimen>
+    <dimen name="chat_item_image_send_margin">5dp</dimen>
+    <dimen name="chat_item_image_send_width">110dp</dimen>
+    <dimen name="chat_item_image_send_height">110dp</dimen>
+    <dimen name="chat_item_text_send_margin">5dp</dimen>
+    <dimen name="chat_item_text_send_padding">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size">10sp</dimen>
+    <dimen name="chat_item_text_send_size">17sp</dimen>
+    <dimen name="chat_item_date_send_size">12sp</dimen>
+    <dimen name="chat_item_date_send_padding">2dp</dimen>
+
+    <!--    ChatItemLand-->
+    <dimen name="chat_item_layout_user_margin_land">5dp</dimen>
+    <dimen name="chat_item_user_width_land">50dp</dimen>
+    <dimen name="chat_item_user_height_land">50dp</dimen>
+    <dimen name="chat_item_layout_message_margin_land">5dp</dimen>
+    <dimen name="chat_item_image_send_margin_land">5dp</dimen>
+    <dimen name="chat_item_image_send_width_land">110dp</dimen>
+    <dimen name="chat_item_image_send_height_land">110dp</dimen>
+    <dimen name="chat_item_text_send_margin_land">5dp</dimen>
+    <dimen name="chat_item_text_send_padding_land">5dp</dimen>
+    <dimen name="chat_item_user_text_send_size_land">10sp</dimen>
+    <dimen name="chat_item_text_send_size_land">17sp</dimen>
+    <dimen name="chat_item_date_send_size_land">12sp</dimen>
+    <dimen name="chat_item_date_send_padding_land">2dp</dimen>
+
+
 
 </resources>

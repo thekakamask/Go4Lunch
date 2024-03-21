@@ -21,26 +21,32 @@ import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityMainBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
+import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.models.user.User;
+import com.dcac.go4lunch.ui.fragments.ChatFragment;
 import com.dcac.go4lunch.ui.fragments.RestaurantsListFragment;
 import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
 import com.dcac.go4lunch.ui.fragments.WorkMatesListFragment;
+import com.dcac.go4lunch.utils.DataFetcher;
 import com.dcac.go4lunch.utils.MyBroadcastReceiver;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.viewModels.UserViewModel;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener  {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener, DataFetcher {
 
 
     private UserViewModel userViewModel;
@@ -56,10 +62,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         super.onCreate(savedInstanceState);
         Log.d("MainActivity", "onCreate: start");
 
-        ViewModelFactory factory = ViewModelFactory.getInstance(getApplicationContext());
-        userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
-        locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
-        streamGoogleMapViewModel = new ViewModelProvider(this, factory).get(StreamGoogleMapViewModel.class);
+        initializeViewModels();
 
         setSupportActionBar(binding.activityMainToolbar);
         getSupportActionBar().setTitle("");
@@ -94,6 +97,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                                 .replace(R.id.fragment_container, new WorkMatesListFragment())
                                 .commit();
                         break;
+                    case 3 :
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new ChatFragment())
+                                .commit();
                 }
             }
 
@@ -146,6 +153,46 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     public StreamGoogleMapViewModel getStreamGoogleMapViewModel() {
         return streamGoogleMapViewModel;
+    }
+
+    private void initializeViewModels() {
+        ViewModelFactory factory = ViewModelFactory.getInstance(getApplicationContext());
+        userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
+        locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
+        streamGoogleMapViewModel = new ViewModelProvider(this, factory).get(StreamGoogleMapViewModel.class);
+
+        setupLocationListenerAndFetchData();
+    }
+
+    private void setupLocationListenerAndFetchData() {
+        locationViewModel.getLocationLiveData().observe(this, location -> {
+            if (location != null) {
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                fetchRestaurantsData(userLocation);
+            }
+        });
+    }
+    private void fetchRestaurantsData(LatLng userLocation) {
+        //Use streamGoogleMapViewModel for recover proximity restaurants
+        // Use userViewModel for recover user choice restaurants
+        // Note that call are asynchronous, maybe store temporarily results
+        // and send them to fragments when data set are ready
+
+        String loc = userLocation.latitude + "," + userLocation.longitude;
+        List<String> types = Arrays.asList("restaurant", "food");
+        streamGoogleMapViewModel.getCombinedNearbyPlaces(loc, 1000, types).observe(this, resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                // Suppose that i have method for notify fragment with this data
+                notifyFragmentsWithRestaurantsData(resource.data.get(0).getResults());
+            }
+        });
+        // Repeat similar process for recover choice restaurants with UserViewModel
+    }
+
+    // This method is a placeholder. I need to implement the logic for notify the fragments effectively
+
+    private void notifyFragmentsWithRestaurantsData(List<Results> results) {
+        // You can use interface of callback or livedata that fragments will observe
     }
 
     public void navigateToRestaurantDetail(String restaurantId) {
@@ -336,4 +383,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             super.onBackPressed();
         }
     }
+
+
+    @Override
+    public void fetchNearbyRestaurants() {
+
+    }
+
+    @Override
+    public void fetchChosenRestaurants() {
+
+    }
+
 }
+

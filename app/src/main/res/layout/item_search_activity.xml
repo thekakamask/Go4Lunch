@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/restaurant_list_fragment_padding_w390">
+    android:padding="@dimen/restaurant_list_fragment_padding_w320">
 
     <TextView
         android:id="@+id/restaurantName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/restaurant_list_fragment_sizetext_w390"
+        android:textSize="@dimen/restaurant_list_fragment_sizetext_w320"
         android:text="@string/restaurant_name"
         android:textColor="@color/black"
         android:textStyle="bold"

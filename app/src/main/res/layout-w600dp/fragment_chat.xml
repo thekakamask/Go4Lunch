@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- RECYCLER VIEW CONTAINER -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recyclerViewContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/chat_fragment_recycler_view_margin_w600"
+        android:layout_marginStart="@dimen/chat_fragment_recycler_view_margin_w600"
+        android:layout_marginEnd="@dimen/chat_fragment_recycler_view_margin_w600"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/messageContainer">
+
+        <!-- RECYCLER VIEW -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chatRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- IMAGE CHOSEN PREVIEW -->
+    <ImageView
+        android:id="@+id/imagePreview"
+        android:layout_width="@dimen/chat_fragment_image_view_width_w600"
+        android:layout_height="@dimen/chat_fragment_image_view_height_w600"
+        android:layout_margin="@dimen/chat_fragment_image_view_margin_w600"
+        app:layout_constraintBottom_toTopOf="@id/messageContainer"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- ADD MESSAGE CONTAINER -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/messageContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- ADD FILE BUTTON -->
+        <ImageButton
+            android:id="@+id/addFileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/add_image_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginBottom="@dimen/chat_fragment_image_button_margin_button_w600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- TEXT MESSAGE EDIT TEXT -->
+        <EditText
+            android:id="@+id/chatEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:textSize="@dimen/chat_fragment_edit_text_size_w600"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:backgroundTint="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:hint="@string/text_input_title_chat_fragment"
+            android:layout_marginBottom="@dimen/chat_fragment_edit_text_margin_bottom_w600"
+            app:layout_constraintStart_toEndOf="@id/addFileButton"
+            app:layout_constraintEnd_toStartOf="@id/sendButton"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- ADD MESSAGE BUTTON -->
+        <Button
+            android:id="@+id/sendButton"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_button"
+            android:textSize="@dimen/chat_fragment_button_text_size_w600"
+            android:textColor="@color/orange"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/chat_fragment_button_margin_bottom_w600"
+            app:layout_constraintStart_toEndOf="@+id/chatEditText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
