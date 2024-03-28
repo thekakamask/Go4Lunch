@@ -119,9 +119,25 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         binding.toolbarSearchButton.setOnClickListener(v -> launchSearch());
 
+        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //Intent intent = new Intent(this, MyBroadcastReceiver.class);
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+            }
+        }
+
         Intent intent = new Intent(this, MyBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Modifier ici pour ajouter les flags nécessaires
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, flags);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -129,7 +145,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        // Make sure the alarm is not scheduled in the past for today
         if (calendar.before(Calendar.getInstance())) {
             calendar.add(Calendar.DATE, 1);
         }
@@ -137,6 +152,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         if (alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
+
 
         Log.d("MainActivity", "Alarme quotidienne à 12h planifiée.");
 

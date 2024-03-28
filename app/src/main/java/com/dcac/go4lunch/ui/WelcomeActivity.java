@@ -157,23 +157,32 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
         int passwordEyeInvisibleDrawableResId = value.resourceId;
 
         binding.passwordInput.setOnTouchListener((v, event) -> {
-            final int RIGHT = 2;
+            final int DRAWABLE_RIGHT = 2;
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (binding.passwordInput.getRight() - binding.passwordInput.getCompoundDrawables()[RIGHT].getBounds().width())) {
-                    int selection = binding.passwordInput.getSelectionEnd();
-                    if (binding.passwordInput.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-                        binding.passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                        binding.passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, passwordEyeVisibleDrawableResId, 0);
-                    } else {
-                        binding.passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        binding.passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, passwordEyeInvisibleDrawableResId, 0);
-                    }
-                    binding.passwordInput.setSelection(selection);
+                boolean isDrawableRightClicked = event.getRawX() >= (binding.passwordInput.getRight() - binding.passwordInput.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width());
+                if (isDrawableRightClicked) {
+                    togglePasswordVisibility();
                     return true;
                 }
             }
             return false;
         });
+
+
+    }
+
+    private void togglePasswordVisibility() {
+        int selection = binding.passwordInput.getSelectionEnd();
+        if (binding.passwordInput.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+            // Password is currently hidden, show it
+            binding.passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            binding.passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.password_eye_open, 0);
+        } else {
+            // Password is currently shown, hide it
+            binding.passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            binding.passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.password_eye_close, 0);
+        }
+        binding.passwordInput.setSelection(selection); // Restore cursor position
     }
 
     private void signInUser() {

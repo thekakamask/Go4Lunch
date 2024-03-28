@@ -37,7 +37,7 @@
         android:textSize="@dimen/size_text_button_w720"
         android:hint="@string/password_edit"
         android:inputType="textPassword"
-        android:drawableEnd="?attr/password_logo_close"
+        android:drawableEnd="@drawable/password_eye_close"
         android:autofillHints="password"
         android:layout_marginStart="@dimen/margin_button_start_w720"
         android:layout_marginEnd="@dimen/margin_button_start_w720"
