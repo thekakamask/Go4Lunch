@@ -5,6 +5,7 @@
     <color name="red">#ffcc0000</color>
     <color name="blue">#ff0099cc</color>
     <color name="orange">#ff9a00</color>
+    <color name="beige">#FBFCD5</color>
 
     <!-- Array of colors that will be used by ViewPager as background colors -->
     <array name="colorPagesViewPager">

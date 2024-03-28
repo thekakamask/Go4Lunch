@@ -24,6 +24,7 @@
         android:layout_marginStart="@dimen/item_restaurant_activity_textview_margin_start_w480"
         android:textSize="@dimen/item_restaurant_activity_text_size_w480"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:text="@string/user_name_text"
         app:layout_constraintStart_toEndOf="@id/profile_image"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,6 +37,7 @@
         android:text="@string/is_joining"
         android:textSize="@dimen/item_restaurant_activity_text_size_w480"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@id/name_text_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

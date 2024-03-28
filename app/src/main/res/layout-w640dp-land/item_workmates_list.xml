@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/workmates_list_fragment_margin_land_w640"
         android:textSize="@dimen/workmates_list_fragment_text_size_land_w640"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:text="@string/scarlett_is_eating_french"
         app:layout_constraintStart_toEndOf="@id/profile_image"
@@ -35,6 +36,7 @@
         android:text="@string/le_zinc"
         android:textSize="@dimen/workmates_list_fragment_text_size_land_w640"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@id/name_text_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

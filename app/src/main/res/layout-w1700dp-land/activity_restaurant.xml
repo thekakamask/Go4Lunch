@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/activity_restaurant_image"
@@ -92,7 +93,7 @@
             android:text="Call"
             android:textSize="@dimen/restaurant_activity_button_text_size_land_w1700"
             android:textStyle="bold"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/beige"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/activity_restaurant_button_like" />
@@ -103,7 +104,7 @@
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/star_button_xl"
             android:textColor="@color/orange"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/beige"
             android:textSize="@dimen/restaurant_activity_button_text_size_land_w1700"
             android:textStyle="bold"
             android:text="Like"
@@ -117,7 +118,7 @@
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/website_button_xl"
             android:textColor="@color/orange"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/beige"
             android:textSize="@dimen/restaurant_activity_button_text_size_land_w1700"
             android:textStyle="bold"
             android:text="Website"

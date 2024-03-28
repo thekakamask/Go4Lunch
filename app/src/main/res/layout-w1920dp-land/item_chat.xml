@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/chat_item_user_text_send_size_land_w1920"
                 android:text="User example"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/chat_item_text_send_size_land_w1920"
+                android:textColor="@color/black"
                 tools:text="Text example"
                 app:layout_constraintTop_toBottomOf="@id/UserTextView"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +97,7 @@
             android:textSize="@dimen/chat_item_date_send_size_land_w1920"
             tools:text="20h"
             android:padding="@dimen/chat_item_date_send_padding_land_w1920"
+            android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/messageTextContainer"
             app:layout_constraintEnd_toEndOf="parent" />
