@@ -2,6 +2,8 @@ package com.dcac.go4lunch.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -10,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -63,6 +66,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         Log.d("MainActivity", "onCreate: start");
 
         initializeViewModels();
+        //setupTabIcons();
 
         setSupportActionBar(binding.activityMainToolbar);
         getSupportActionBar().setTitle("");
@@ -156,8 +160,25 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         Log.d("MainActivity", "Alarme quotidienne à 12h planifiée.");
 
-
     }
+
+    /*private void setupTabIcons() {
+        TabLayout tabLayout = findViewById(R.id.activity_main_tabs_layout);
+        tabLayout.getTabAt(0).setIcon(R.drawable.map_icon);
+        tabLayout.getTabAt(1).setIcon(R.drawable.list_icon);
+        tabLayout.getTabAt(2).setIcon(R.drawable.workmates_icon);
+        tabLayout.getTabAt(3).setIcon(R.drawable.chat_icon);
+
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null && tab.getIcon() != null) {
+                Drawable wrapDrawable = DrawableCompat.wrap(tab.getIcon()).mutate();
+                DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(this, R.color.black));
+                tab.setIcon(wrapDrawable);
+            }
+        }
+    }*/
 
     public UserViewModel getUserViewModel() {
         return userViewModel;

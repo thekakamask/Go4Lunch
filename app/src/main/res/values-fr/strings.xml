@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">Go4Lunch</string>
+
+    <!--    Welcome Fragment-->
+    <string name="hello_welcome_fragment">Bonjour Go4Launch fragment</string>
+    <string name="login_welcome_fragment">Se connecter</string>
+    <string name="password_edit">Mot de passe</string>
+    <string name="sign_in">Connection</string>
+    <string name="email_edit">Email</string>
+    <string name="text_sign_up">Création de compte</string>
+    <string name="connection_succeed">Connection réussis !</string>
+    <string name="unknown_error">Erreur inconnu</string>
+    <string name="error_authentication_canceled">Connection annulé !</string>
+    <string name="error_no_internet">Pas de connection internet !</string>
+    <string name="error_unknown_error">Erreur inconnu</string>
+    <string name="authentication_failed">Connection échoué !</string>
+    <string name="error_creating_user">Erreur de création de compte</string>
+
+
+    <!-- MainActivity -->
+    <string name="your_lunch">Votre dejeuner </string>
+    <string name="parameters">Paramètres</string>
+    <string name="log_out">Déconnection</string>
+    <string name="user_name_text">John SMITH</string>
+    <string name="user_email_text">jsmith.1337@gmail.com</string>
+    <string name="navigation_drawer_open">Tiroir ouvert</string>
+    <string name="navigation_drawer_close">Tiroir fermé</string>
+    <string name="you_are_hungry">Vous avez faim !</string>
+    <string name="glass">Loupe</string>
+    <string name="disconnection_failed">Deconnection échouée</string>
+    <string name="error_fetching_user_data">Erreur lors de la récuperation des données</string>
+    <string name="user_data_not_found">Données utilisateur non trouvé</string>
+    <string name="map_view">Carte</string>
+    <string name="list_view">Liste</string>
+    <string name="workmates">Utilisateurs</string>
+    <string name="choose_a_restaurant_first">Vous devez choisir un restaurant</string>
+    <string name="selected_restaurant">Dejeuner choisi</string>
+    <string name="chat">Chat</string>
+
+    <!-- UserRepository -->
+
+    <!-- StreamRepository -->
+
+    <!-- LocationRepository -->
+
+    <!-- UserViewModel -->
+
+    <!-- StreamViewModel -->
+
+    <!-- LocationViewModel -->
+
+    <!-- ViewModelFactory -->
+
+
+    <!-- AuthService -->
+
+    <!-- Resource -->
+
+    <!-- RestaurantListFragment -->
+    <string name="restaurant_name">Nom du restaurant</string>
+    <string name="restaurant_address">Adresse du restaurant</string>
+    <string name="restaurant_time">Heure du restaurant</string>
+    <string name="restaurant_distance">100m</string>
+    <string name="restaurant_coworkers">(3)</string>
+    <string name="restaurant_opening_hours">Ouvert jusqu\'à 2h30</string>
+    <string name="restaurant_star_description">avis du restaurant</string>
+    <string name="restaurant_distance_unknown">Distance inconnu</string>
+
+    <!-- WorkmatesListFragment -->
+    <string name="scarlett_is_eating_french">%1$s mange francais</string>
+    <string name="le_zinc">\u0020(le Zinc)</string>
+
+    <!-- RestaurantActivity-->
+    <string name="is_joining">" se joint !"</string>
+    <string name="error_fetching_details">Erreur dans la récuperation des détails du restaurant</string>
+    <string name="website_not_available">Site non disponible</string>
+    <string name="phone_not_available">Numéro non disponible</string>
+    <string name="restaurant_name_not_available">Nom du restaurant non disponible</string>
+    <string name="restaurant_address_not_available">Adresse du restaurant non disponible</string>
+    <string name="choice_removed_success">Succes dans le retrait du choix</string>
+    <string name="restaurant_chosen_success">Succès dans l\'ajout du choix</string>
+    <string name="default_error_message">Erreur message par default</string>
+    <string name="error_loading_workmates">Erreur chargement utilisateurs</string>
+
+
+    <!-- SearchActivity-->
+    <string name="search_hint">Votre recherche</string>
+
+    <!-- ParametersActivity-->
+    <string name="title_parameters_activity">Paramètres</string>
+    <string name="header_example">Exemple d\'entete</string>
+    <string name="description_example">Exemple de description</string>
+    <string name="header_group_example">Exemple d\'entete de groupe</string>
+
+    <!-- ChatFragment-->
+    <string name="text_input_title_chat_fragment">Votre texte</string>
+    <string name="send_button">Envoi</string>
+
+</resources>

@@ -68,6 +68,7 @@
             android:background="@color/orange"
             app:tabIndicatorColor="@color/white"
             app:tabTextColor="@color/white"
+            app:tabIconTint="@color/tab_icon_color_selector"
             app:tabSelectedTextColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,24 +78,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/map_icon"
+                android:background="@null"
                 android:text="@string/map_view" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/list_icon"
+                android:background="@null"
                 android:text="@string/list_view" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/workmates_icon"
+                android:background="@null"
                 android:text="@string/workmates" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/chat_icon"
+                android:background="@null"
                 android:text="@string/chat"/>
 
 

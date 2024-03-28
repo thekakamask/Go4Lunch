@@ -26,10 +26,10 @@
     <string name="navigation_drawer_open">drawer opened</string>
     <string name="navigation_drawer_close">Drawer closed</string>
     <string name="you_are_hungry">You are hungry !</string>
-    <string name="glass">glass</string>
+    <string name="glass">Glass</string>
     <string name="disconnection_failed">Log out failed</string>
     <string name="error_fetching_user_data">Error fetching user data</string>
-    <string name="user_data_not_found">User data not found.</string>
+    <string name="user_data_not_found">User data not found</string>
     <string name="map_view">Map</string>
     <string name="list_view">List</string>
     <string name="workmates">Users</string>
@@ -94,10 +94,6 @@
 
     <!-- ChatFragment-->
     <string name="text_input_title_chat_fragment">Write your text</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="send_button">SEND</string>
 
 </resources>
