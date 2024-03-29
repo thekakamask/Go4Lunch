@@ -95,5 +95,6 @@
     <!-- ChatFragment-->
     <string name="text_input_title_chat_fragment">Votre texte</string>
     <string name="send_button">Envoi</string>
+    <string name="loading_restaurants">Chargement des restaurants</string>
 
 </resources>

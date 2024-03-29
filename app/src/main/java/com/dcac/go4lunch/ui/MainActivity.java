@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,6 +57,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private UserViewModel userViewModel;
     private LocationViewModel locationViewModel;
     private StreamGoogleMapViewModel streamGoogleMapViewModel;
+
+    private LatLng lastKnownLocation = null;
 
     protected ActivityMainBinding getViewBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
@@ -136,7 +140,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         Intent intent = new Intent(this, MyBroadcastReceiver.class);
 
-        // Modifier ici pour ajouter les flags nécessaires
+
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             flags |= PendingIntent.FLAG_IMMUTABLE;
@@ -204,26 +208,36 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private void setupLocationListenerAndFetchData() {
         locationViewModel.getLocationLiveData().observe(this, location -> {
             if (location != null) {
-                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                fetchRestaurantsData(userLocation);
+                LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                if (shouldFetchData(currentLocation)) {
+                    lastKnownLocation = currentLocation;
+                    fetchRestaurantsData(currentLocation);
+                }
             }
         });
     }
+
+    private boolean shouldFetchData(LatLng currentLocation) {
+        if (lastKnownLocation == null) {
+            return true; // NO DATA PREVIOUSLY CHARGE, NEED TO CHARGE AT THE LAUNCH
+        }
+        float[] results = new float[1];
+        Location.distanceBetween(lastKnownLocation.latitude, lastKnownLocation.longitude,
+                currentLocation.latitude, currentLocation.longitude, results);
+        return results[0] > 500; // RETURN TRUE IF USER MOVE MORE THANT 500 METERS
+    }
+
     private void fetchRestaurantsData(LatLng userLocation) {
         //Use streamGoogleMapViewModel for recover proximity restaurants
         // Use userViewModel for recover user choice restaurants
         // Note that call are asynchronous, maybe store temporarily results
         // and send them to fragments when data set are ready
 
+        Toast.makeText(this, R.string.loading_restaurants, Toast.LENGTH_SHORT).show();
         String loc = userLocation.latitude + "," + userLocation.longitude;
-        List<String> types = Arrays.asList("restaurant", "food");
-        streamGoogleMapViewModel.getCombinedNearbyPlaces(loc, 1000, types).observe(this, resource -> {
-            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                // Suppose that i have method for notify fragment with this data
-                notifyFragmentsWithRestaurantsData(resource.data.get(0).getResults());
-            }
-        });
-        // Repeat similar process for recover choice restaurants with UserViewModel
+        List<String> types = Collections.singletonList("restaurant");
+
+        streamGoogleMapViewModel.fetchAndStoreNearbyPlaces(loc, 1000, types);
     }
 
     // This method is a placeholder. I need to implement the logic for notify the fragments effectively

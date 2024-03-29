@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
+import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.ui.MainActivity;
 import com.dcac.go4lunch.utils.Resource;
@@ -22,6 +23,8 @@ import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.RestaurantsListAdapter;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -65,7 +68,8 @@ public class RestaurantsListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupAdapter();
-        subscribeToLocationUpdates();
+        //subscribeToLocationUpdates();
+        subscribeToUpdates();
         /*if (mainActivity != null) {
             locationViewModel = mainActivity.getLocationViewModel();
             streamGoogleMapViewModel = mainActivity.getStreamGoogleMapViewModel();
@@ -79,7 +83,42 @@ public class RestaurantsListFragment extends Fragment {
         binding.restaurantListRecyclerView.setAdapter(adapter);
     }
 
-    private void subscribeToLocationUpdates() {
+    private void subscribeToUpdates() {
+        mainActivity.getStreamGoogleMapViewModel().getStoredNearbyPlaces().observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null && resource.status == Resource.Status.SUCCESS && resource.data != null && mainActivity.getLocationViewModel().getLocationLiveData().getValue() != null) {
+                List<Results> resultsList = new ArrayList<>();
+                for (PlaceNearbySearch placeNearbySearch : resource.data) {
+                    resultsList.addAll(placeNearbySearch.getResults());
+                }
+
+                // Obtain actual loc
+                Location userLocation = mainActivity.getLocationViewModel().getLocationLiveData().getValue();
+
+                // Sort result by disntance
+                Collections.sort(resultsList, (result1, result2) -> {
+                    float[] results1 = new float[1];
+                    Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result1.getGeometry().getLocation().getLat(), result1.getGeometry().getLocation().getLng(), results1);
+                    float distance1 = results1[0];
+
+                    float[] results2 = new float[1];
+                    Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result2.getGeometry().getLocation().getLat(), result2.getGeometry().getLocation().getLng(), results2);
+                    float distance2 = results2[0];
+
+                    return Float.compare(distance1, distance2);
+                });
+
+                // update adapter with sort list
+                adapter.updateData(resultsList, userLocation);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    /*private void subscribeToLocationUpdates() {
         if (mainActivity != null) {
             mainActivity.getLocationViewModel().getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
                 if (location != null) {
@@ -88,7 +127,7 @@ public class RestaurantsListFragment extends Fragment {
                 }
             });
         }
-    }
+    }*/
 
     /*private void getLocationUpdates() {
         // Observe location updates
@@ -109,9 +148,9 @@ public class RestaurantsListFragment extends Fragment {
         });
     }*/
 
-    private void fetchNearbyRestaurants(LatLng userLocation) {
+    /*private void fetchNearbyRestaurants(LatLng userLocation) {
         String loc = userLocation.latitude + "," + userLocation.longitude;
-        List<String> types = Arrays.asList("food", "restaurant");
+        List<String> types = Collections.singletonList("restaurant");
         mainActivity.getStreamGoogleMapViewModel().getCombinedNearbyPlaces(loc, 1000, types).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 List<Results> sortedRestaurants = sortRestaurantsByDistance(resource.data.get(0).getResults(), userLocation);
@@ -121,7 +160,7 @@ public class RestaurantsListFragment extends Fragment {
                 adapter.updateData(sortedRestaurants, location);
             }
         });
-    }
+    }*/
 
     /*private void fetchNearbyRestaurants(LatLng userLocation) {
 
@@ -148,7 +187,7 @@ public class RestaurantsListFragment extends Fragment {
         });*//*
     }*/
 
-    private List<Results> sortRestaurantsByDistance(List<Results> restaurants, final LatLng userLatLng) {
+    /*private List<Results> sortRestaurantsByDistance(List<Results> restaurants, final LatLng userLatLng) {
         final Location userLocation = new Location("");
         userLocation.setLatitude(userLatLng.latitude);
         userLocation.setLongitude(userLatLng.longitude);
@@ -166,7 +205,7 @@ public class RestaurantsListFragment extends Fragment {
         });
 
         return restaurants;
-    }
+    }*/
 
     /*private List<Results> sortRestaurantsByDistance(List<Results> restaurants, final LatLng userLatLng) {
         final Location userLocation = new Location("");
@@ -216,8 +255,4 @@ public class RestaurantsListFragment extends Fragment {
         return restaurants;
     }*/
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 }

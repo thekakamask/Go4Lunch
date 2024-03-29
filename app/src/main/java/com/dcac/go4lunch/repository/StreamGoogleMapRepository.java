@@ -7,19 +7,27 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MutableLiveData;
 
+
 import com.dcac.go4lunch.models.apiGoogleMap.autoCompleteAPI.AutoComplete;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.gson.Gson;
 
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.FlowableSubscriber;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Observer;
 
 public final class StreamGoogleMapRepository {
     private final ServiceGoogleMap service;
@@ -98,9 +106,7 @@ public final class StreamGoogleMapRepository {
                                 liveData.postValue(Resource.success(combinedResults));
                             }
                         },
-                        throwable -> {
-                            liveData.postValue(Resource.error(throwable.getMessage(), combinedResults));
-                        }
+                        throwable -> liveData.postValue(Resource.error(throwable.getMessage(), combinedResults))
                 );
     }
 

@@ -20,6 +20,11 @@ public class StreamGoogleMapViewModel extends ViewModel {
     private final StreamGoogleMapRepository mapRepository;
     private final Map<LiveData<?>, Observer<?>> observers = new HashMap<>();
 
+    //private MutableLiveData<Resource<List<PlaceNearbySearch>>> combinedNearbyPlacesLiveData;
+
+    private MutableLiveData<Resource<List<PlaceNearbySearch>>> nearbyPlacesLiveData = new MutableLiveData<>();
+
+
     public StreamGoogleMapViewModel(StreamGoogleMapRepository mapRepository) {
         this.mapRepository = mapRepository;
     }
@@ -59,9 +64,38 @@ public class StreamGoogleMapViewModel extends ViewModel {
         return liveData;
     }
 
-    public LiveData<Resource<List<PlaceNearbySearch>>> getCombinedNearbyPlaces(String location, int radius, List<String> types) {
-        return mapRepository.getCombinedNearbyPlaces(location, radius, types);
+    public void fetchAndStoreNearbyPlaces(String location, int radius, List<String> types) {
+        mapRepository.getCombinedNearbyPlaces(location, radius, types).observeForever(resource -> {
+            nearbyPlacesLiveData.setValue(resource);
+        });
     }
+
+    public LiveData<Resource<List<PlaceNearbySearch>>> getStoredNearbyPlaces() {
+        return nearbyPlacesLiveData;
+    }
+
+    /*public LiveData<Resource<List<PlaceNearbySearch>>> getCombinedNearbyPlaces(String location, int radius, List<String> types) {
+        // INIT LIVE DATE IF IT DOESNT EXIST
+        if (combinedNearbyPlacesLiveData == null) {
+            combinedNearbyPlacesLiveData = new MutableLiveData<>();
+            // LOAD DATA FROM API
+            loadCombinedNearbyPlaces(location, radius, types);
+        }
+        return combinedNearbyPlacesLiveData;
+    }
+
+    private void loadCombinedNearbyPlaces(String location, int radius, List<String> types) {
+        mapRepository.getCombinedNearbyPlaces(location, radius, types).observeForever(resource -> {
+            // UPDATE LIVE DATA WITH RESULT
+            combinedNearbyPlacesLiveData.setValue(resource);
+        });
+    }*/
+
+    // FORCE THE DATA RECHARGE
+    /*public void refreshCombinedNearbyPlaces(String location, int radius, List<String> types) {
+        loadCombinedNearbyPlaces(location, radius, types);
+    }*/
+
 
     public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId) {
         MutableLiveData<Resource<PlaceDetails>> liveData = new MutableLiveData<>();

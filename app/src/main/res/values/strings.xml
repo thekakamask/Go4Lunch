@@ -95,5 +95,6 @@
     <!-- ChatFragment-->
     <string name="text_input_title_chat_fragment">Write your text</string>
     <string name="send_button">SEND</string>
+    <string name="loading_restaurants">Loading restaurants</string>
 
 </resources>

@@ -44,6 +44,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -102,28 +103,36 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        if (getActivity() instanceof MainActivity) {
-            mainActivity = (MainActivity) getActivity();
-            setupMap();
+        setupMap();
+        subscribeToUpdates();
+        centerMapOnUserLocation();
+    }
 
-            mainActivity.getLocationViewModel().getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
-                if (location != null) {
-                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, DEFAULT_ZOOM));
-                    fetchNearbyRestaurants(userLocation, mainActivity.getStreamGoogleMapViewModel());
-                    fetchChosenRestaurants(mainActivity.getUserViewModel());
-                }
-            });
-        }
-        mMap.setOnMarkerClickListener(this);
+    private void centerMapOnUserLocation() {
+        mainActivity.getLocationViewModel().getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
+            if (location != null && mMap != null) {
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, DEFAULT_ZOOM));
+            }
+        });
     }
 
     private void setupMap() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         }
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    private void subscribeToUpdates() {
+        mainActivity.getStreamGoogleMapViewModel().getStoredNearbyPlaces().observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null && resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                updateMapWithRestaurants(resource.data);
+            }
+        });
     }
 
     /*private void subscribeToLocationUpdates(LocationViewModel locationViewModel) {
@@ -137,9 +146,9 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
         });
     }*/
 
-    private void fetchNearbyRestaurants(LatLng location, StreamGoogleMapViewModel streamGoogleMapViewModel) {
+    /*private void fetchNearbyRestaurants(LatLng location, StreamGoogleMapViewModel streamGoogleMapViewModel) {
         String loc = location.latitude + "," + location.longitude;
-        streamGoogleMapViewModel.getCombinedNearbyPlaces(loc, 1000, Arrays.asList("food", "restaurant")).observe(getViewLifecycleOwner(), resource -> {
+        streamGoogleMapViewModel.getCombinedNearbyPlaces(loc, 1000, Collections.singletonList("restaurant")).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                 lastFetchedNearbyRestaurants.clear();
                 lastFetchedNearbyRestaurants.addAll(resource.data);
@@ -156,7 +165,7 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
                 updateMapWithRestaurants(lastFetchedNearbyRestaurants);
             }
         });
-    }
+    }*/
 
     private void updateMapWithRestaurants(List<PlaceNearbySearch> placeSearches) {
         mMap.clear();
@@ -236,7 +245,7 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     public void onResume() {
         super.onResume();
         binding.mapView.onResume();
-        fetchChosenRestaurants(mainActivity.getUserViewModel());
+        //fetchChosenRestaurants(mainActivity.getUserViewModel());
     }
 
     @Override
