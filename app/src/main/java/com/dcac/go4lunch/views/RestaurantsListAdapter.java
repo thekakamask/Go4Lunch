@@ -16,12 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ItemRestaurantListBinding;
+import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Opening_hours;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.ApiKeyUtil;
 
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsListAdapter.RestaurantsListViewHolder> {
 
@@ -29,6 +33,8 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
 
     private Location userLocation;
     private Context context;
+
+    private Map<String, Integer> userChoices = new HashMap<>();
 
     public RestaurantsListAdapter(Context context) {
         super(DIFF_CALLBACK);
@@ -55,8 +61,9 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         return new RestaurantsListViewHolder(itemBinding, userLocation, context);
     }
 
-    public void updateData(List<Results> newRestaurants, Location newUserLocation) {
+    public void updateData(List<Results> newRestaurants, Location newUserLocation, Map<String, Integer> userChoices) {
         this.userLocation = newUserLocation;
+        this.userChoices= userChoices;
         submitList(newRestaurants);
         notifyDataSetChanged();
     }
@@ -98,10 +105,33 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         public void bind(Results results, Location userLocation ) {
             binding.restaurantName.setText(results.getName());
             binding.restaurantAddress.setText(results.getVicinity());
+
+            /*if (results.getOpening_hours() != null && results.getOpening_hours().getWeekday_text() != null) {
+                Calendar calendar = Calendar.getInstance();
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+                List<String> openingHoursList = results.getOpening_hours().getWeekday_text();
+                if (!openingHoursList.isEmpty() && dayOfWeek < openingHoursList.size()) {
+                    String todayOpeningHours = openingHoursList.get(dayOfWeek);
+                    binding.restaurantOpeningHours.setText(todayOpeningHours);
+                } else {
+                    binding.restaurantOpeningHours.setText(R.string.restaurant_hours_unknown);
+                }
+            } else {
+                binding.restaurantOpeningHours.setText(R.string.restaurant_hours_unknown);
+            }*/
+
+            if (results.getOpening_hours() != null) {
+                String openingHoursText = formatOpeningHours(results.getOpening_hours());
+                binding.restaurantOpeningHours.setText(openingHoursText);
+            } else {
+                binding.restaurantOpeningHours.setText(R.string.restaurant_hours_unknown);
+            }
             //binding.restaurantOpeningHours.setText((CharSequence) results.getOpening_hours());
 
             // MODIFY THE NUMBER OF WORKERS WHEN OTHER FUNCTIONNALITY ARE IMPLEMENTED
-            binding.restaurantWorkers.setText("3");
+            Integer count = userChoices.containsKey(results.getPlace_id()) ? userChoices.get(results.getPlace_id()) : 0;
+            binding.restaurantWorkers.setText(String.format(Locale.getDefault(), "%d", count));
+            //binding.restaurantWorkers.setText("3");
 
 
             if (results.getPhotos() != null && !results.getPhotos().isEmpty()) {
@@ -132,6 +162,10 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             }
 
             setupRatingStars(results.getRating());
+        }
+
+        private String formatOpeningHours(Opening_hours openingHours) {
+            return openingHours.getOpen_now() ? "Open" : "Close";
         }
 
         private void setupRatingStars(double rating) {

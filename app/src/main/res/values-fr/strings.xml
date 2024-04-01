@@ -65,6 +65,9 @@
     <string name="restaurant_opening_hours">Ouvert jusqu\'à 2h30</string>
     <string name="restaurant_star_description">avis du restaurant</string>
     <string name="restaurant_distance_unknown">Distance inconnu</string>
+    <string name="restaurant_hours_unknown">Horaires inconnues</string>
+    <string name="open">ouvert</string>
+    <string name="close">fermé</string>
 
     <!-- WorkmatesListFragment -->
     <string name="scarlett_is_eating_french">%1$s mange francais</string>

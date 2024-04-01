@@ -65,6 +65,9 @@
     <string name="restaurant_opening_hours">Open until 2.30pm</string>
     <string name="restaurant_star_description">restaurant star</string>
     <string name="restaurant_distance_unknown">Distance unknown</string>
+    <string name="restaurant_hours_unknown">Hours unknown</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 
     <!-- WorkmatesListFragment -->
     <string name="scarlett_is_eating_french">%1$s is eating french</string>

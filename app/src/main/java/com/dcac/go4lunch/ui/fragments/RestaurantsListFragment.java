@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
+import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.ui.MainActivity;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
@@ -28,7 +30,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +46,8 @@ public class RestaurantsListFragment extends Fragment {
     /*private StreamGoogleMapViewModel streamGoogleMapViewModel;
     private LocationViewModel locationViewModel;*/
     private MainActivity mainActivity;
+
+    private boolean hasObservers = false;
 
     public static RestaurantsListFragment newInstance() {return new RestaurantsListFragment();}
 
@@ -84,38 +90,64 @@ public class RestaurantsListFragment extends Fragment {
     }
 
     private void subscribeToUpdates() {
-        mainActivity.getStreamGoogleMapViewModel().getStoredNearbyPlaces().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.status == Resource.Status.SUCCESS && resource.data != null && mainActivity.getLocationViewModel().getLocationLiveData().getValue() != null) {
-                List<Results> resultsList = new ArrayList<>();
-                for (PlaceNearbySearch placeNearbySearch : resource.data) {
-                    resultsList.addAll(placeNearbySearch.getResults());
+
+        if (!hasObservers) {
+            LiveData<Resource<List<PlaceNearbySearch>>> nearbyPlacesResource = mainActivity.getStreamGoogleMapViewModel().getStoredNearbyPlaces();
+            LiveData<Resource<Map<String, List<User>>>> restaurantChoicesResource = mainActivity.getUserViewModel().getAllRestaurantChoices();
+
+            nearbyPlacesResource.observe(getViewLifecycleOwner(), nearbyPlaces -> {
+                if (nearbyPlaces != null && nearbyPlaces.status == Resource.Status.SUCCESS && nearbyPlaces.data != null) {
+                    List<Results> resultsList = new ArrayList<>();
+                    for (PlaceNearbySearch placeNearbySearch : nearbyPlaces.data) {
+                        resultsList.addAll(placeNearbySearch.getResults());
+                    }
+
+                    Location userLocation = mainActivity.getLocationViewModel().getLocationLiveData().getValue();
+                    if (userLocation != null) {
+                        // Trier les résultats par distance
+                        Collections.sort(resultsList, (result1, result2) -> {
+                            float[] results1 = new float[1];
+                            Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result1.getGeometry().getLocation().getLat(), result1.getGeometry().getLocation().getLng(), results1);
+                            float distance1 = results1[0];
+
+                            float[] results2 = new float[1];
+                            Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result2.getGeometry().getLocation().getLat(), result2.getGeometry().getLocation().getLng(), results2);
+                            float distance2 = results2[0];
+
+                            return Float.compare(distance1, distance2);
+                        });
+                    }
+
+                    // Observe choice restaurants
+                    restaurantChoicesResource.observe(getViewLifecycleOwner(), restaurantChoices -> {
+                        if (restaurantChoices != null && restaurantChoices.status == Resource.Status.SUCCESS && restaurantChoices.data != null) {
+                            Map<String, Integer> restaurantUserCounts = new HashMap<>();
+                            for (Map.Entry<String, List<User>> entry : restaurantChoices.data.entrySet()) {
+                                restaurantUserCounts.put(entry.getKey(), entry.getValue().size());
+                            }
+
+                            // Update adapter with list and count the users
+                            if (userLocation != null) {
+                                adapter.updateData(resultsList, userLocation, restaurantUserCounts);
+                            }
+                        }
+                    });
                 }
-
-                // Obtain actual loc
-                Location userLocation = mainActivity.getLocationViewModel().getLocationLiveData().getValue();
-
-                // Sort result by disntance
-                Collections.sort(resultsList, (result1, result2) -> {
-                    float[] results1 = new float[1];
-                    Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result1.getGeometry().getLocation().getLat(), result1.getGeometry().getLocation().getLng(), results1);
-                    float distance1 = results1[0];
-
-                    float[] results2 = new float[1];
-                    Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result2.getGeometry().getLocation().getLat(), result2.getGeometry().getLocation().getLng(), results2);
-                    float distance2 = results2[0];
-
-                    return Float.compare(distance1, distance2);
-                });
-
-                // update adapter with sort list
-                adapter.updateData(resultsList, userLocation);
-            }
-        });
+            });
+            hasObservers = true;
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        subscribeToUpdates();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hasObservers = false;
     }
 
     /*private void subscribeToLocationUpdates() {

@@ -286,7 +286,7 @@
     <dimen name="workmates_list_fragment_image_size_land_w960">80dp</dimen>
     <dimen name="workmates_list_fragment_border_size_land_w960">3dp</dimen>
     <dimen name="workmates_list_fragment_margin_land_w960">40dp</dimen>
-    <dimen name="workmates_list_fragment_text_size_land_w960">30dp</dimen>
+    <dimen name="workmates_list_fragment_text_size_land_w960">30sp</dimen>
 
     <!--    WorkmatesListFragmentLandw1024-->
     <dimen name="workmates_list_fragment_padding_land_w1024">15dp</dimen>

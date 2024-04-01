@@ -307,6 +307,10 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
+    public LiveData<Resource<Map<String, List<User>>>> getAllRestaurantChoices() {
+        return userRepository.getAllRestaurantChoices();
+    }
+
 
 
 

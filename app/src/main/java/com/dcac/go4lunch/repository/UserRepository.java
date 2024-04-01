@@ -19,7 +19,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class UserRepository {
 
@@ -233,6 +235,25 @@ public final class UserRepository {
                     liveData.setValue(restaurantIds);
                 })
                 .addOnFailureListener(e -> liveData.setValue(new ArrayList<>()));
+        return liveData;
+    }
+
+    public LiveData<Resource<Map<String, List<User>>>> getAllRestaurantChoices() {
+        MutableLiveData<Resource<Map<String, List<User>>>> liveData = new MutableLiveData<>();
+        usersCollection.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Map<String, List<User>> restaurantChoices = new HashMap<>();
+            for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
+                User user = snapshot.toObject(User.class);
+                if (user != null && user.getRestaurantChoice() != null) {
+                    RestaurantChoice choice = user.getRestaurantChoice();
+                    if (!restaurantChoices.containsKey(choice.getRestaurantId())) {
+                        restaurantChoices.put(choice.getRestaurantId(), new ArrayList<>());
+                    }
+                    restaurantChoices.get(choice.getRestaurantId()).add(user);
+                }
+            }
+            liveData.setValue(Resource.success(restaurantChoices));
+        }).addOnFailureListener(e -> liveData.setValue(Resource.error("Error fetching restaurant choices", null)));
         return liveData;
     }
 
