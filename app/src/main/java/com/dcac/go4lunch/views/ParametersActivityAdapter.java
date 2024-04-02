@@ -1,12 +1,14 @@
 package com.dcac.go4lunch.views;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.models.ParametersItem;
@@ -98,6 +100,15 @@ public class ParametersActivityAdapter extends BaseExpandableListAdapter {
         checkBox.setOnClickListener(v -> {
             boolean newState = !child.isChecked();
             child.setChecked(newState);
+
+            // Save state in SharedPreferences
+            SharedPreferences preferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("NotificationsEnabled", newState);
+            editor.apply();
+
+            Toast.makeText(context, newState ? context.getString(R.string.Notifications_activated) : context.getString(R.string.Notifications_disabled), Toast.LENGTH_SHORT).show();
+
             notifyDataSetChanged();
         });
 

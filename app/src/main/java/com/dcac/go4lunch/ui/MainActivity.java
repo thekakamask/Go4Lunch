@@ -31,7 +31,6 @@ import com.dcac.go4lunch.ui.fragments.ChatFragment;
 import com.dcac.go4lunch.ui.fragments.RestaurantsListFragment;
 import com.dcac.go4lunch.ui.fragments.RestaurantsMapFragment;
 import com.dcac.go4lunch.ui.fragments.WorkMatesListFragment;
-import com.dcac.go4lunch.utils.DataFetcher;
 import com.dcac.go4lunch.utils.MyBroadcastReceiver;
 import com.dcac.go4lunch.utils.Resource;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
@@ -51,7 +50,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener, DataFetcher {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private UserViewModel userViewModel;
@@ -131,7 +130,55 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         //Intent intent = new Intent(this, MyBroadcastReceiver.class);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+        // Check user preferences for notifications
+        SharedPreferences preferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
+        boolean notificationsEnabled = preferences.getBoolean("NotificationsEnabled", true);
+
+        if (notificationsEnabled) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                    Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                    startActivity(intent);
+                }
+            }
+
+            Intent intent = new Intent(this, MyBroadcastReceiver.class);
+            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                flags |= PendingIntent.FLAG_IMMUTABLE;
+            }
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, flags);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 12);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+
+            if (calendar.before(Calendar.getInstance())) {
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            if (alarmManager != null) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
+        } else {
+            // Cancel if alarm is not already programmed
+            Intent intent = new Intent(this, MyBroadcastReceiver.class);
+            int flags = PendingIntent.FLAG_CANCEL_CURRENT;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                flags |= PendingIntent.FLAG_IMMUTABLE;
+            }
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, flags);
+            if (alarmManager != null) {
+                alarmManager.cancel(pendingIntent);
+            }
+        }
+
+        Log.d("MainActivity", "Alarme quotidienne à 12h planifiée.");
+
+
+        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                 startActivity(intent);
@@ -159,10 +206,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         if (alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        }
+        }*/
 
-
-        Log.d("MainActivity", "Alarme quotidienne à 12h planifiée.");
 
     }
 
@@ -433,18 +478,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         } else {
             super.onBackPressed();
         }
-    }
-
-
-    @Override
-    public void fetchNearbyRestaurants() {
 
     }
-
-    @Override
-    public void fetchChosenRestaurants() {
-
-    }
-
 }
 

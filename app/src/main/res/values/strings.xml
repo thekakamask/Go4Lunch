@@ -94,6 +94,11 @@
     <string name="header_example">Header example</string>
     <string name="description_example">Description example</string>
     <string name="header_group_example">Header group example</string>
+    <string name="notifications">Notifications</string>
+    <string name="lunch_notifications">Lunch notifications</string>
+    <string name="notifications_description">Activate for receive notifications at 12 PM</string>
+    <string name="Notifications_activated">Enabling notifications</string>
+    <string name="Notifications_disabled">Disabling notifications</string>
 
     <!-- ChatFragment-->
     <string name="text_input_title_chat_fragment">Write your text</string>

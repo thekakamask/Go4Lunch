@@ -94,6 +94,11 @@
     <string name="header_example">Exemple d\'entete</string>
     <string name="description_example">Exemple de description</string>
     <string name="header_group_example">Exemple d\'entete de groupe</string>
+    <string name="notifications">Notifications</string>
+    <string name="lunch_notifications">Notifications de déjeuner</string>
+    <string name="notifications_description">Activez pour recevoir des notifications à 12h</string>
+    <string name="Notifications_activated">Activation des notifications</string>
+    <string name="Notifications_disabled">Désactivation des notifications</string>
 
     <!-- ChatFragment-->
     <string name="text_input_title_chat_fragment">Votre texte</string>
