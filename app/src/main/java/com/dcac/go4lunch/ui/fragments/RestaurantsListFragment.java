@@ -90,50 +90,61 @@ public class RestaurantsListFragment extends Fragment {
     }
 
     private void subscribeToUpdates() {
-
         if (!hasObservers) {
             LiveData<Resource<List<PlaceNearbySearch>>> nearbyPlacesResource = mainActivity.getStreamGoogleMapViewModel().getStoredNearbyPlaces();
             LiveData<Resource<Map<String, List<User>>>> restaurantChoicesResource = mainActivity.getUserViewModel().getAllRestaurantChoices();
 
             nearbyPlacesResource.observe(getViewLifecycleOwner(), nearbyPlaces -> {
                 if (nearbyPlaces != null && nearbyPlaces.status == Resource.Status.SUCCESS && nearbyPlaces.data != null) {
-                    List<Results> resultsList = new ArrayList<>();
-                    for (PlaceNearbySearch placeNearbySearch : nearbyPlaces.data) {
-                        resultsList.addAll(placeNearbySearch.getResults());
-                    }
+                    List<Results> resultsList = new ArrayList<>(nearbyPlaces.data.get(0).getResults());
 
+                    // Recuperation of actual localisation of user
                     Location userLocation = mainActivity.getLocationViewModel().getLocationLiveData().getValue();
+
+                    // Sort result by distance if the loc of user is disponible
                     if (userLocation != null) {
-                        // Trier les résultats par distance
-                        Collections.sort(resultsList, (result1, result2) -> {
-                            float[] results1 = new float[1];
-                            Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result1.getGeometry().getLocation().getLat(), result1.getGeometry().getLocation().getLng(), results1);
-                            float distance1 = results1[0];
+                        Collections.sort(resultsList, new Comparator<Results>() {
+                            @Override
+                            public int compare(Results result1, Results result2) {
+                                Location location1 = new Location("");
+                                location1.setLatitude(result1.getGeometry().getLocation().getLat());
+                                location1.setLongitude(result1.getGeometry().getLocation().getLng());
 
-                            float[] results2 = new float[1];
-                            Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), result2.getGeometry().getLocation().getLat(), result2.getGeometry().getLocation().getLng(), results2);
-                            float distance2 = results2[0];
+                                Location location2 = new Location("");
+                                location2.setLatitude(result2.getGeometry().getLocation().getLat());
+                                location2.setLongitude(result2.getGeometry().getLocation().getLng());
 
-                            return Float.compare(distance1, distance2);
+                                return Float.compare(userLocation.distanceTo(location1), userLocation.distanceTo(location2));
+                            }
                         });
                     }
 
-                    // Observe choice restaurants
-                    restaurantChoicesResource.observe(getViewLifecycleOwner(), restaurantChoices -> {
-                        if (restaurantChoices != null && restaurantChoices.status == Resource.Status.SUCCESS && restaurantChoices.data != null) {
-                            Map<String, Integer> restaurantUserCounts = new HashMap<>();
-                            for (Map.Entry<String, List<User>> entry : restaurantChoices.data.entrySet()) {
-                                restaurantUserCounts.put(entry.getKey(), entry.getValue().size());
-                            }
+                    // Opening Hours recuperation
+                    List<String> placeIds = new ArrayList<>();
+                    for (Results result : resultsList) {
+                        placeIds.add(result.getPlace_id());
+                    }
 
-                            // Update adapter with list and count the users
-                            if (userLocation != null) {
+                    mainActivity.getStreamGoogleMapViewModel().getOpeningHours(placeIds).observe(getViewLifecycleOwner(), openingHoursMap -> {
+                        // Update opening hours in the adapter
+                        adapter.setOpeningHours(openingHoursMap);
+
+                        // Observe choice restaurants
+                        restaurantChoicesResource.observe(getViewLifecycleOwner(), restaurantChoices -> {
+                            if (restaurantChoices != null && restaurantChoices.status == Resource.Status.SUCCESS && restaurantChoices.data != null) {
+                                Map<String, Integer> restaurantUserCounts = new HashMap<>();
+                                for (Map.Entry<String, List<User>> entry : restaurantChoices.data.entrySet()) {
+                                    restaurantUserCounts.put(entry.getKey(), entry.getValue().size());
+                                }
+
+                                // Update adapter with sort list , loc of user and number of user by restaurants
                                 adapter.updateData(resultsList, userLocation, restaurantUserCounts);
                             }
-                        }
+                        });
                     });
                 }
             });
+
             hasObservers = true;
         }
     }
@@ -149,6 +160,8 @@ public class RestaurantsListFragment extends Fragment {
         super.onPause();
         hasObservers = false;
     }
+
+
 
     /*private void subscribeToLocationUpdates() {
         if (mainActivity != null) {

@@ -111,18 +111,16 @@ public final class StreamGoogleMapRepository {
     }
 
 
-    public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId) {
+    public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId, String language) {
         return LiveDataReactiveStreams.fromPublisher(
-                service.getPlaceDetails(placeId, null)
+                service.getPlaceDetails(placeId, language, null)
                         .subscribeOn(Schedulers.io())
                         .onErrorReturn(throwable -> {
-                            // Create and return an Error Object
                             PlaceDetails errorResponse = new PlaceDetails();
                             errorResponse.setStatus("ERROR");
                             return errorResponse;
                         })
                         .map(response -> {
-                            // Transform response in Resource
                             if ("ERROR".equals(response.getStatus())) {
                                 return Resource.error("Error fetching place details", response);
                             } else {
@@ -152,4 +150,5 @@ public final class StreamGoogleMapRepository {
                         })
         );
     }
+
 }

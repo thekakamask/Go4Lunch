@@ -1,6 +1,7 @@
 package com.dcac.go4lunch.viewModels;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -13,12 +14,15 @@ import com.dcac.go4lunch.utils.Resource;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class StreamGoogleMapViewModel extends ViewModel {
 
     private final StreamGoogleMapRepository mapRepository;
     private final Map<LiveData<?>, Observer<?>> observers = new HashMap<>();
+    private Map<String, String> cachedOpeningHours= new HashMap<>();
 
     //private MutableLiveData<Resource<List<PlaceNearbySearch>>> combinedNearbyPlacesLiveData;
 
@@ -98,8 +102,9 @@ public class StreamGoogleMapViewModel extends ViewModel {
 
 
     public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId) {
+        String language = Locale.getDefault().getLanguage(); // Obtain language of the system
         MutableLiveData<Resource<PlaceDetails>> liveData = new MutableLiveData<>();
-        observeForever(mapRepository.getPlaceDetails(placeId), liveData);
+        observeForever(mapRepository.getPlaceDetails(placeId, language), liveData);
         return liveData;
     }
 
@@ -108,6 +113,46 @@ public class StreamGoogleMapViewModel extends ViewModel {
         observeForever(mapRepository.getAutoCompletePlaces(input), liveData);
         return liveData;
     }
+
+    public LiveData<Map<String, String>> getOpeningHours(List<String> placeIds) {
+        MediatorLiveData<Map<String, String>> openingHoursLiveData = new MediatorLiveData<>();
+
+        AtomicInteger count = new AtomicInteger(placeIds.size());
+        for (String placeId : placeIds) {
+            if (cachedOpeningHours.containsKey(placeId)) {
+                // Hours already charge, use them directly
+                count.decrementAndGet();
+                continue;
+            }
+
+            LiveData<Resource<PlaceDetails>> placeDetailsLiveData = mapRepository.getPlaceDetails(placeId, Locale.getDefault().getLanguage());
+            openingHoursLiveData.addSource(placeDetailsLiveData, resource -> {
+                if (resource != null && resource.status == Resource.Status.SUCCESS) {
+                    PlaceDetails details = resource.data;
+                    if (details != null && details.getResult().getOpening_hours() != null) {
+                        List<String> openingHoursList = details.getResult().getOpening_hours().getWeekday_text();
+                        if (!openingHoursList.isEmpty()) {
+                            cachedOpeningHours.put(placeId, openingHoursList.get(0));
+                        }
+                    }
+                }
+                if (count.decrementAndGet() == 0) {
+                    openingHoursLiveData.setValue(cachedOpeningHours);
+                }
+                openingHoursLiveData.removeSource(placeDetailsLiveData);
+            });
+        }
+
+        if (count.get() == 0) {
+            // Hours already in cache
+            openingHoursLiveData.setValue(cachedOpeningHours);
+        }
+
+        return openingHoursLiveData;
+    }
+
+
+
 
 
 }

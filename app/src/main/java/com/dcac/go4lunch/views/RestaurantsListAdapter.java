@@ -33,8 +33,8 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
 
     private Location userLocation;
     private Context context;
-
     private Map<String, Integer> userChoices = new HashMap<>();
+    private Map<String, String> openingHours = new HashMap<>();
 
     public RestaurantsListAdapter(Context context) {
         super(DIFF_CALLBACK);
@@ -74,6 +74,12 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         holder.bind(restaurant, userLocation);
     }
 
+    public void setOpeningHours(Map<String, String> openingHours) {
+        this.openingHours = openingHours;
+        notifyDataSetChanged();
+    }
+
+
     /*public void setUserLocation(Location newUserLocation) {
         this.userLocation = newUserLocation;
         notifyDataSetChanged();
@@ -106,26 +112,15 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             binding.restaurantName.setText(results.getName());
             binding.restaurantAddress.setText(results.getVicinity());
 
-            /*if (results.getOpening_hours() != null && results.getOpening_hours().getWeekday_text() != null) {
-                Calendar calendar = Calendar.getInstance();
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-                List<String> openingHoursList = results.getOpening_hours().getWeekday_text();
-                if (!openingHoursList.isEmpty() && dayOfWeek < openingHoursList.size()) {
-                    String todayOpeningHours = openingHoursList.get(dayOfWeek);
-                    binding.restaurantOpeningHours.setText(todayOpeningHours);
-                } else {
-                    binding.restaurantOpeningHours.setText(R.string.restaurant_hours_unknown);
-                }
-            } else {
-                binding.restaurantOpeningHours.setText(R.string.restaurant_hours_unknown);
-            }*/
+            String hours = openingHours.get(results.getPlace_id());
+            binding.restaurantOpeningHours.setText(hours != null ? hours : context.getString(R.string.restaurant_hours_unknown));
 
-            if (results.getOpening_hours() != null) {
+            /*if (results.getOpening_hours() != null) {
                 String openingHoursText = formatOpeningHours(results.getOpening_hours());
                 binding.restaurantOpeningHours.setText(openingHoursText);
             } else {
                 binding.restaurantOpeningHours.setText(R.string.restaurant_hours_unknown);
-            }
+            }*/
             //binding.restaurantOpeningHours.setText((CharSequence) results.getOpening_hours());
 
             // MODIFY THE NUMBER OF WORKERS WHEN OTHER FUNCTIONNALITY ARE IMPLEMENTED

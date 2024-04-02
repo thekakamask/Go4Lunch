@@ -10,10 +10,6 @@ public class Opening_hours {
     @SerializedName("open_now")
     private boolean open_now;
 
-    @Expose
-    @SerializedName("weekday_text")
-    private List<String> weekday_text;
-
     public boolean getOpen_now() {
         return open_now;
     }
@@ -22,11 +18,5 @@ public class Opening_hours {
         this.open_now = open_now;
     }
 
-    public List<String> getWeekday_text() {
-        return weekday_text;
-    }
 
-    public void setWeekday_text(List<String> weekday_text) {
-        this.weekday_text = weekday_text;
-    }
 }

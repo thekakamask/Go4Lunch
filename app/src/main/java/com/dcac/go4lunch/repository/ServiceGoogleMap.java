@@ -23,6 +23,7 @@ public interface ServiceGoogleMap {
     @GET("place/details/json")
     Flowable<PlaceDetails> getPlaceDetails(
             @Query("place_id") String placeId,
+            @Query("language") String language,
             @Query("key") String apiKey);
 
     // Autocomplete
