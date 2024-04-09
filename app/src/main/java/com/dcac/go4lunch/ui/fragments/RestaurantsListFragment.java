@@ -126,7 +126,7 @@ public class RestaurantsListFragment extends Fragment {
                     }
 
                     mainActivity.getStreamGoogleMapViewModel().getOpeningHours(placeIds).observe(getViewLifecycleOwner(), openingHoursMap -> {
-                        // Update opening hours in the adapter
+                        // Update opening hours in the adapter (COMMENT EST FABRIQUER OPENINGHOURS)
                         adapter.setOpeningHours(openingHoursMap);
 
                         // Observe choice restaurants

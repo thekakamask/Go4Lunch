@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.utils.Resource;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,6 +45,27 @@ public final class UserRepository {
         });
     }
 
+    private UserRepository (AuthService authService, CollectionReference usersCollection) {
+        this.usersCollection = usersCollection;
+        this.authService=authService;
+
+        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> {
+            currentUser.setValue(firebaseAuth.getCurrentUser());
+        });
+    }
+
+    public static UserRepository getInstance(AuthService authService, CollectionReference usersCollection) {
+        if (instance ==null) {
+            instance = new UserRepository(authService, usersCollection);
+        }
+        return instance;
+    }
+
+    // REGARDER UN SECOND PARAMETRE FACULTATIF OU OPTIONNEL (userscollection) POUR GETINSTANCE QUI NE SERAIT UTILISER QUE PAR MES TESTS;
+    // PASSER EN PARAMETRE USERSCOLLECTION
+    // JE VERIFIE QU'ELLE EST NULL OU QU'IL A UNE VALEUR; SI IL EST NULL : FirebaseFirestore.getInstance().collection(COLLECTION_USERS);
+    // SINON USERS COLLECTION = LA VALEUR DU PARAMETRE UTILISABLE PAR MES TESTS. (MON CONSTRUCTEUR PRIVE DOIT AVOIR LE MEME PARAMETRE OPTIONNEL)
+    // C'est plutot dans le constructeur prive que je verifie la valeur de user collection.
     public static UserRepository getInstance(AuthService authService) {
         if (instance == null) {
             instance = new UserRepository(authService);
@@ -274,5 +296,9 @@ public final class UserRepository {
     public CollectionReference getUsersCollection() {
         return usersCollection;
     }
+
+    /*public void setUsersCollection(CollectionReference usersCollection) {
+        this.usersCollection = usersCollection;
+    }*/
 
 }
