@@ -45,6 +45,10 @@ public final class StreamGoogleMapRepository {
                 .create(ServiceGoogleMap.class);
     }
 
+    public StreamGoogleMapRepository(ServiceGoogleMap service) {
+        this.service = service;
+    }
+
     public LiveData<Resource<PlaceNearbySearch>> getNearbyPlaces(String location, int radius, String type, String pageToken) {
         Log.d("Repository", "Preparing to fetch places of type: " + type + " with API Key.");
         return LiveDataReactiveStreams.fromPublisher(
@@ -150,5 +154,7 @@ public final class StreamGoogleMapRepository {
                         })
         );
     }
+
+
 
 }

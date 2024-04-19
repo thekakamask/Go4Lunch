@@ -205,17 +205,18 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
 
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
+                new AuthUI.IdpConfig.GoogleBuilder().build()
+        );
 
-        Intent MailAndGoogleIntent = AuthUI.getInstance()
+        Intent intent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setTheme(R.style.Base_Theme_Go4Lunch)
                 .setAvailableProviders(providers)
-                .setIsSmartLockEnabled(false,true)
+                .setTheme(R.style.Base_Theme_Go4Lunch)
                 .setLogo(R.drawable.go4lunch_header)
+                .setIsSmartLockEnabled(false, false) // Désactiver SmartLock complètement pour tester
                 .build();
 
-        signInOrUpLauncher.launch(MailAndGoogleIntent);
+        signInOrUpLauncher.launch(intent);
     }
 
     private void enableSignInIfReady() {
