@@ -6,14 +6,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dcac.go4lunch.repository.LocationRepository;
+import com.dcac.go4lunch.repository.interfaceRepository.IStreamLocation;
 import com.google.android.gms.location.LocationCallback;
 
 public class LocationViewModel extends ViewModel {
 
-    private final LocationRepository locationRepository;
+    private final IStreamLocation locationRepository;
+    //private final LocationRepository locationRepository;
     private final LiveData<Location> locationLiveData;
 
-    public LocationViewModel(LocationRepository repository) {
+    public LocationViewModel(IStreamLocation repository) {
         this.locationRepository = repository;
         this.locationLiveData = repository.getLastKnownLocation();
     }

@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.utils.Resource;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Task;
@@ -20,9 +19,15 @@ import com.google.firebase.storage.StorageReference;
 public class AuthService {
 
     private final Context applicationContext;
+    private FirebaseAuth firebaseAuth;
 
     public AuthService(Context applicationContext) {
         this.applicationContext= applicationContext.getApplicationContext();
+    }
+
+    public AuthService(Context context, FirebaseAuth firebaseAuth) {
+        this.applicationContext = context != null ? context.getApplicationContext() : null;
+        this.firebaseAuth = firebaseAuth != null ? firebaseAuth : FirebaseAuth.getInstance();
     }
 
 

@@ -58,13 +58,25 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("org.mockito:mockito-android:3.3.3")
     androidTestImplementation ("androidx.arch.core:core-testing:2.2.0")
+
+
+    testImplementation ("org.mockito:mockito-inline:3.0.0")
     testImplementation ("org.mockito:mockito-core:3.3.3")
+    testImplementation ("net.bytebuddy:byte-buddy:1.10.14")
+
+
+
     //testImplementation ("org.mockito:mockito-android:3.3.3")
     testImplementation ("androidx.arch.core:core-testing:2.2.0")
     testImplementation ("org.robolectric:robolectric:4.7.3")
     testImplementation ("org.junit.jupiter:junit-jupiter-api:5.0.0")
     testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.0.0")
     testImplementation ("androidx.test:core:1.5.0")
+
+    // add PowerMock
+    testImplementation ("org.powermock:powermock-module-junit4:2.0.9")
+    testImplementation ("org.powermock:powermock-api-mockito2:2.0.9")
+    testImplementation ("org.powermock:powermock-core:2.0.9")
 
     implementation (platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation ("com.google.firebase:firebase-analytics")

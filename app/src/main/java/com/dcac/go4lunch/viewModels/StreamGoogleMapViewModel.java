@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.dcac.go4lunch.models.apiGoogleMap.autoCompleteAPI.AutoComplete;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
-import com.dcac.go4lunch.repository.StreamGoogleMapRepository;
+import com.dcac.go4lunch.repository.interfaceRepository.IStreamGoogleMap;
 import com.dcac.go4lunch.utils.Resource;
 
 import java.util.HashMap;
@@ -20,7 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class StreamGoogleMapViewModel extends ViewModel {
 
-    private final StreamGoogleMapRepository mapRepository;
+
+    private final IStreamGoogleMap mapRepository;
     private final Map<LiveData<?>, Observer<?>> observers = new HashMap<>();
     private Map<String, String> cachedOpeningHours= new HashMap<>();
 
@@ -29,7 +30,7 @@ public class StreamGoogleMapViewModel extends ViewModel {
     private MutableLiveData<Resource<List<PlaceNearbySearch>>> nearbyPlacesLiveData = new MutableLiveData<>();
 
 
-    public StreamGoogleMapViewModel(StreamGoogleMapRepository mapRepository) {
+    public StreamGoogleMapViewModel(IStreamGoogleMap mapRepository) {
         this.mapRepository = mapRepository;
     }
 

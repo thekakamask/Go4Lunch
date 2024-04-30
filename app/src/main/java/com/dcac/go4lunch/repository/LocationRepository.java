@@ -6,6 +6,7 @@ import android.location.Location;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.dcac.go4lunch.repository.interfaceRepository.IStreamLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -13,7 +14,7 @@ import com.google.android.gms.location.LocationServices;
 
 import android.annotation.SuppressLint;
 
-public final class LocationRepository {
+public final class LocationRepository implements IStreamLocation {
 
     private static LocationRepository instance;
     private final FusedLocationProviderClient fusedLocationClient;

@@ -2,13 +2,16 @@ package com.dcac.go4lunch.viewModels;
 
 import com.dcac.go4lunch.models.chat.Message;
 import com.dcac.go4lunch.repository.ChatRepository;
+import com.dcac.go4lunch.repository.interfaceRepository.IStreamChat;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class ChatManager {
 
     private static volatile ChatManager instance;
-    private ChatRepository chatRepository;
+    //private ChatRepository chatRepository;
+
+    private IStreamChat chatRepository;
 
     private ChatManager() {
         chatRepository = ChatRepository.getInstance();

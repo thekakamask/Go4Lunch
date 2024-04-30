@@ -1,10 +1,11 @@
 package com.dcac.go4lunch.repository;
 
+import com.dcac.go4lunch.repository.interfaceRepository.IStreamChat;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class ChatRepository {
+public class ChatRepository implements IStreamChat {
 
     private static final String CHAT_COLLECTION = "chats";
     private static final String MESSAGE_COLLECTION = "messages";

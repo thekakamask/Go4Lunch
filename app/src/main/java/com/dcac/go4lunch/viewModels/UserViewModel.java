@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.repository.UserRepository;
+import com.dcac.go4lunch.repository.interfaceRepository.IStreamUser;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,11 +25,12 @@ import java.util.Map;
 
 public class UserViewModel extends ViewModel {
 
-    private final UserRepository userRepository;
+    private final IStreamUser userRepository;
+    //private final UserRepository userRepository;
 
     private final Map<LiveData<?>, Observer<Object>> observers = new HashMap<>();
 
-    public UserViewModel(UserRepository userRepository) {this.userRepository = userRepository;}
+    public UserViewModel(IStreamUser userRepository) {this.userRepository = userRepository;}
 
     @Override
     protected void onCleared() {

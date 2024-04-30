@@ -11,25 +11,17 @@ import androidx.lifecycle.MutableLiveData;
 import com.dcac.go4lunch.models.apiGoogleMap.autoCompleteAPI.AutoComplete;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
+import com.dcac.go4lunch.repository.interfaceRepository.IStreamGoogleMap;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.gson.Gson;
 
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.FlowableSubscriber;
-import io.reactivex.rxjava3.core.SingleObserver;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import io.reactivex.rxjava3.core.Observer;
 
-public final class StreamGoogleMapRepository {
+public final class StreamGoogleMapRepository implements IStreamGoogleMap {
     private final ServiceGoogleMap service;
     private static StreamGoogleMapRepository instance;
 
@@ -49,6 +41,7 @@ public final class StreamGoogleMapRepository {
         this.service = service;
     }
 
+    @Override
     public LiveData<Resource<PlaceNearbySearch>> getNearbyPlaces(String location, int radius, String type, String pageToken) {
         Log.d("Repository", "Preparing to fetch places of type: " + type + " with API Key.");
         return LiveDataReactiveStreams.fromPublisher(
@@ -74,6 +67,7 @@ public final class StreamGoogleMapRepository {
         );
     }
 
+    @Override
     public LiveData<Resource<List<PlaceNearbySearch>>> getCombinedNearbyPlaces(String location, int radius, List<String> types) {
         MutableLiveData<Resource<List<PlaceNearbySearch>>> liveData = new MutableLiveData<>();
 
@@ -115,6 +109,7 @@ public final class StreamGoogleMapRepository {
     }
 
 
+    @Override
     public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId, String language) {
         return LiveDataReactiveStreams.fromPublisher(
                 service.getPlaceDetails(placeId, language, null)
@@ -134,6 +129,7 @@ public final class StreamGoogleMapRepository {
         );
     }
 
+    @Override
     public LiveData<Resource<AutoComplete>> getAutoCompletePlaces(String input) {
         return LiveDataReactiveStreams.fromPublisher(
                 service.getAutocompletePlaces(input, null)
