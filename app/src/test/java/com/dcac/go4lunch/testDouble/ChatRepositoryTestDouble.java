@@ -1,4 +1,4 @@
-package com.dcac.go4lunch;
+package com.dcac.go4lunch.testDouble;
 
 import com.dcac.go4lunch.repository.interfaceRepository.IStreamChat;
 import com.google.firebase.firestore.CollectionReference;

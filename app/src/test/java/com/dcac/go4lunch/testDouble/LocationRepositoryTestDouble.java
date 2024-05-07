@@ -1,4 +1,4 @@
-package com.dcac.go4lunch;
+package com.dcac.go4lunch.testDouble;
 
 import android.location.Location;
 
