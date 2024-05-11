@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.models.user.User;
-import com.dcac.go4lunch.repository.interfaceRepository.IStreamUser;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class UserRepository implements IStreamUser {
+public class UserRepository {
 
 
     private static final String COLLECTION_USERS= "users";

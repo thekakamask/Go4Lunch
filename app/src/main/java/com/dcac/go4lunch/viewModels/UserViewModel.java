@@ -11,26 +11,23 @@ import androidx.lifecycle.ViewModel;
 import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.repository.UserRepository;
-import com.dcac.go4lunch.repository.interfaceRepository.IStreamUser;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserViewModel extends ViewModel {
 
-    private final IStreamUser userRepository;
-    //private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private final Map<LiveData<?>, Observer<Object>> observers = new HashMap<>();
 
-    public UserViewModel(IStreamUser userRepository) {this.userRepository = userRepository;}
+    public UserViewModel(UserRepository userRepository) {this.userRepository = userRepository;}
 
     @Override
     protected void onCleared() {
@@ -204,10 +201,10 @@ public class UserViewModel extends ViewModel {
         liveData.setValue(Resource.loading(null));
         userRepository.addRestaurantToLiked(uid, restaurantId).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                Log.d("ViewModel", "Success: Added to liked list.");
+                //Log.d("ViewModel", "Success: Added to liked list.");
                 liveData.setValue(Resource.success(true));
             } else {
-                Log.d("ViewModel", "Error: Failed to add to liked list.");
+                //Log.d("ViewModel", "Error: Failed to add to liked list.");
                 liveData.setValue(Resource.error("Failed to add to liked list", false));
             }
         });
@@ -219,10 +216,10 @@ public class UserViewModel extends ViewModel {
         liveData.setValue(Resource.loading(null));
         userRepository.removeRestaurantFromLiked(uid, restaurantId).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                Log.d("ViewModel", "Success: Removed from liked list.");
+                //Log.d("ViewModel", "Success: Removed from liked list.");
                 liveData.setValue(Resource.success(true));
             } else {
-                Log.d("ViewModel", "Error: Failed to remove from liked list.");
+                //Log.d("ViewModel", "Error: Failed to remove from liked list.");
                 liveData.setValue(Resource.error("Failed to remove from liked list", false));
             }
         });
@@ -250,10 +247,10 @@ public class UserViewModel extends ViewModel {
 
         userRepository.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName, restaurantAddress).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                Log.d("UserViewModel", "Success: Restaurant choice set.");
+                //Log.d("UserViewModel", "Success: Restaurant choice set.");
                 liveData.setValue(Resource.success(true));
             } else {
-                Log.d("UserViewModel", "Error: Failed to set restaurant choice.");
+                //Log.d("UserViewModel", "Error: Failed to set restaurant choice.");
                 liveData.setValue(Resource.error("Failed to set restaurant choice", false));
             }
         });
@@ -267,10 +264,10 @@ public class UserViewModel extends ViewModel {
 
         userRepository.removeRestaurantChoice(uid).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                Log.d("UserViewModel", "Success: Restaurant choice removed.");
+                //Log.d("UserViewModel", "Success: Restaurant choice removed.");
                 liveData.setValue(Resource.success(true));
             } else {
-                Log.d("UserViewModel", "Error: Failed to remove restaurant choice.");
+                //Log.d("UserViewModel", "Error: Failed to remove restaurant choice.");
                 liveData.setValue(Resource.error("Failed to remove restaurant choice", false));
             }
         });
