@@ -18,20 +18,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class ChatAdapter extends FirestoreRecyclerAdapter<com.dcac.go4lunch.models.chat.Message, ChatAdapter.MessageViewHolder> {
+public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatAdapter.MessageViewHolder> {
 
-
-    /**
-     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public ChatAdapter(@NonNull FirestoreRecyclerOptions<com.dcac.go4lunch.models.chat.Message> options) {
+    public ChatAdapter(@NonNull FirestoreRecyclerOptions<Message> options) {
         super(options);
     }
-
-
 
     @NonNull
     @Override
@@ -42,7 +33,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<com.dcac.go4lunch.mode
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull com.dcac.go4lunch.models.chat.Message model) {
+    protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
         holder.bind(model);
     }
 

@@ -9,22 +9,22 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.FragmentChatBinding;
-import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
+import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.chat.Message;
-import com.dcac.go4lunch.viewModels.ChatManager;
+import com.dcac.go4lunch.viewModels.ChatViewModel;
 import com.dcac.go4lunch.views.ChatAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -48,6 +48,8 @@ public class ChatFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
+    private ChatViewModel chatViewModel;
+
     public static ChatFragment newInstance() {
         return new ChatFragment();
     }
@@ -59,14 +61,15 @@ public class ChatFragment extends Fragment {
         if (user != null) {
             userId = user.getUid();
             userName = user.getDisplayName();
-            userProfilePicUrl = "Profile image URL";
+            userProfilePicUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+            Log.d("ChatFragment", "userId: " + userId + ", userName: " + userName + ", userProfilePicUrl: " + userProfilePicUrl);
+        } else {
+            Log.e("ChatFragment", "User is not authenticated");
         }
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentChatBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -75,15 +78,23 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Query query = ChatManager.getInstance().getAllMessageForChat("chatId");
+        ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
+        chatViewModel = new ViewModelProvider(this, factory).get(ChatViewModel.class);
 
-        FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
-                .setQuery(query, Message.class)
-                .build();
+        chatViewModel.getAllMessagesForChat("chatId").observe(getViewLifecycleOwner(), query -> {
+            if (query != null) {
+                FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
+                        .setQuery(query, Message.class)
+                        .build();
 
-        adapter = new ChatAdapter(options);
-        binding.chatRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.chatRecyclerView.setAdapter(adapter);
+                adapter = new ChatAdapter(options);
+                binding.chatRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.chatRecyclerView.setAdapter(adapter);
+                adapter.startListening();
+            } else {
+                Log.e("ChatFragment", "Query is null");
+            }
+        });
 
         binding.sendButton.setOnClickListener(v -> {
             String messageText = binding.chatEditText.getText().toString();
@@ -98,13 +109,16 @@ public class ChatFragment extends Fragment {
             intent.setType("image/*");
             startActivityForResult(intent, PICK_IMAGE_REQUEST);
         });
-
     }
 
     public void sendMessage(String text, String imageUrl) {
-        if (userId != null && userName != null && userProfilePicUrl != null) {
+        if (userId != null && userName != null) {
             Message message = new Message(text, userId, userName, userProfilePicUrl, imageUrl, new Date());
-            ChatManager.getInstance().sendMessage("chatId", message);
+            Log.d("ChatFragment", "Sending message: " + message);
+            chatViewModel.sendMessage("chatId", message);
+        } else {
+            Log.e("ChatFragment", "Failed to send message: userId or userName is null");
+            Log.e("ChatFragment", "userId: " + userId + ", userName: " + userName + ", userProfilePicUrl: " + userProfilePicUrl);
         }
     }
 
@@ -134,7 +148,9 @@ public class ChatFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
+        if (adapter != null) {
+            adapter.startListening();
+        }
     }
 
     @Override
@@ -144,5 +160,4 @@ public class ChatFragment extends Fragment {
             adapter.stopListening();
         }
     }
-
 }

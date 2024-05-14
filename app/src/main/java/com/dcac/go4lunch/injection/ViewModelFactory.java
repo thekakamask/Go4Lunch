@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.dcac.go4lunch.repository.AuthService;
+import com.dcac.go4lunch.repository.ChatRepository;
 import com.dcac.go4lunch.repository.LocationRepository;
 import com.dcac.go4lunch.repository.StreamGoogleMapRepository;
 import com.dcac.go4lunch.repository.UserRepository;
+import com.dcac.go4lunch.viewModels.ChatViewModel;
 import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.viewModels.UserViewModel;
@@ -21,12 +23,14 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     private final StreamGoogleMapRepository streamGoogleMapRepository;
     private final UserRepository userRepository;
 
+    private final ChatRepository chatRepository;
+
     private ViewModelFactory(Context applicationContext) {
         locationRepository = LocationRepository.getInstance(applicationContext);
         streamGoogleMapRepository = StreamGoogleMapRepository.getInstance(applicationContext);
-
         AuthService authService = new AuthService(applicationContext);
         userRepository = UserRepository.getInstance(authService);
+        chatRepository=ChatRepository.getInstance();
     }
 
     public static ViewModelFactory getInstance(Context applicationContext) {
@@ -52,6 +56,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             viewModel = new StreamGoogleMapViewModel(streamGoogleMapRepository);
         } else if (UserViewModel.class.isAssignableFrom(modelClass)) {
             viewModel = new UserViewModel(userRepository);
+        } else if (ChatViewModel.class.isAssignableFrom(modelClass)) {
+            viewModel = new ChatViewModel(chatRepository);
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
         }
