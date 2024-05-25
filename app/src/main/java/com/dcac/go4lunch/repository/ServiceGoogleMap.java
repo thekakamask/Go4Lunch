@@ -5,7 +5,6 @@ import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch
 import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
 
 import io.reactivex.rxjava3.core.Flowable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

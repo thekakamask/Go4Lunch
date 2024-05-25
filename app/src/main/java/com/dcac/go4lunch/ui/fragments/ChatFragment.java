@@ -1,11 +1,10 @@
 package com.dcac.go4lunch.ui.fragments;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,18 +24,12 @@ import com.dcac.go4lunch.views.ChatAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 
 public class ChatFragment extends Fragment {
 
@@ -46,13 +39,8 @@ public class ChatFragment extends Fragment {
     private String userName;
     private String userProfilePicUrl;
 
-    private static final int PICK_IMAGE_REQUEST = 1;
 
     private ChatViewModel chatViewModel;
-
-    public static ChatFragment newInstance() {
-        return new ChatFragment();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +57,7 @@ public class ChatFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentChatBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -104,12 +92,15 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        binding.addFileButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, PICK_IMAGE_REQUEST);
-        });
+        binding.addFileButton.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
     }
+
+    private final ActivityResultLauncher<String> pickImageLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            result -> {
+                if (result != null) {
+                    uploadImage(result);
+                }
+            });
 
     public void sendMessage(String text, String imageUrl) {
         if (userId != null && userName != null) {
@@ -123,27 +114,18 @@ public class ChatFragment extends Fragment {
     }
 
     public void uploadImage(Uri imageUri) {
-        if (imageUri != null) {
-            String fileName = "images/" + UUID.randomUUID().toString();
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference(fileName);
+        String fileName = "images/" + UUID.randomUUID().toString();
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference(fileName);
 
-            storageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                String downloadUrl = uri.toString();
-                sendMessage(null, downloadUrl);
-            })).addOnFailureListener(e -> {
-                // Handle error
-            });
-        }
+        storageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            String downloadUrl = uri.toString();
+            sendMessage(null, downloadUrl);
+        })).addOnFailureListener(e -> {
+            // Gérer l'erreur
+        });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri imageUri = data.getData();
-            uploadImage(imageUri);
-        }
-    }
+
 
     @Override
     public void onStart() {

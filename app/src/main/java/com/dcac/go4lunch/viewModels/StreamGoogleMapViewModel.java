@@ -20,15 +20,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class StreamGoogleMapViewModel extends ViewModel {
 
-
     private final IStreamGoogleMap mapRepository;
     private final Map<LiveData<?>, Observer<?>> observers = new HashMap<>();
-    private Map<String, String> cachedOpeningHours= new HashMap<>();
+    private final Map<String, String> cachedOpeningHours = new HashMap<>();
 
-    //private MutableLiveData<Resource<List<PlaceNearbySearch>>> combinedNearbyPlacesLiveData;
-
-    private MutableLiveData<Resource<List<PlaceNearbySearch>>> nearbyPlacesLiveData = new MutableLiveData<>();
-
+    private final MutableLiveData<Resource<List<PlaceNearbySearch>>> nearbyPlacesLiveData = new MutableLiveData<>();
 
     public StreamGoogleMapViewModel(IStreamGoogleMap mapRepository) {
         this.mapRepository = mapRepository;
@@ -37,14 +33,21 @@ public class StreamGoogleMapViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-
         for (Map.Entry<LiveData<?>, Observer<?>> entry : observers.entrySet()) {
             LiveData<?> liveData = entry.getKey();
             Observer<?> observer = entry.getValue();
-            // Cast the observer to Observer<Object> to match the removeObserver method signature
-            liveData.removeObserver((Observer<Object>) observer);
+            // Utilisation de cast avec suppression des warnings non vérifiés
+            removeObserver(liveData, observer);
         }
         observers.clear();
+    }
+
+    // Méthode générique pour supprimer l'observateur avec cast sécurisé
+    private <T> void removeObserver(LiveData<T> liveData, Observer<?> observer) {
+        // Utilisation de suppression des warnings pour éviter les castings non vérifiés
+        @SuppressWarnings("unchecked")
+        Observer<T> typedObserver = (Observer<T>) observer;
+        liveData.removeObserver(typedObserver);
     }
 
     private <T> void observeForever(LiveData<Resource<T>> liveData, MutableLiveData<Resource<T>> liveDataMutable) {
@@ -70,37 +73,12 @@ public class StreamGoogleMapViewModel extends ViewModel {
     }
 
     public void fetchAndStoreNearbyPlaces(String location, int radius, List<String> types) {
-        mapRepository.getCombinedNearbyPlaces(location, radius, types).observeForever(resource -> {
-            nearbyPlacesLiveData.setValue(resource);
-        });
+        mapRepository.getCombinedNearbyPlaces(location, radius, types).observeForever(nearbyPlacesLiveData::setValue);
     }
 
     public LiveData<Resource<List<PlaceNearbySearch>>> getStoredNearbyPlaces() {
         return nearbyPlacesLiveData;
     }
-
-    /*public LiveData<Resource<List<PlaceNearbySearch>>> getCombinedNearbyPlaces(String location, int radius, List<String> types) {
-        // INIT LIVE DATE IF IT DOESNT EXIST
-        if (combinedNearbyPlacesLiveData == null) {
-            combinedNearbyPlacesLiveData = new MutableLiveData<>();
-            // LOAD DATA FROM API
-            loadCombinedNearbyPlaces(location, radius, types);
-        }
-        return combinedNearbyPlacesLiveData;
-    }
-
-    private void loadCombinedNearbyPlaces(String location, int radius, List<String> types) {
-        mapRepository.getCombinedNearbyPlaces(location, radius, types).observeForever(resource -> {
-            // UPDATE LIVE DATA WITH RESULT
-            combinedNearbyPlacesLiveData.setValue(resource);
-        });
-    }*/
-
-    // FORCE THE DATA RECHARGE
-    /*public void refreshCombinedNearbyPlaces(String location, int radius, List<String> types) {
-        loadCombinedNearbyPlaces(location, radius, types);
-    }*/
-
 
     public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId) {
         String language = Locale.getDefault().getLanguage(); // Obtain language of the system
@@ -151,9 +129,4 @@ public class StreamGoogleMapViewModel extends ViewModel {
 
         return openingHoursLiveData;
     }
-
-
-
-
-
 }

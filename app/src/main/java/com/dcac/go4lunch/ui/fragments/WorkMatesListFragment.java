@@ -5,30 +5,22 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.dcac.go4lunch.databinding.FragmentWorkMatesBinding;
-import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.ui.MainActivity;
 import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.Resource;
-import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.dcac.go4lunch.views.WorkmatesListAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WorkMatesListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WorkMatesListFragment extends Fragment {
 
     private FragmentWorkMatesBinding binding;
@@ -36,9 +28,7 @@ public class WorkMatesListFragment extends Fragment {
 
     private MainActivity mainActivity;
 
-    public static WorkMatesListFragment newInstance() {
-        return new WorkMatesListFragment();
-    }
+
 
 
     @Override
@@ -91,21 +81,6 @@ public class WorkMatesListFragment extends Fragment {
                 }
             });
         }
-        /*if (mainActivity != null) {
-            mainActivity.getUserViewModel().getAllUsers().observe(getViewLifecycleOwner(), resource -> {
-                if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                    List<User> usersWithChoice = new ArrayList<>();
-                    for (DocumentSnapshot documentSnapshot : resource.data.getDocuments()) { // Assume resource.data is a QuerySnapshot
-                        User user = documentSnapshot.toObject(User.class);
-                        if (user != null && user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
-                            usersWithChoice.add(user);
-                        }
-                    }
-                    adapter.setUsers(usersWithChoice);
-                } else if (resource.status == Resource.Status.ERROR) {
-                    Toast.makeText(getContext(), "Error fetching users: " + resource.message, Toast.LENGTH_LONG).show();
-                }
-            });
-        }*/
+
     }
 }

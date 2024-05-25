@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.models.user.User;
-import com.dcac.go4lunch.repository.AuthService;
 import com.dcac.go4lunch.repository.UserRepository;
 import com.dcac.go4lunch.utils.LiveDataTestUtils;
 import com.dcac.go4lunch.utils.Resource;
@@ -49,15 +48,9 @@ public class UserViewModelUnitTest {
     private static final String CHOICE_DATE = "2024-05-10";
     private static final String RESTAURANT_NAME = "At Gourmet";
     private static final String RESTAURANT_ADDRESS = "123 Gourmet Street";
-    /*private static final String RESTAURANT_ID_2 = "restaurant2";
-    private static final String CHOICE_DATE_2 = "2024-05-11";
-    private static final String RESTAURANT_NAME_2 = "Good meat";
-    private static final String RESTAURANT_ADDRESS_2 = "13 Good Meat Street";*/
+
     @Mock
     public UserRepository mockUserRepository;
-
-    /*@Mock
-    public AuthService mockAuthService;*/
 
     @Mock
     QuerySnapshot mockQuerySnapshot;
@@ -68,10 +61,8 @@ public class UserViewModelUnitTest {
     @Mock
     FirebaseUser mockFirebaseUser;
 
-
     UserViewModel SUT;
 
-    //
     MutableLiveData<Boolean> liveDataCreateUser = new MutableLiveData<>();
     MutableLiveData<QuerySnapshot> liveDataAllUsers = new MutableLiveData<>();
     MutableLiveData<FirebaseUser> liveDataCurrentUser = new MutableLiveData<>();
@@ -81,18 +72,13 @@ public class UserViewModelUnitTest {
     MutableLiveData<Boolean> liveDataAddToLiked = new MutableLiveData<>();
     MutableLiveData<Boolean> liveDataRemoveToLiked = new MutableLiveData<>();
     MutableLiveData<RestaurantChoice> liveDataGetRestaurantChoice = new MutableLiveData<>();
-
     MutableLiveData<Boolean> liveDataSetRestaurantChoice = new MutableLiveData<>();
-
     MutableLiveData<Boolean> liveDataRemoveRestaurantChoice = new MutableLiveData<>();
-
     MutableLiveData<List<User>> liveDataUsersByRestaurantChoice = new MutableLiveData<>();
-
     List<User> listUsersByRestaurantChoice = new ArrayList<>();
 
     @Before
-    public void setup()  {
-
+    public void setup() {
         doReturn(liveDataCreateUser)
                 .when(mockUserRepository)
                 .createUser(USER_ID);
@@ -108,11 +94,8 @@ public class UserViewModelUnitTest {
         doReturn(signOutLiveData)
                 .when(mockUserRepository)
                 .signOut();
-        /*doReturn(signOutLiveData)
-                .when(mockAuthService)
-                .signOut();*/
-        doReturn(liveDataUser).
-                when(mockUserRepository)
+        doReturn(liveDataUser)
+                .when(mockUserRepository)
                 .getUserData(USER_ID);
         doReturn(liveDataAddToLiked)
                 .when(mockUserRepository)
@@ -123,9 +106,9 @@ public class UserViewModelUnitTest {
         doReturn(liveDataGetRestaurantChoice)
                 .when(mockUserRepository)
                 .getRestaurantChoice(USER_ID);
-        doReturn(liveDataSetRestaurantChoice).
-                when(mockUserRepository).
-                setRestaurantChoice(USER_ID, RESTAURANT_ID, CHOICE_DATE, RESTAURANT_NAME, RESTAURANT_ADDRESS);
+        doReturn(liveDataSetRestaurantChoice)
+                .when(mockUserRepository)
+                .setRestaurantChoice(USER_ID, RESTAURANT_ID, CHOICE_DATE, RESTAURANT_NAME, RESTAURANT_ADDRESS);
         doReturn(liveDataRemoveRestaurantChoice)
                 .when(mockUserRepository)
                 .removeRestaurantChoice(USER_ID);
@@ -133,22 +116,14 @@ public class UserViewModelUnitTest {
                 .when(mockUserRepository)
                 .getUsersByRestaurantChoice(RESTAURANT_ID);
 
-
-
         when(mockDocumentSnapshot.getString("userName")).thenReturn(USER_NAME);
         when(mockDocumentSnapshot.getString("email")).thenReturn(USER_EMAIL);
         when(mockDocumentSnapshot.getString("urlPicture")).thenReturn(USER_URL_PICTURE);
-
-        /*when(mockDocumentSnapshot.getString("restaurantId")).thenReturn(RESTAURANT_ID);
-
-        when(mockDocumentSnapshot.getString("choiceDate")).thenReturn(CHOICE_DATE);*/
-
         when(mockDocumentSnapshot.getString("restaurantName")).thenReturn(RESTAURANT_NAME);
         when(mockDocumentSnapshot.getString("restaurantAddress")).thenReturn(RESTAURANT_ADDRESS);
         when(mockDocumentSnapshot.get("restaurantsLike")).thenReturn(USER_RESTAURANTS_LIKE);
 
         SUT = new UserViewModel(mockUserRepository);
-
     }
 
     @Test
@@ -159,7 +134,6 @@ public class UserViewModelUnitTest {
         Resource<FirebaseUser> valueAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getCurrentUser());
         Assert.assertEquals("email", valueAwaited.data.getEmail());
         Assert.assertEquals("uid", valueAwaited.data.getUid());
-
     }
 
     @Test
@@ -184,13 +158,11 @@ public class UserViewModelUnitTest {
 
     @Test
     public void testSignOutFailure() throws InterruptedException {
-
         signOutLiveData.setValue(Resource.error("Error signing out", null));
-
         Resource<Void> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.signOut());
-
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
+        Assert.assertEquals("Error signing out", resultAwaited.message);
     }
 
     @Test
@@ -205,7 +177,10 @@ public class UserViewModelUnitTest {
         Assert.assertEquals(USER_URL_PICTURE, result.data.getString("urlPicture"));
         Assert.assertEquals(RESTAURANT_NAME, result.data.getString("restaurantName"));
         Assert.assertEquals(RESTAURANT_ADDRESS, result.data.getString("restaurantAddress"));
+
+        @SuppressWarnings("unchecked")
         List<String> restaurantsLike = (List<String>) result.data.get("restaurantsLike");
+
         Assert.assertNotNull(restaurantsLike);
         Assert.assertTrue(restaurantsLike.containsAll(USER_RESTAURANTS_LIKE));
     }
@@ -213,7 +188,6 @@ public class UserViewModelUnitTest {
     @Test
     public void testGetUserDataFailure() throws InterruptedException {
         liveDataUser.setValue(null);
-
         Resource<DocumentSnapshot> result = LiveDataTestUtils.getOrAwaitValue(SUT.getUserData(USER_ID));
         Assert.assertNotNull(result);
         Assert.assertEquals(Resource.Status.ERROR, result.status);
@@ -231,58 +205,41 @@ public class UserViewModelUnitTest {
         Assert.assertEquals(2, docs.size());
         Assert.assertEquals("value", docs.get(0).getString("key"));
         Assert.assertEquals("value", docs.get(1).getString("key"));
-
     }
 
     @Test
     public void testGetAllUsersFailure() throws InterruptedException {
         liveDataAllUsers.setValue(null);
-
         Resource<QuerySnapshot> result = LiveDataTestUtils.getOrAwaitValue(SUT.getAllUsers());
         Assert.assertNotNull(result);
         Assert.assertEquals(Resource.Status.ERROR, result.status);
         Assert.assertNull(result.data);
-        Assert.assertNull(result.message);
+        Assert.assertEquals("Error fetching all users", result.message);
     }
 
     @Test
     public void testCreateUserSuccess() throws InterruptedException {
-        // Arrange
         liveDataCreateUser.setValue(true);
-
-        // Act
         Resource<Boolean> valueAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.createUser(USER_ID));
-
-        // Assert
         Assert.assertTrue(valueAwaited.data);
         Assert.assertEquals(Resource.Status.SUCCESS, valueAwaited.status);
-        verify(mockUserRepository).createUser(USER_ID); // Verify the correct method call
+        verify(mockUserRepository).createUser(USER_ID);
     }
 
     @Test
     public void testCreateUserFailure() throws InterruptedException {
-        // Arrange
         liveDataCreateUser.setValue(false);
-
-        // Act
         Resource<Boolean> valueAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.createUser(USER_ID));
-
-        // Assert
         Assert.assertFalse(valueAwaited.data);
         Assert.assertEquals(Resource.Status.ERROR, valueAwaited.status);
-        Assert.assertNull(valueAwaited.message);
+        Assert.assertEquals("Error creating user", valueAwaited.message);
         verify(mockUserRepository).createUser(USER_ID);
     }
 
     @Test
     public void testAddRestaurantToLikedSuccess() throws InterruptedException {
-        // Arrange
         liveDataAddToLiked.setValue(true);
-
-        // Act
         Resource<Boolean> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.addRestaurantToLiked(USER_ID, RESTAURANT_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.SUCCESS, resultAwaited.status);
         Assert.assertTrue(resultAwaited.data);
@@ -290,26 +247,18 @@ public class UserViewModelUnitTest {
 
     @Test
     public void testAddRestaurantToLikedFailure() throws InterruptedException {
-        // Arrange
         liveDataAddToLiked.setValue(false);
-
-        // Act
         Resource<Boolean> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.addRestaurantToLiked(USER_ID, RESTAURANT_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
         Assert.assertFalse(resultAwaited.data);
+        Assert.assertEquals("Failed to add to liked list", resultAwaited.message);
     }
 
     @Test
     public void testRemoveRestaurantFromLikedSuccess() throws InterruptedException {
-
-        // Act
         liveDataRemoveToLiked.setValue(true);
         Resource<Boolean> result = LiveDataTestUtils.getOrAwaitValue(SUT.removeRestaurantFromLiked(USER_ID, RESTAURANT_ID));
-
-        // Assert
         Assert.assertNotNull(result);
         Assert.assertEquals(Resource.Status.SUCCESS, result.status);
         Assert.assertTrue(result.data);
@@ -317,27 +266,19 @@ public class UserViewModelUnitTest {
 
     @Test
     public void testRemoveRestaurantFromLikedFailure() throws InterruptedException {
-
-        // Act
         liveDataRemoveToLiked.setValue(false);
         Resource<Boolean> result = LiveDataTestUtils.getOrAwaitValue(SUT.removeRestaurantFromLiked(USER_ID, RESTAURANT_ID));
-
-        // Assert
         Assert.assertNotNull(result);
         Assert.assertEquals(Resource.Status.ERROR, result.status);
         Assert.assertFalse(result.data);
+        Assert.assertEquals("Failed to remove from liked list", result.message);
     }
 
     @Test
     public void testGetRestaurantChoiceSuccess() throws InterruptedException {
-
         RestaurantChoice choice = new RestaurantChoice(RESTAURANT_ID, CHOICE_DATE, RESTAURANT_NAME, RESTAURANT_ADDRESS);
         liveDataGetRestaurantChoice.setValue(choice);
-
-        // Act
         Resource<RestaurantChoice> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getRestaurantChoice(USER_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.SUCCESS, resultAwaited.status);
         Assert.assertEquals(choice, resultAwaited.data);
@@ -346,11 +287,7 @@ public class UserViewModelUnitTest {
     @Test
     public void testGetRestaurantChoiceFailure() throws InterruptedException {
         liveDataGetRestaurantChoice.setValue(null);
-
-        // Act
         Resource<RestaurantChoice> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getRestaurantChoice(USER_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
         Assert.assertNull(resultAwaited.data);
@@ -358,13 +295,8 @@ public class UserViewModelUnitTest {
 
     @Test
     public void testSetRestaurantChoiceSuccess() throws InterruptedException {
-        // Arrange
         liveDataSetRestaurantChoice.setValue(true);
-
-        // Act
         Resource<Boolean> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.setRestaurantChoice(USER_ID, RESTAURANT_ID, CHOICE_DATE, RESTAURANT_NAME, RESTAURANT_ADDRESS));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.SUCCESS, resultAwaited.status);
         Assert.assertTrue(resultAwaited.data);
@@ -372,26 +304,18 @@ public class UserViewModelUnitTest {
 
     @Test
     public void testSetRestaurantChoiceFailure() throws InterruptedException {
-        // Arrange
         liveDataSetRestaurantChoice.setValue(false);
-
-        // Act
         Resource<Boolean> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.setRestaurantChoice(USER_ID, RESTAURANT_ID, CHOICE_DATE, RESTAURANT_NAME, RESTAURANT_ADDRESS));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
         Assert.assertFalse(resultAwaited.data);
+        Assert.assertEquals("Failed to set restaurant choice", resultAwaited.message);
     }
 
     @Test
     public void testRemoveRestaurantChoiceSuccess() throws InterruptedException {
         liveDataRemoveRestaurantChoice.setValue(true);
-
-        // Act
         Resource<Boolean> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.removeRestaurantChoice(USER_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.SUCCESS, resultAwaited.status);
         Assert.assertTrue(resultAwaited.data);
@@ -400,27 +324,18 @@ public class UserViewModelUnitTest {
     @Test
     public void testRemoveRestaurantChoiceFailure() throws InterruptedException {
         liveDataRemoveRestaurantChoice.setValue(false);
-
-        // Act
         Resource<Boolean> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.removeRestaurantChoice(USER_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
         Assert.assertFalse(resultAwaited.data);
+        Assert.assertEquals("Failed to remove restaurant choice", resultAwaited.message);
     }
-
 
     @Test
     public void testGetUsersByRestaurantChoiceSuccess() throws InterruptedException {
-
         listUsersByRestaurantChoice.add(new User(USER_ID, USER_NAME, USER_URL_PICTURE, USER_EMAIL, USER_RESTAURANTS_LIKE, new RestaurantChoice(RESTAURANT_ID, CHOICE_DATE, RESTAURANT_NAME, RESTAURANT_ADDRESS)));
         liveDataUsersByRestaurantChoice.setValue(listUsersByRestaurantChoice);
-
-        // Act
         Resource<List<User>> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getUsersByRestaurantChoice(RESTAURANT_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.SUCCESS, resultAwaited.status);
         Assert.assertFalse(resultAwaited.data.isEmpty());
@@ -429,18 +344,12 @@ public class UserViewModelUnitTest {
 
     @Test
     public void testGetUsersByRestaurantChoiceFailure() throws InterruptedException {
-
         liveDataUsersByRestaurantChoice.setValue(null);
-
-        // Act
         Resource<List<User>> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getUsersByRestaurantChoice(RESTAURANT_ID));
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
         Assert.assertNull(resultAwaited.data);
     }
-
 
     @Test
     public void testGetAllRestaurantChoices() throws InterruptedException {
@@ -450,22 +359,16 @@ public class UserViewModelUnitTest {
         String user2 = Objects.requireNonNull(allChoices.data.get("users")).get(1).getUserName();
         Assert.assertEquals("user1", user1);
         Assert.assertEquals("user2", user2);
-
     }
 
     @Test
     public void testGetAllRestaurantChoicesFailure() throws InterruptedException {
-
         liveDataRestaurantChoices.setValue(getRestaurantsChoicesFailure());
-
-        // Act
         Resource<Map<String, List<User>>> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getAllRestaurantChoices());
-
-        // Assert
         Assert.assertNotNull(resultAwaited);
         Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
         Assert.assertNull(resultAwaited.data);
-        Assert.assertNull(resultAwaited.message);
+        Assert.assertEquals("Error fetching restaurant choices", resultAwaited.message);
     }
 
     private Resource<Map<String, List<User>>> getRestaurantsChoices() {
@@ -477,13 +380,9 @@ public class UserViewModelUnitTest {
         Map<String, List<User>> userMap = new HashMap<>();
         userMap.put("users", users);
         return Resource.success(userMap);
-
     }
 
     private Resource<Map<String, List<User>>> getRestaurantsChoicesFailure() {
         return Resource.error("Error fetching restaurant choices", null);
-
     }
-
-
 }

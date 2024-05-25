@@ -1,5 +1,6 @@
 package com.dcac.go4lunch.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -15,12 +16,13 @@ import com.dcac.go4lunch.models.ParametersItem;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ParametersActivityAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
-    private List<String> listTabsTitle;
-    private HashMap<String, List<ParametersItem>> listTabOngletsData;
+    private final Context context;
+    private final List<String> listTabsTitle;
+    private final HashMap<String, List<ParametersItem>> listTabOngletsData;
 
 
     public ParametersActivityAdapter(Context context, List<String> listGroupTitles,
@@ -37,7 +39,7 @@ public class ParametersActivityAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.listTabOngletsData.get(this.listTabsTitle.get(groupPosition)).size();
+        return Objects.requireNonNull(this.listTabOngletsData.get(this.listTabsTitle.get(groupPosition))).size();
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ParametersActivityAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this.listTabOngletsData.get(this.listTabsTitle.get(groupPosition)).get(childPosition);
+        return Objects.requireNonNull(this.listTabOngletsData.get(this.listTabsTitle.get(groupPosition))).get(childPosition);
     }
 
     @Override
@@ -65,6 +67,7 @@ public class ParametersActivityAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -79,6 +82,7 @@ public class ParametersActivityAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 

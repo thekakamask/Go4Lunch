@@ -73,6 +73,7 @@ dependencies {
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
     implementation ("com.google.firebase:firebase-auth:21.0.1")
     implementation ("com.google.firebase:firebase-appcheck-safetynet:16.1.2")
+    implementation ("com.google.firebase:firebase-appcheck-playintegrity:16.0.0-beta0")
 
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")

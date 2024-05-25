@@ -1,7 +1,6 @@
 package com.dcac.go4lunch.viewModels;
 
 
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,7 +12,6 @@ import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.repository.UserRepository;
 import com.dcac.go4lunch.utils.Resource;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -24,43 +22,34 @@ import java.util.Map;
 public class UserViewModel extends ViewModel {
 
     private final UserRepository userRepository;
+    private final Map<LiveData<?>, Observer<?>> observers = new HashMap<>();
 
-    private final Map<LiveData<?>, Observer<Object>> observers = new HashMap<>();
-
-    public UserViewModel(UserRepository userRepository) {this.userRepository = userRepository;}
+    public UserViewModel(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void onCleared() {
         super.onCleared();
 
-        for (Map.Entry<LiveData<?>, Observer<Object>> entry : observers.entrySet()) {
+        for (Map.Entry<LiveData<?>, Observer<?>> entry : observers.entrySet()) {
             LiveData<?> liveData = entry.getKey();
-            Observer<Object> observer = entry.getValue();
-            liveData.removeObserver(observer);
+            Observer<?> observer = entry.getValue();
+            removeObserver(liveData, observer);
         }
         observers.clear();
     }
 
-    private <T> void observeForever(LiveData<T> liveData, Observer<T> observer) {
-        Observer<Object> castedObserver = (Observer<Object>) observer;
-        liveData.observeForever(castedObserver);
-        observers.put(liveData, castedObserver);
+    // Méthode générique pour supprimer l'observateur avec cast sécurisé
+    private <T> void removeObserver(LiveData<T> liveData, Observer<?> observer) {
+        @SuppressWarnings("unchecked")
+        Observer<T> typedObserver = (Observer<T>) observer;
+        liveData.removeObserver(typedObserver);
     }
 
-
-    public LiveData<Resource<Boolean>> isCurrentUserLogged() {
-        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
-        liveData.setValue(Resource.loading(null));
-
-        userRepository.getCurrentUserLiveData().observeForever(user -> {
-            if (user != null) {
-                liveData.setValue(Resource.success(true));
-            } else {
-                liveData.setValue(Resource.error("User not logged in", false));
-            }
-        });
-
-        return liveData;
+    private <T> void observeForever(LiveData<T> liveData, Observer<T> observer) {
+        liveData.observeForever(observer);
+        observers.put(liveData, observer);
     }
 
     public LiveData<Resource<FirebaseUser>> getCurrentUser() {
@@ -78,8 +67,6 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
-
-
     public LiveData<Resource<Void>> signOut() {
         MutableLiveData<Resource<Void>> liveData = new MutableLiveData<>();
         liveData.setValue(Resource.loading(null));
@@ -96,25 +83,6 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
-
-    public LiveData<Resource<Void>> deleteUser() {
-        LiveData<Resource<Void>> deleteUserResult = userRepository.deleteUser();
-
-        MutableLiveData<Resource<Void>> liveData = new MutableLiveData<>();
-        liveData.setValue(Resource.loading(null));
-
-        deleteUserResult.observeForever(result -> {
-            if (result != null && result.status == Resource.Status.SUCCESS) {
-                liveData.setValue(Resource.success(null));
-            } else if (result != null && result.status == Resource.Status.ERROR) {
-                liveData.setValue(Resource.error(result.message, null));
-            }
-        });
-
-        return liveData;
-    }
-
-
     public LiveData<Resource<DocumentSnapshot>> getUserData(String uid) {
         MutableLiveData<Resource<DocumentSnapshot>> liveData = new MutableLiveData<>();
         liveData.setValue(Resource.loading(null));
@@ -129,7 +97,6 @@ public class UserViewModel extends ViewModel {
         observeForever(userRepository.getUserData(uid), observer);
         return liveData;
     }
-
 
     public LiveData<Resource<QuerySnapshot>> getAllUsers() {
         MutableLiveData<Resource<QuerySnapshot>> liveData = new MutableLiveData<>();
@@ -161,50 +128,13 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
-    public CollectionReference getUsersCollection() {
-        return userRepository.getUsersCollection();
-    }
-
-
-    public LiveData<Resource<Boolean>> updateUserName(String uid, String userName) {
-        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
-        liveData.setValue(Resource.loading(null));
-
-        Observer<Boolean> observer = isSuccess -> {
-            if (isSuccess != null && isSuccess) {
-                liveData.setValue(Resource.success(true));
-            } else {
-                liveData.setValue(Resource.error("Error updating user name", false));
-            }
-        };
-        observeForever(userRepository.updateUserName(uid, userName), observer);
-        return liveData;
-    }
-
-    public LiveData<Resource<Boolean>> updateUrlPicture(String uid, String urlPicture) {
-        MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
-        liveData.setValue(Resource.loading(null));
-
-        Observer<Boolean> observer = isSuccess -> {
-            if (isSuccess != null && isSuccess) {
-                liveData.setValue(Resource.success(true));
-            } else {
-                liveData.setValue(Resource.error("Error updating URL picture", false));
-            }
-        };
-        observeForever(userRepository.updateUrlPicture(uid, urlPicture), observer);
-        return liveData;
-    }
-
     public LiveData<Resource<Boolean>> addRestaurantToLiked(String uid, String restaurantId) {
         MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
         liveData.setValue(Resource.loading(null));
         userRepository.addRestaurantToLiked(uid, restaurantId).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                //Log.d("ViewModel", "Success: Added to liked list.");
                 liveData.setValue(Resource.success(true));
             } else {
-                //Log.d("ViewModel", "Error: Failed to add to liked list.");
                 liveData.setValue(Resource.error("Failed to add to liked list", false));
             }
         });
@@ -216,10 +146,8 @@ public class UserViewModel extends ViewModel {
         liveData.setValue(Resource.loading(null));
         userRepository.removeRestaurantFromLiked(uid, restaurantId).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                //Log.d("ViewModel", "Success: Removed from liked list.");
                 liveData.setValue(Resource.success(true));
             } else {
-                //Log.d("ViewModel", "Error: Failed to remove from liked list.");
                 liveData.setValue(Resource.error("Failed to remove from liked list", false));
             }
         });
@@ -247,10 +175,8 @@ public class UserViewModel extends ViewModel {
 
         userRepository.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName, restaurantAddress).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                //Log.d("UserViewModel", "Success: Restaurant choice set.");
                 liveData.setValue(Resource.success(true));
             } else {
-                //Log.d("UserViewModel", "Error: Failed to set restaurant choice.");
                 liveData.setValue(Resource.error("Failed to set restaurant choice", false));
             }
         });
@@ -264,10 +190,8 @@ public class UserViewModel extends ViewModel {
 
         userRepository.removeRestaurantChoice(uid).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                //Log.d("UserViewModel", "Success: Restaurant choice removed.");
                 liveData.setValue(Resource.success(true));
             } else {
-                //Log.d("UserViewModel", "Error: Failed to remove restaurant choice.");
                 liveData.setValue(Resource.error("Failed to remove restaurant choice", false));
             }
         });
@@ -284,7 +208,6 @@ public class UserViewModel extends ViewModel {
                 liveData.setValue(Resource.success(users));
             } else {
                 liveData.setValue(Resource.error("Error fetching users", null));
-                // liveData.setValue(Resource.success(new ArrayList<>())); // Optionnally for clarify the intention
             }
         });
 
@@ -309,9 +232,4 @@ public class UserViewModel extends ViewModel {
     public LiveData<Resource<Map<String, List<User>>>> getAllRestaurantChoices() {
         return userRepository.getAllRestaurantChoices();
     }
-
-
-
-
-
 }

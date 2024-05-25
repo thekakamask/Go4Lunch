@@ -8,7 +8,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -58,7 +57,7 @@ public class MyWorker extends Worker {
 
             for (QueryDocumentSnapshot document : snapshot) {
                 User user = document.toObject(User.class);
-                if (user != null && user.getRestaurantChoice() != null && currentDate.equals(user.getRestaurantChoice().getChoiceDate())) {
+                if (user.getRestaurantChoice() != null && currentDate.equals(user.getRestaurantChoice().getChoiceDate())) {
                     List<User> usersList = restaurantToUsersMap.get(user.getRestaurantChoice().getRestaurantId());
                     if (usersList == null) {
                         usersList = new ArrayList<>();

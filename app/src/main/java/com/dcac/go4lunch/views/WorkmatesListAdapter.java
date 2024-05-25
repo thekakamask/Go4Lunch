@@ -1,5 +1,6 @@
 package com.dcac.go4lunch.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-;import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.models.user.User;
 
@@ -20,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdapter.ViewHolder> {
 
     private List<User> mUsers;
-    private OnItemClickListener listener;
+    private final OnItemClickListener listener;
 
     public WorkmatesListAdapter (List<User> users, OnItemClickListener listener) {
         mUsers = users;
@@ -37,7 +38,7 @@ public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdap
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workmates_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(v -> {
-            int position = viewHolder.getAdapterPosition();
+            int position = viewHolder.getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(mUsers.get(position));
             }
@@ -64,25 +65,6 @@ public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdap
         }
 
         holder.nameTextView.setText(text);
-
-        /*User user = mUsers.get(position);
-        Context context = holder.itemView.getContext();
-
-        Glide.with(context)
-                .load(user.getUrlPicture())
-                .placeholder(R.drawable.workmates_list_profile)
-                .error(R.drawable.workmates_list_profile)
-                .into(holder.profileImageView);
-
-
-        String text;
-        if (user.getRestaurantChoice() != null && user.getRestaurantChoice().getRestaurantName() != null && !user.getRestaurantChoice().getRestaurantName().isEmpty()) {
-            text = user.getUserName() + " is eating at " + user.getRestaurantChoice().getRestaurantName();
-        } else {
-            text = user.getUserName() + " hasn't decided yet";
-        }
-
-        holder.nameTextView.setText(text);*/
     }
 
     @Override
@@ -90,6 +72,7 @@ public class WorkmatesListAdapter extends RecyclerView.Adapter<WorkmatesListAdap
         return mUsers.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setUsers(List<User> users) {
         this.mUsers = users;
         notifyDataSetChanged();

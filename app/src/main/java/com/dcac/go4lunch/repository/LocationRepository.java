@@ -7,8 +7,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import android.annotation.SuppressLint;
@@ -41,18 +39,8 @@ public class LocationRepository {
         return currentLocation;
     }
 
-    @SuppressLint("MissingPermission")
-    public void startLocationUpdates(LocationCallback callback) {
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
 
-        fusedLocationClient.requestLocationUpdates(locationRequest, callback, null);
-    }
 
-    public void stopLocationUpdates(LocationCallback callback) {
-        fusedLocationClient.removeLocationUpdates(callback);
-    }
+
 
 }

@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -20,6 +22,7 @@ public class ApiKeyAddingInterceptor implements Interceptor {
         this.context = context;
     }
 
+    @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();

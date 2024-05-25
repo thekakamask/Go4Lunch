@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.dcac.go4lunch.models.user.RestaurantChoice;
 import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.utils.Resource;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserRepository {
 
@@ -40,18 +40,14 @@ public class UserRepository {
         this.usersCollection = FirebaseFirestore.getInstance().collection(COLLECTION_USERS);
         this.authService=authService;
 
-        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> {
-            currentUser.setValue(firebaseAuth.getCurrentUser());
-        });
+        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> currentUser.setValue(firebaseAuth.getCurrentUser()));
     }
 
     private UserRepository (AuthService authService, CollectionReference usersCollection) {
         this.usersCollection = usersCollection;
         this.authService=authService;
 
-        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> {
-            currentUser.setValue(firebaseAuth.getCurrentUser());
-        });
+        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> currentUser.setValue(firebaseAuth.getCurrentUser()));
     }
 
     public static UserRepository getInstance(AuthService authService, CollectionReference usersCollection) {
@@ -267,7 +263,7 @@ public class UserRepository {
                     if (!restaurantChoices.containsKey(choice.getRestaurantId())) {
                         restaurantChoices.put(choice.getRestaurantId(), new ArrayList<>());
                     }
-                    restaurantChoices.get(choice.getRestaurantId()).add(user);
+                    Objects.requireNonNull(restaurantChoices.get(choice.getRestaurantId())).add(user);
                 }
             }
             liveData.setValue(Resource.success(restaurantChoices));
@@ -293,8 +289,5 @@ public class UserRepository {
         return usersCollection;
     }
 
-    /*public void setUsersCollection(CollectionReference usersCollection) {
-        this.usersCollection = usersCollection;
-    }*/
 
 }

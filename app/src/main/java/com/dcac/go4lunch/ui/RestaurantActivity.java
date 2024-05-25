@@ -41,7 +41,6 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
     UserViewModel userViewModel;
     StreamGoogleMapViewModel streamGoogleMapViewModel;
     private String apiKey;
-    private boolean isRestaurantLiked = false;
     private String placeId;
 
 
@@ -130,9 +129,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                 startActivity(intent);
             });
         } else {
-            binding.activityRestaurantButtonCall.setOnClickListener(v -> {
-                Toast.makeText(this, R.string.phone_not_available, Toast.LENGTH_SHORT).show();
-            });
+            binding.activityRestaurantButtonCall.setOnClickListener(v -> Toast.makeText(this, R.string.phone_not_available, Toast.LENGTH_SHORT).show());
         }
 
         if (result.getWebsite() != null && !result.getWebsite().isEmpty()) {
@@ -142,9 +139,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
                 startActivity(intent);
             });
         } else {
-            binding.activityRestaurantButtonWebsite.setOnClickListener(v -> {
-                Toast.makeText(this, R.string.website_not_available, Toast.LENGTH_SHORT).show();
-            });
+            binding.activityRestaurantButtonWebsite.setOnClickListener(v -> Toast.makeText(this, R.string.website_not_available, Toast.LENGTH_SHORT).show());
         }
 
         binding.activityRestaurantButtonLike.setOnClickListener(v -> {
@@ -196,21 +191,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
             }
         });
 
-        /*userViewModel.getUserData(uid).observe(this, resource -> {
-            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                User user = resource.data.toObject(User.class);
-                if (user != null) {
-                    RestaurantChoice currentChoice = user.getRestaurantChoice();
-                    if (currentChoice != null && restaurantId.equals(currentChoice.getRestaurantId())) {
-                        // If choice exists and matches, remove it
-                        userViewModel.removeRestaurantChoice(uid).observe(this, resourceRemove -> updateUIAfterChoiceUpdate(resourceRemove, true, restaurantId));
-                    } else {
-                        // If choice doesn't exist or doesn't match, add it
-                        userViewModel.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName, restaurantAddress).observe(this, resourceSet -> updateUIAfterChoiceUpdate(resourceSet, false, restaurantId));
-                    }
-                }
-            }
-        });*/
+
     }
 
     private void updateUIAfterChoiceUpdate(Resource<Boolean> resource, boolean isChoiceRemoved, String restaurantId) {
@@ -310,7 +291,7 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
             userViewModel.getRestaurantChoice(uid).observe(this, resource -> {
                 if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
                     RestaurantChoice choice = resource.data;
-                    if (choice != null && placeId.equals(choice.getRestaurantId())) {
+                    if (placeId.equals(choice.getRestaurantId())) {
                         binding.activityRestaurantButtonSelect.setImageResource(R.drawable.check_button);
                     } else {
                         binding.activityRestaurantButtonSelect.setImageResource(R.drawable.uncheck_button);

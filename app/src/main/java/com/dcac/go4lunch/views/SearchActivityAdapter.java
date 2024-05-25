@@ -1,28 +1,25 @@
 package com.dcac.go4lunch.views;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.models.apiGoogleMap.autoCompleteAPI.Predictions;
-import com.dcac.go4lunch.models.user.User;
 
 import java.util.List;
 
 public class SearchActivityAdapter extends RecyclerView.Adapter<SearchActivityAdapter.ViewHolder> {
 
     private List<Predictions> predictionsList;
-    private LayoutInflater mInflater;
-    private OnPredictionClickListener clickListener;
+    private final LayoutInflater mInflater;
+    private final OnPredictionClickListener clickListener;
 
     public SearchActivityAdapter(Context context, List<Predictions> data, OnPredictionClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
@@ -30,6 +27,7 @@ public class SearchActivityAdapter extends RecyclerView.Adapter<SearchActivityAd
         this.clickListener = listener;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateData(List<Predictions> newPredictions) {
         predictionsList = newPredictions;
         notifyDataSetChanged();

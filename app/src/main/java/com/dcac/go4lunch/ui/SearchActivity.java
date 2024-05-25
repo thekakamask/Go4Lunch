@@ -1,34 +1,22 @@
 package com.dcac.go4lunch.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Toast;
 
-import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivitySearchBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.apiGoogleMap.autoCompleteAPI.Predictions;
-import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
-import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
-import com.dcac.go4lunch.models.apiGoogleMap.placedetailsAPI.PlaceDetails;
 import com.dcac.go4lunch.utils.Resource;
-import com.dcac.go4lunch.viewModels.LocationViewModel;
 import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.views.SearchActivityAdapter;
-import com.dcac.go4lunch.views.WorkmatesListAdapter;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
@@ -90,18 +78,14 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
 
                 // Update with filtered predictions
                 adapter.updateData(filteredPredictions);
-            } else if (autoCompleteResource.status == Resource.Status.ERROR) {
-                showError(autoCompleteResource.message);
+            } else {
+                assert autoCompleteResource != null;
+                if (autoCompleteResource.status == Resource.Status.ERROR) {
+                    showError(autoCompleteResource.message);
+                }
             }
         });
 
-        /*streamGoogleMapViewModel.getAutoCompletePlaces(query).observe(this, autoCompleteResource -> {
-            if (autoCompleteResource != null && autoCompleteResource.status == Resource.Status.SUCCESS && autoCompleteResource.data != null) {
-                adapter.updateData(autoCompleteResource.data.getPredictions());
-            } else if (autoCompleteResource.status == Resource.Status.ERROR) {
-                showError(autoCompleteResource.message);
-            }
-        });*/
     }
 
     private void handlePredictionClick(Predictions prediction) {

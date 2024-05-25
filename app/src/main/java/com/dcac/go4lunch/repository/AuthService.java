@@ -19,16 +19,11 @@ import com.google.firebase.storage.StorageReference;
 public class AuthService {
 
     private final Context applicationContext;
-    private FirebaseAuth firebaseAuth;
 
     public AuthService(Context applicationContext) {
         this.applicationContext= applicationContext.getApplicationContext();
     }
 
-    public AuthService(Context context, FirebaseAuth firebaseAuth) {
-        this.applicationContext = context != null ? context.getApplicationContext() : null;
-        this.firebaseAuth = firebaseAuth != null ? firebaseAuth : FirebaseAuth.getInstance();
-    }
 
 
     public LiveData<Resource<Void>> signOut() {

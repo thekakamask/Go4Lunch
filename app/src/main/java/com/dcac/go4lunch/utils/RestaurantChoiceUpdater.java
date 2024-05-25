@@ -15,8 +15,6 @@ public class RestaurantChoiceUpdater {
     }
 
     public void updateRestaurantChoice(String userId) {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            userRepository.removeRestaurantChoice(userId);
-        }, TimeUnit.HOURS.toMillis(2));
+        new Handler(Looper.getMainLooper()).postDelayed(() -> userRepository.removeRestaurantChoice(userId), TimeUnit.HOURS.toMillis(2));
     }
 }

@@ -1,11 +1,11 @@
 package com.dcac.go4lunch.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,12 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ItemRestaurantListBinding;
-import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Opening_hours;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.ApiKeyUtil;
-
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -32,7 +29,7 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
     //List.Adapter in replacement of RecyclerView.Adapter. it is more performant
 
     private Location userLocation;
-    private Context context;
+    private final Context context;
     private Map<String, Integer> userChoices = new HashMap<>();
     private Map<String, String> openingHours = new HashMap<>();
 
@@ -58,12 +55,13 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
     public RestaurantsListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemRestaurantListBinding itemBinding = ItemRestaurantListBinding.inflate(layoutInflater, parent, false);
-        return new RestaurantsListViewHolder(itemBinding, userLocation, context);
+        return new RestaurantsListViewHolder(itemBinding, context);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateData(List<Results> newRestaurants, Location newUserLocation, Map<String, Integer> userChoices) {
         this.userLocation = newUserLocation;
-        this.userChoices= userChoices;
+        this.userChoices = userChoices;
         submitList(newRestaurants);
         notifyDataSetChanged();
     }
@@ -74,30 +72,23 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         holder.bind(restaurant, userLocation);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setOpeningHours(Map<String, String> openingHours) {
         this.openingHours = openingHours;
         notifyDataSetChanged();
     }
 
-
-    /*public void setUserLocation(Location newUserLocation) {
-        this.userLocation = newUserLocation;
-        notifyDataSetChanged();
-    }*/
-
     public class RestaurantsListViewHolder extends RecyclerView.ViewHolder {
         private final ItemRestaurantListBinding binding;
-        private Location userLocation;
-        private String apiKey;
+        private final String apiKey;
 
-        public RestaurantsListViewHolder(ItemRestaurantListBinding binding, Location userLocation, Context context) {
+        public RestaurantsListViewHolder(ItemRestaurantListBinding binding, Context context) {
             super(binding.getRoot());
             this.binding = binding;
-            this.userLocation = userLocation;
             this.apiKey = ApiKeyUtil.getApiKey(context);
 
             itemView.setOnClickListener(v -> {
-                int position = getAdapterPosition();
+                int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     Results restaurant = getItem(position);
                     Log.d("RestaurantSelected", "Place ID: " + restaurant.getPlace_id());
@@ -108,26 +99,15 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             });
         }
 
-        public void bind(Results results, Location userLocation ) {
+        public void bind(Results results, Location userLocation) {
             binding.restaurantName.setText(results.getName());
             binding.restaurantAddress.setText(results.getVicinity());
 
             String hours = openingHours.get(results.getPlace_id());
             binding.restaurantOpeningHours.setText(hours != null ? hours : context.getString(R.string.restaurant_hours_unknown));
 
-            /*if (results.getOpening_hours() != null) {
-                String openingHoursText = formatOpeningHours(results.getOpening_hours());
-                binding.restaurantOpeningHours.setText(openingHoursText);
-            } else {
-                binding.restaurantOpeningHours.setText(R.string.restaurant_hours_unknown);
-            }*/
-            //binding.restaurantOpeningHours.setText((CharSequence) results.getOpening_hours());
-
-            // MODIFY THE NUMBER OF WORKERS WHEN OTHER FUNCTIONNALITY ARE IMPLEMENTED
-            Integer count = userChoices.containsKey(results.getPlace_id()) ? userChoices.get(results.getPlace_id()) : 0;
+            Integer count = userChoices.containsKey(results.getPlace_id()) ? userChoices.get(results.getPlace_id()) : Integer.valueOf(0);
             binding.restaurantWorkers.setText(String.format(Locale.getDefault(), "%d", count));
-            //binding.restaurantWorkers.setText("3");
-
 
             if (results.getPhotos() != null && !results.getPhotos().isEmpty()) {
                 String photoReference = results.getPhotos().get(0).getPhotoReference();
@@ -138,14 +118,12 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
                         .error(R.drawable.restaurant_list_image)
                         .into(binding.restaurantImageView);
             } else {
-                // Default image
                 Glide.with(itemView.getContext())
                         .load(R.drawable.restaurant_list_image)
                         .into(binding.restaurantImageView);
             }
 
             if (userLocation != null) {
-                // Distance calculation
                 Location restaurantLocation = new Location("");
                 restaurantLocation.setLatitude(results.getGeometry().getLocation().getLat());
                 restaurantLocation.setLongitude(results.getGeometry().getLocation().getLng());
@@ -157,10 +135,6 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             }
 
             setupRatingStars(results.getRating());
-        }
-
-        private String formatOpeningHours(Opening_hours openingHours) {
-            return openingHours.getOpen_now() ? "Open" : "Close";
         }
 
         private void setupRatingStars(double rating) {
@@ -179,6 +153,5 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             binding.restaurantStar2.setImageResource(numberOfStars >= 2 ? R.drawable.restaurant_list_star : R.drawable.restaurant_list_star_empty);
             binding.restaurantStar3.setImageResource(numberOfStars == 3 ? R.drawable.restaurant_list_star : R.drawable.restaurant_list_star_empty);
         }
-
     }
 }

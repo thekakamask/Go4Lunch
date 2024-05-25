@@ -1,5 +1,6 @@
 package com.dcac.go4lunch.repository;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -19,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public final class StreamGoogleMapRepository implements IStreamGoogleMap {
     private final ServiceGoogleMap service;
     private static StreamGoogleMapRepository instance;
+
+    private Disposable disposable;
 
     public static synchronized StreamGoogleMapRepository getInstance(Context context) {
         if (instance == null) {
@@ -35,10 +39,6 @@ public final class StreamGoogleMapRepository implements IStreamGoogleMap {
     private StreamGoogleMapRepository(Context context) {
         this.service = RetrofitObjectBuilder.getRetrofitInstance("https://maps.googleapis.com/maps/api/", context)
                 .create(ServiceGoogleMap.class);
-    }
-
-    public StreamGoogleMapRepository(ServiceGoogleMap service) {
-        this.service = service;
     }
 
     @Override
@@ -84,8 +84,9 @@ public final class StreamGoogleMapRepository implements IStreamGoogleMap {
         return liveData;
     }
 
+    @SuppressLint("CheckResult")
     private void fetchPlacesPage(String location, int radius, String type, String pageToken, List<PlaceNearbySearch> combinedResults, MutableLiveData<Resource<List<PlaceNearbySearch>>> liveData, AtomicInteger callsRemaining) {
-        service.getNearbyPlaces(location, radius, type, pageToken, null)
+        disposable = service.getNearbyPlaces(location, radius, type, pageToken, null)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         placeNearbySearch -> {
@@ -102,12 +103,21 @@ public final class StreamGoogleMapRepository implements IStreamGoogleMap {
                                 }
                             } else if (callsRemaining.decrementAndGet() == 0) {
                                 liveData.postValue(Resource.success(combinedResults));
+                                disposeFetchPlacesPage(); // Disposable when all operation are termianted
                             }
                         },
-                        throwable -> liveData.postValue(Resource.error(throwable.getMessage(), combinedResults))
+                        throwable -> {
+                            liveData.postValue(Resource.error(throwable.getMessage(), combinedResults));
+                            disposeFetchPlacesPage(); // Disposable in cas of mistake
+                        }
                 );
     }
 
+    private void disposeFetchPlacesPage() {
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
+    }
 
     @Override
     public LiveData<Resource<PlaceDetails>> getPlaceDetails(String placeId, String language) {
@@ -150,7 +160,4 @@ public final class StreamGoogleMapRepository implements IStreamGoogleMap {
                         })
         );
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.dcac.go4lunch.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
-import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -48,9 +49,9 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
         FirebaseApp.initializeApp(/* context= */ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
         firebaseAppCheck.installAppCheckProviderFactory(
-                SafetyNetAppCheckProviderFactory.getInstance());
+                PlayIntegrityAppCheckProviderFactory.getInstance());
 
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         ViewModelFactory factory = ViewModelFactory.getInstance(getApplicationContext());
         userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
@@ -59,10 +60,8 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if (user != null) {
-
                             userViewModel.createUser(user.getUid()).observe(this, resource -> {
                                 if (resource != null) {
                                     switch (resource.status) {
@@ -78,10 +77,8 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
                                         case LOADING:
                                             break;
                                     }
-                                } else {
                                 }
                             });
-
                         }
                     } else {
                         IdpResponse response = IdpResponse.fromResultIntent(result.getData());
@@ -105,23 +102,18 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
         }
 
         initializeViews();
-
-
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initializeViews() {
         binding.buttonSignIn.setEnabled(false);
 
         binding.emailInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -131,14 +123,10 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
 
         binding.passwordInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -152,9 +140,7 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
 
         TypedValue value = new TypedValue();
         this.getTheme().resolveAttribute(R.attr.password_logo, value, true);
-        int passwordEyeVisibleDrawableResId = value.resourceId;
         this.getTheme().resolveAttribute(R.attr.password_logo_close, value, true);
-        int passwordEyeInvisibleDrawableResId = value.resourceId;
 
         binding.passwordInput.setOnTouchListener((v, event) -> {
             final int DRAWABLE_RIGHT = 2;
@@ -167,22 +153,18 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
             }
             return false;
         });
-
-
     }
 
     private void togglePasswordVisibility() {
         int selection = binding.passwordInput.getSelectionEnd();
         if (binding.passwordInput.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-            // Password is currently hidden, show it
             binding.passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             binding.passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.password_eye_open, 0);
         } else {
-            // Password is currently shown, hide it
             binding.passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             binding.passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.password_eye_close, 0);
         }
-        binding.passwordInput.setSelection(selection); // Restore cursor position
+        binding.passwordInput.setSelection(selection);
     }
 
     private void signInUser() {
@@ -202,7 +184,6 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
     }
 
     private void startMailAndGoogleActivity() {
-
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build()
@@ -213,7 +194,7 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding> {
                 .setAvailableProviders(providers)
                 .setTheme(R.style.Base_Theme_Go4Lunch)
                 .setLogo(R.drawable.go4lunch_header)
-                .setIsSmartLockEnabled(false, false) // Désactiver SmartLock complètement pour tester
+                .setIsSmartLockEnabled(false, false)
                 .build();
 
         signInOrUpLauncher.launch(intent);

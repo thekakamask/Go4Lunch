@@ -9,6 +9,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,16 +25,11 @@ import android.widget.Toast;
 
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.FragmentRestaurantsMapBinding;
-import com.dcac.go4lunch.injection.ViewModelFactory;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
-import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.ui.MainActivity;
 import com.dcac.go4lunch.ui.RestaurantActivity;
 import com.dcac.go4lunch.utils.Resource;
-import com.dcac.go4lunch.viewModels.LocationViewModel;
-import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
-import com.dcac.go4lunch.viewModels.UserViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,10 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -52,24 +46,12 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
 
     private FragmentRestaurantsMapBinding binding;
     private GoogleMap mMap;
-
-    /*private StreamGoogleMapViewModel streamGoogleMapViewModel;
-    private UserViewModel userViewModel;
-    private LocationViewModel locationViewModel;*/
-
     MainActivity mainActivity;
     private static final float DEFAULT_ZOOM = 15f;
-    private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private final List<String> chosenRestaurantIds = new ArrayList<>();
 
-    private List<PlaceNearbySearch> lastFetchedNearbyRestaurants = new ArrayList<>();
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
-
-    private List<String> chosenRestaurantIds = new ArrayList<>();
-
-
-    public static RestaurantsMapFragment newInstance() {
-        return new RestaurantsMapFragment();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,14 +59,35 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
 
         mainActivity = (MainActivity) getActivity();
 
-        /*ViewModelFactory factory = ViewModelFactory.getInstance(requireContext().getApplicationContext());
-        userViewModel = new ViewModelProvider(this, factory).get(UserViewModel.class);
-        locationViewModel = new ViewModelProvider(this, factory).get(LocationViewModel.class);
-        streamGoogleMapViewModel = new ViewModelProvider(this,factory).get(StreamGoogleMapViewModel.class);*/
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        setupMap();
+                    } else {
+                        Toast.makeText(getContext(), "Localisation permission reject, some functionality are deactivate.", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        mainActivity.getUserViewModel().getChosenRestaurantIds().observe(this, resource -> {
+            if (resource != null) {
+                switch (resource.status) {
+                    case SUCCESS:
+                        chosenRestaurantIds.clear();
+                        chosenRestaurantIds.addAll(resource.data);
+                        break;
+                    case ERROR:
+                        Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
+                        break;
+                    case LOADING:
+                        // Optionally handle loading state
+                        break;
+                }
+            }
+        });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRestaurantsMapBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -122,7 +125,7 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         mMap.setOnMarkerClickListener(this);
     }
@@ -135,42 +138,12 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
         });
     }
 
-    /*private void subscribeToLocationUpdates(LocationViewModel locationViewModel) {
-        locationViewModel.getLocationLiveData().observe(getViewLifecycleOwner(), location -> {
-            if (location != null) {
-                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, DEFAULT_ZOOM));
-                fetchNearbyRestaurants(userLocation,mainActivity.getStreamGoogleMapViewModel());
-                fetchChosenRestaurants(mainActivity.getUserViewModel());
-            }
-        });
-    }*/
 
-    /*private void fetchNearbyRestaurants(LatLng location, StreamGoogleMapViewModel streamGoogleMapViewModel) {
-        String loc = location.latitude + "," + location.longitude;
-        streamGoogleMapViewModel.getCombinedNearbyPlaces(loc, 1000, Collections.singletonList("restaurant")).observe(getViewLifecycleOwner(), resource -> {
-            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                lastFetchedNearbyRestaurants.clear();
-                lastFetchedNearbyRestaurants.addAll(resource.data);
-                updateMapWithRestaurants(resource.data);
-            }
-        });
-    }
-
-    private void fetchChosenRestaurants(UserViewModel userViewModel) {
-        userViewModel.getChosenRestaurantIds().observe(getViewLifecycleOwner(), resource -> {
-            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                chosenRestaurantIds.clear();
-                chosenRestaurantIds.addAll(resource.data);
-                updateMapWithRestaurants(lastFetchedNearbyRestaurants);
-            }
-        });
-    }*/
 
     private void updateMapWithRestaurants(List<PlaceNearbySearch> placeSearches) {
         mMap.clear();
-        BitmapDescriptor defaultMarker = bitmapDescriptorFromVector(getContext(), R.drawable.ic_marker_red, R.drawable.lunch_icon); // Votre icône par défaut
-        BitmapDescriptor chosenMarker = bitmapDescriptorFromVector(getContext(), R.drawable.ic_marker_green, R.drawable.lunch_icon); // Votre icône pour les restaurants choisis
+        BitmapDescriptor defaultMarker = bitmapDescriptorFromVector(getContext(), R.drawable.ic_marker_red, R.drawable.lunch_icon);
+        BitmapDescriptor chosenMarker = bitmapDescriptorFromVector(getContext(), R.drawable.ic_marker_green, R.drawable.lunch_icon);
 
 
         for (PlaceNearbySearch placeSearch : placeSearches) {
@@ -184,6 +157,7 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
                     markerOptions.icon(defaultMarker);
                 }
                 Marker marker = mMap.addMarker(markerOptions);
+                assert marker != null;
                 marker.setTag(result.getPlace_id());
             }
 
@@ -193,6 +167,7 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorResId, @DrawableRes int pngResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        assert vectorDrawable != null;
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
 
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth() * 2,
@@ -208,22 +183,11 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
         int left = (canvas.getWidth() - pngSize) / 2;
         int top = (int) (canvas.getHeight() * 0.25);
 
+        assert pngDrawable != null;
         pngDrawable.setBounds(left, top, left + pngSize, top + pngSize);
         pngDrawable.draw(canvas);
 
         return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                setupMap();
-            } else {
-                Toast.makeText(getContext(), "Localisation permission reject, some functionality are deactivate.", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     @Override

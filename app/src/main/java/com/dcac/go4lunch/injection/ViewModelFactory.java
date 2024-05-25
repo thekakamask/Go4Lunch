@@ -18,7 +18,7 @@ import com.dcac.go4lunch.viewModels.UserViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
-    private static ViewModelFactory factory;
+    private static volatile ViewModelFactory factory;
     private final LocationRepository locationRepository;
     private final StreamGoogleMapRepository streamGoogleMapRepository;
     private final UserRepository userRepository;
@@ -49,7 +49,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         ViewModel viewModel;
 
-        // Creation of the Viewmodel needed Création du ViewModel according to the provided class
+        // Creation of the View model needed Creation du ViewModel according to the provided class
         if (LocationViewModel.class.isAssignableFrom(modelClass)) {
             viewModel = new LocationViewModel(locationRepository);
         } else if (StreamGoogleMapViewModel.class.isAssignableFrom(modelClass)) {

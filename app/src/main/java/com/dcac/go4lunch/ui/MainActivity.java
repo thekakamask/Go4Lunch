@@ -1,9 +1,8 @@
 package com.dcac.go4lunch.ui;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,7 +11,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +23,6 @@ import com.bumptech.glide.Glide;
 import com.dcac.go4lunch.R;
 import com.dcac.go4lunch.databinding.ActivityMainBinding;
 import com.dcac.go4lunch.injection.ViewModelFactory;
-import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
 import com.dcac.go4lunch.models.user.User;
 import com.dcac.go4lunch.ui.fragments.ChatFragment;
 import com.dcac.go4lunch.ui.fragments.RestaurantsListFragment;
@@ -42,16 +39,15 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
-
 
     private UserViewModel userViewModel;
     private LocationViewModel locationViewModel;
@@ -72,7 +68,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         //setupTabIcons();
 
         setSupportActionBar(binding.activityMainToolbar);
-        getSupportActionBar().setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
         Log.d("MainActivity", "onCreate: toolbar set up");
 
         setUpNavigationDrawer();
@@ -104,10 +100,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                                 .replace(R.id.fragment_container, new WorkMatesListFragment())
                                 .commit();
                         break;
-                    case 3 :
+                    case 3:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new ChatFragment())
                                 .commit();
+                        break;
                 }
             }
 
@@ -125,9 +122,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         Log.d("MainActivity", "onCreate: end");
 
         binding.toolbarSearchButton.setOnClickListener(v -> launchSearch());
-
-        //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        //Intent intent = new Intent(this, MyBroadcastReceiver.class);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         // Check user preferences for notifications
@@ -177,57 +171,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         Log.d("MainActivity", "Alarme quotidienne à 12h planifiée.");
 
-
-        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
-                Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                startActivity(intent);
+        // Register the OnBackPressedCallback
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleOnBackPressed();
             }
-        }
-
-        Intent intent = new Intent(this, MyBroadcastReceiver.class);
-
-
-        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            flags |= PendingIntent.FLAG_IMMUTABLE;
-        }
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, flags);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-
-        if (calendar.before(Calendar.getInstance())) {
-            calendar.add(Calendar.DATE, 1);
-        }
-
-        if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        }*/
-
-
+        });
     }
-
-    /*private void setupTabIcons() {
-        TabLayout tabLayout = findViewById(R.id.activity_main_tabs_layout);
-        tabLayout.getTabAt(0).setIcon(R.drawable.map_icon);
-        tabLayout.getTabAt(1).setIcon(R.drawable.list_icon);
-        tabLayout.getTabAt(2).setIcon(R.drawable.workmates_icon);
-        tabLayout.getTabAt(3).setIcon(R.drawable.chat_icon);
-
-
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null && tab.getIcon() != null) {
-                Drawable wrapDrawable = DrawableCompat.wrap(tab.getIcon()).mutate();
-                DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(this, R.color.black));
-                tab.setIcon(wrapDrawable);
-            }
-        }
-    }*/
 
     public UserViewModel getUserViewModel() {
         return userViewModel;
@@ -287,16 +238,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     // This method is a placeholder. I need to implement the logic for notify the fragments effectively
 
-    private void notifyFragmentsWithRestaurantsData(List<Results> results) {
-        // You can use interface of callback or livedata that fragments will observe
-    }
-
-    public void navigateToRestaurantDetail(String restaurantId) {
-        Intent intent = new Intent(this, RestaurantActivity.class);
-        intent.putExtra(RestaurantActivity.EXTRA_PLACE_ID, restaurantId);
-        startActivity(intent);
-    }
-
     private void launchSearch() {
         Intent intent = new Intent(MainActivity.this, SearchActivity.class);
         startActivity(intent);
@@ -313,21 +254,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         binding.activityMainNavView.setNavigationItemSelectedListener(this);
         //binding.activityMainNavView.getHeaderView(0);
 
-        // Access to the header view
-        View headerView = binding.activityMainNavView.getHeaderView(0);
-
-        // Access elements of the header view
-        CircleImageView profileImageView = headerView.findViewById(R.id.header_profile_image);
-        TextView userNameTextView = headerView.findViewById(R.id.header_user_name);
-        TextView userEmailTextView = headerView.findViewById(R.id.header_user_email);
-
         setupUserProfile();
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         binding.activityMainDrawerLayout.closeDrawer(GravityCompat.START);
 
         int id = item.getItemId();
@@ -350,9 +281,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         return true;
     }
 
-
     private void openLunchActivity() {
-
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
@@ -375,7 +304,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 }
             });
         }
-
     }
 
     private void openSettingsActivity() {
@@ -387,7 +315,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         userViewModel.signOut().observe(this, signOutResource -> {
             if (signOutResource != null) {
                 if (signOutResource.status == Resource.Status.SUCCESS) {
-                    redirectToWelcomeFragment("LoggedOut");
+                    redirectToWelcomeFragment();
                 } else if (signOutResource.status == Resource.Status.ERROR) {
                     Toast.makeText(this, R.string.disconnection_failed, Toast.LENGTH_SHORT).show();
                 }
@@ -395,10 +323,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         });
     }
 
-    private void redirectToWelcomeFragment(String action){
+    private void redirectToWelcomeFragment() {
         SharedPreferences prefs = getSharedPreferences("AppSettingsPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("LastAction", action);
+        editor.putString("LastAction", "LoggedOut");
         editor.apply();
 
         Intent intent = new Intent(this, WelcomeActivity.class);
@@ -459,6 +387,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             });
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -468,17 +397,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         }
 
         updateToolbarTitleBasedOnRestaurantChoice();
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        if (binding.activityMainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.activityMainDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-
     }
 }
 

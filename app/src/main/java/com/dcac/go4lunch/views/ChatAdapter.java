@@ -37,7 +37,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatAdapter.M
         holder.bind(model);
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView userNameTextView;
         ImageView profileImageView;
         TextView messageTextView;
