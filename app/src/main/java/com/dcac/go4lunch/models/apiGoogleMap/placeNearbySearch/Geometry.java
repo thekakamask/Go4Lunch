@@ -5,19 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Geometry {
     @Expose
-    @SerializedName("viewport")
-    private Viewport viewport;
-    @Expose
     @SerializedName("location")
     private Location location;
-
-    public Viewport getViewport() {
-        return viewport;
-    }
-
-    public void setViewport(Viewport viewport) {
-        this.viewport = viewport;
-    }
 
     public Location getLocation() {
         return location;

@@ -60,6 +60,18 @@ public class StreamGoogleMapViewModelUnitTest {
     }
 
     @Test
+    public void getNearbyPlacesReturnsError() throws InterruptedException {
+        LiveData<Resource<PlaceNearbySearch>> result = viewModel.getNearbyPlaces("mockLocation", 1000, "restaurant", "mockToken");
+        ((MutableLiveData<Resource<PlaceNearbySearch>>) result).postValue(Resource.error("Failed to fetch nearby places due to network error", null));
+        Resource<PlaceNearbySearch> response = LiveDataTestUtils.getOrAwaitValue(result);
+
+        assertNotNull(response);
+        assertEquals(Resource.Status.ERROR, response.status);
+        assertNull(response.data);
+        assertEquals("Failed to fetch nearby places due to network error", response.message);
+    }
+
+    @Test
     public void getCombinedNearbyPlacesReturnsExpectedValues() throws InterruptedException {
         List<String> types = Arrays.asList("restaurant", "cafe");
         viewModel.fetchAndStoreNearbyPlaces("mockLocation", 1000, types);
@@ -87,6 +99,18 @@ public class StreamGoogleMapViewModelUnitTest {
     }
 
     @Test
+    public void getCombinedNearbyPlacesReturnsError() throws InterruptedException {
+        LiveData<Resource<List<PlaceNearbySearch>>> result = viewModel.getStoredNearbyPlaces();
+        ((MutableLiveData<Resource<List<PlaceNearbySearch>>>) result).postValue(Resource.error("Failed due to server error", null));
+        Resource<List<PlaceNearbySearch>> response = LiveDataTestUtils.getOrAwaitValue(result);
+
+        assertNotNull(response);
+        assertEquals(Resource.Status.ERROR, response.status);
+        assertNull(response.data);
+        assertEquals("Failed due to server error", response.message);
+    }
+
+    @Test
     public void getPlaceDetailsReturnsExpectedValues() throws InterruptedException {
         LiveData<Resource<PlaceDetails>> valueAwaited = viewModel.getPlaceDetails("test_place_id");
         Resource<PlaceDetails> result = LiveDataTestUtils.getOrAwaitValue(valueAwaited);
@@ -96,6 +120,18 @@ public class StreamGoogleMapViewModelUnitTest {
         assertNotNull("The data should not be null", result.data);
         assertNotNull("The details should contain a Result object", result.data.getResult());
         assertEquals("The place name should match the expected test data", "Test Place Details", result.data.getResult().getName());
+    }
+
+    @Test
+    public void getPlaceDetailsReturnsError() throws InterruptedException {
+        LiveData<Resource<PlaceDetails>> result = viewModel.getPlaceDetails("invalid_place_id");
+        ((MutableLiveData<Resource<PlaceDetails>>) result).postValue(Resource.error("Error fetching details", null));
+        Resource<PlaceDetails> response = LiveDataTestUtils.getOrAwaitValue(result);
+
+        assertNotNull(response);
+        assertEquals(Resource.Status.ERROR, response.status);
+        assertNull(response.data);
+        assertEquals("Error fetching details", response.message);
     }
 
     @Test
@@ -119,6 +155,18 @@ public class StreamGoogleMapViewModelUnitTest {
     }
 
     @Test
+    public void getAutoCompletePlacesReturnsError() throws InterruptedException {
+        LiveData<Resource<AutoComplete>> result = viewModel.getAutoCompletePlaces("invalid_input");
+        ((MutableLiveData<Resource<AutoComplete>>) result).postValue(Resource.error("Permission denied", null));
+        Resource<AutoComplete> response = LiveDataTestUtils.getOrAwaitValue(result);
+
+        assertNotNull(response);
+        assertEquals(Resource.Status.ERROR, response.status);
+        assertNull(response.data);
+        assertEquals("Permission denied", response.message);
+    }
+
+    @Test
     public void getOpeningHoursReturnsExpectedValues() throws InterruptedException {
         List<String> placeIds = Arrays.asList("placeId1", "placeId2");
 
@@ -131,53 +179,6 @@ public class StreamGoogleMapViewModelUnitTest {
         assertEquals("Should have the correct opening hours for placeId2", "Wednesday: 8 AM - 4 PM", openingHours.get("placeId2"));
     }
 
-    @Test
-    public void getNearbyPlacesReturnsError() throws InterruptedException {
-        LiveData<Resource<PlaceNearbySearch>> result = viewModel.getNearbyPlaces("mockLocation", 1000, "restaurant", "mockToken");
-        ((MutableLiveData<Resource<PlaceNearbySearch>>) result).postValue(Resource.error("Failed to fetch nearby places due to network error", null));
-        Resource<PlaceNearbySearch> response = LiveDataTestUtils.getOrAwaitValue(result);
-
-        assertNotNull(response);
-        assertEquals(Resource.Status.ERROR, response.status);
-        assertNull(response.data);
-        assertEquals("Failed to fetch nearby places due to network error", response.message);
-    }
-
-    @Test
-    public void getCombinedNearbyPlacesReturnsError() throws InterruptedException {
-        LiveData<Resource<List<PlaceNearbySearch>>> result = viewModel.getStoredNearbyPlaces();
-        ((MutableLiveData<Resource<List<PlaceNearbySearch>>>) result).postValue(Resource.error("Failed due to server error", null));
-        Resource<List<PlaceNearbySearch>> response = LiveDataTestUtils.getOrAwaitValue(result);
-
-        assertNotNull(response);
-        assertEquals(Resource.Status.ERROR, response.status);
-        assertNull(response.data);
-        assertEquals("Failed due to server error", response.message);
-    }
-
-    @Test
-    public void getPlaceDetailsReturnsError() throws InterruptedException {
-        LiveData<Resource<PlaceDetails>> result = viewModel.getPlaceDetails("invalid_place_id");
-        ((MutableLiveData<Resource<PlaceDetails>>) result).postValue(Resource.error("Error fetching details", null));
-        Resource<PlaceDetails> response = LiveDataTestUtils.getOrAwaitValue(result);
-
-        assertNotNull(response);
-        assertEquals(Resource.Status.ERROR, response.status);
-        assertNull(response.data);
-        assertEquals("Error fetching details", response.message);
-    }
-
-    @Test
-    public void getAutoCompletePlacesReturnsError() throws InterruptedException {
-        LiveData<Resource<AutoComplete>> result = viewModel.getAutoCompletePlaces("invalid_input");
-        ((MutableLiveData<Resource<AutoComplete>>) result).postValue(Resource.error("Permission denied", null));
-        Resource<AutoComplete> response = LiveDataTestUtils.getOrAwaitValue(result);
-
-        assertNotNull(response);
-        assertEquals(Resource.Status.ERROR, response.status);
-        assertNull(response.data);
-        assertEquals("Permission denied", response.message);
-    }
 
     @Test
     public void getOpeningHoursReturnsError() throws InterruptedException {

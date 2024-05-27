@@ -111,20 +111,6 @@ public class UserRepository {
         return liveData;
     }
 
-    public LiveData<Boolean> updateUserName(String uid, String userName) {
-        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-        usersCollection.document(uid).update("userName", userName)
-                .addOnCompleteListener(task -> liveData.setValue(task.isSuccessful()));
-        return liveData;
-    }
-
-    public LiveData<Boolean> updateUrlPicture(String uid, String urlPicture) {
-        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-        usersCollection.document(uid).update("urlPicture", urlPicture)
-                .addOnCompleteListener(task -> liveData.setValue(task.isSuccessful()));
-        return liveData;
-    }
-
     public LiveData<Boolean> addRestaurantToLiked(String uid, String restaurantId) {
         MutableLiveData<Boolean> liveData = new MutableLiveData<>();
         Log.d("ToggleLikeRepo", "Adding to liked list: " + restaurantId);
@@ -277,17 +263,11 @@ public class UserRepository {
         return authService.signOut();
     }
 
-    public LiveData<Resource<Void>> deleteUser() {
-        return authService.deleteUser();
-    }
 
     public LiveData<FirebaseUser> getCurrentUserLiveData() {
         return currentUser;
     }
-
-    public CollectionReference getUsersCollection() {
-        return usersCollection;
-    }
+    
 
 
 }

@@ -199,6 +199,10 @@ public class RestaurantActivity extends BaseActivity<ActivityRestaurantBinding> 
             String message = isChoiceRemoved ? getString(R.string.choice_removed_success) : getString(R.string.restaurant_chosen_success);
             Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show();
             binding.activityRestaurantButtonSelect.setImageResource(isChoiceRemoved ? R.drawable.uncheck_button : R.drawable.check_button);
+
+            // Notify ViewModel for update observers
+            userViewModel.refreshChosenRestaurantIds();
+
             updateWorkmatesList(restaurantId);
         } else if (resource.status == Resource.Status.ERROR) {
             String errorMessage = resource.message != null && !resource.message.isEmpty() ? resource.message : getString(R.string.default_error_message);

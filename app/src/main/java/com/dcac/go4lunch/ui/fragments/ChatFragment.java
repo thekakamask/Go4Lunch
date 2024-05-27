@@ -104,7 +104,7 @@ public class ChatFragment extends Fragment {
 
     public void sendMessage(String text, String imageUrl) {
         if (userId != null && userName != null) {
-            Message message = new Message(text, userId, userName, userProfilePicUrl, imageUrl, new Date());
+            Message message = new Message(text, userName, userProfilePicUrl, imageUrl, new Date());
             Log.d("ChatFragment", "Sending message: " + message);
             chatViewModel.sendMessage("chatId", message);
         } else {

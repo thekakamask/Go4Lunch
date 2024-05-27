@@ -15,10 +15,8 @@ public class PlaceNearbySearch {
     @Expose
     @SerializedName("results")
     private List<Results> results;
-    @Expose
-    @SerializedName("html_attributions")
-    private List<String> html_attributions;
 
+    @SuppressWarnings("unused")
     @Expose
     @SerializedName("next_page_token")
     private String nextPageToken;
@@ -39,19 +37,7 @@ public class PlaceNearbySearch {
         this.results = results;
     }
 
-    public List<String> getHtml_attributions() {
-        return html_attributions;
-    }
-
-    public void setHtml_attributions(List<String> html_attributions) {
-        this.html_attributions = html_attributions;
-    }
-
     public String getNextPageToken() {
         return nextPageToken;
-    }
-
-    public void setNextPageToken(String nextPageToken) {
-        this.nextPageToken = nextPageToken;
     }
 }

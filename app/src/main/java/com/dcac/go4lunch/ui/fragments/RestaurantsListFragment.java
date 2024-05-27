@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.dcac.go4lunch.databinding.FragmentRestaurantsListBinding;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.PlaceNearbySearch;
 import com.dcac.go4lunch.models.apiGoogleMap.placeNearbySearch.Results;
@@ -33,6 +35,7 @@ public class RestaurantsListFragment extends Fragment {
 
     private boolean hasObservers = false;
 
+    private final List<String> chosenRestaurantIds = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,26 @@ public class RestaurantsListFragment extends Fragment {
 
         mainActivity = (MainActivity) getActivity();
 
-
+        assert mainActivity != null;
+        mainActivity.getUserViewModel().getChosenRestaurantIds().observe(this, resource -> {
+            if (resource != null) {
+                switch (resource.status) {
+                    case SUCCESS:
+                        chosenRestaurantIds.clear();
+                        if (resource.data != null) {
+                            chosenRestaurantIds.addAll(resource.data);
+                        }
+                        adapter.setChosenRestaurantIds(chosenRestaurantIds); // Pass the chosen IDs to the adapter
+                        break;
+                    case ERROR:
+                        Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
+                        break;
+                    case LOADING:
+                        // Optionally handle loading state
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -54,7 +76,6 @@ public class RestaurantsListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupAdapter();
-        //subscribeToLocationUpdates();
         subscribeToUpdates();
     }
 
@@ -73,10 +94,10 @@ public class RestaurantsListFragment extends Fragment {
                 if (nearbyPlaces != null && nearbyPlaces.status == Resource.Status.SUCCESS && nearbyPlaces.data != null) {
                     List<Results> resultsList = new ArrayList<>(nearbyPlaces.data.get(0).getResults());
 
-                    // Recuperation of actual localisation of user
+                    //Retrieving the user's current location
                     Location userLocation = mainActivity.getLocationViewModel().getLocationLiveData().getValue();
 
-                    // Sort result by distance if the loc of user is disponible
+                    // Sort results by distance if user location is available
                     if (userLocation != null) {
                         Collections.sort(resultsList, (result1, result2) -> {
                             Location location1 = new Location("");
@@ -91,17 +112,17 @@ public class RestaurantsListFragment extends Fragment {
                         });
                     }
 
-                    // Opening Hours recuperation
+                    //Recovery of opening hours
                     List<String> placeIds = new ArrayList<>();
                     for (Results result : resultsList) {
                         placeIds.add(result.getPlace_id());
                     }
 
                     mainActivity.getStreamGoogleMapViewModel().getOpeningHours(placeIds).observe(getViewLifecycleOwner(), openingHoursMap -> {
-                        // Update opening hours in the adapter (COMMENT EST FABRIQUER OPENINGHOURS)
+                        // Updating opening hours in the adapter
                         adapter.setOpeningHours(openingHoursMap);
 
-                        // Observe choice restaurants
+                        // Observe restaurant choices
                         restaurantChoicesResource.observe(getViewLifecycleOwner(), restaurantChoices -> {
                             if (restaurantChoices != null && restaurantChoices.status == Resource.Status.SUCCESS && restaurantChoices.data != null) {
                                 Map<String, Integer> restaurantUserCounts = new HashMap<>();
@@ -109,7 +130,7 @@ public class RestaurantsListFragment extends Fragment {
                                     restaurantUserCounts.put(entry.getKey(), entry.getValue().size());
                                 }
 
-                                // Update adapter with sort list , loc of user and number of user by restaurants
+                                // Update adapter with sorted list, user location and number of users per restaurant
                                 adapter.updateData(resultsList, userLocation, restaurantUserCounts);
                             }
                         });
@@ -124,7 +145,7 @@ public class RestaurantsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        subscribeToUpdates();
+        refreshData(); // Refresh data when fragment come back at first plan
     }
 
     @Override
@@ -133,4 +154,10 @@ public class RestaurantsListFragment extends Fragment {
         hasObservers = false;
     }
 
+    private void refreshData() {
+        // Refresh choosen restaurant
+        mainActivity.getUserViewModel().refreshChosenRestaurantIds();
+        // Re-subscribe to updates to ensure data is refreshed
+        subscribeToUpdates();
+    }
 }

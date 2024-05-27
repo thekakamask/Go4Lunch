@@ -36,15 +36,15 @@ public class StreamGoogleMapViewModel extends ViewModel {
         for (Map.Entry<LiveData<?>, Observer<?>> entry : observers.entrySet()) {
             LiveData<?> liveData = entry.getKey();
             Observer<?> observer = entry.getValue();
-            // Utilisation de cast avec suppression des warnings non vérifiés
+            // Use Cast with deleting warning unspecified
             removeObserver(liveData, observer);
         }
         observers.clear();
     }
 
-    // Méthode générique pour supprimer l'observateur avec cast sécurisé
+    // Generic method for delete observer with securised cast
     private <T> void removeObserver(LiveData<T> liveData, Observer<?> observer) {
-        // Utilisation de suppression des warnings pour éviter les castings non vérifiés
+        // Use of deletings warnings for escape unverified casting
         @SuppressWarnings("unchecked")
         Observer<T> typedObserver = (Observer<T>) observer;
         liveData.removeObserver(typedObserver);

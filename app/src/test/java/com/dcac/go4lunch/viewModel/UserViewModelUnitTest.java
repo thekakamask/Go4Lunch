@@ -45,6 +45,7 @@ public class UserViewModelUnitTest {
     private static final String USER_URL_PICTURE = "http://example.com/johndoe.jpg";
     private static final List<String> USER_RESTAURANTS_LIKE = Arrays.asList("Restaurant1", "Restaurant2");
     private static final String RESTAURANT_ID = "restaurant1";
+
     private static final String CHOICE_DATE = "2024-05-10";
     private static final String RESTAURANT_NAME = "At Gourmet";
     private static final String RESTAURANT_ADDRESS = "123 Gourmet Street";
@@ -75,7 +76,11 @@ public class UserViewModelUnitTest {
     MutableLiveData<Boolean> liveDataSetRestaurantChoice = new MutableLiveData<>();
     MutableLiveData<Boolean> liveDataRemoveRestaurantChoice = new MutableLiveData<>();
     MutableLiveData<List<User>> liveDataUsersByRestaurantChoice = new MutableLiveData<>();
+
     List<User> listUsersByRestaurantChoice = new ArrayList<>();
+
+    MutableLiveData<List<String>> liveDataChosenRestaurantIds = new MutableLiveData<>();
+    List<String> listStringChosenRestaurantIds = new ArrayList<>();
 
     @Before
     public void setup() {
@@ -115,6 +120,9 @@ public class UserViewModelUnitTest {
         doReturn(liveDataUsersByRestaurantChoice)
                 .when(mockUserRepository)
                 .getUsersByRestaurantChoice(RESTAURANT_ID);
+        doReturn(liveDataChosenRestaurantIds)
+                .when(mockUserRepository)
+                .getChosenRestaurantIds();
 
         when(mockDocumentSnapshot.getString("userName")).thenReturn(USER_NAME);
         when(mockDocumentSnapshot.getString("email")).thenReturn(USER_EMAIL);
@@ -385,4 +393,57 @@ public class UserViewModelUnitTest {
     private Resource<Map<String, List<User>>> getRestaurantsChoicesFailure() {
         return Resource.error("Error fetching restaurant choices", null);
     }
+
+    @Test
+    public void testGetChosenRestaurantIdsSuccess() throws InterruptedException {
+        listStringChosenRestaurantIds.add(RESTAURANT_ID);
+        liveDataChosenRestaurantIds.setValue(listStringChosenRestaurantIds);
+
+        Resource<List<String>> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getChosenRestaurantIds());
+
+        Assert.assertNotNull(resultAwaited);
+        Assert.assertEquals(Resource.Status.SUCCESS, resultAwaited.status);
+        Assert.assertFalse(resultAwaited.data.isEmpty());
+        Assert.assertEquals(RESTAURANT_ID, resultAwaited.data.get(0));
+
+    }
+
+    @Test
+    public void testGetChosenRestaurantIdsFailure() throws InterruptedException {
+        liveDataChosenRestaurantIds.setValue(null);
+        Resource<List<String>> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getChosenRestaurantIds());
+        Assert.assertNotNull(resultAwaited);
+        Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
+        Assert.assertNull(resultAwaited.data);
+
+    }
+
+    @Test
+    public void testRefreshChosenRestaurantIdsSuccess() throws InterruptedException {
+        listStringChosenRestaurantIds.add(RESTAURANT_ID);
+        liveDataChosenRestaurantIds.setValue(listStringChosenRestaurantIds);
+
+        SUT.refreshChosenRestaurantIds();
+        Resource<List<String>> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getChosenRestaurantIds());
+
+        Assert.assertNotNull(resultAwaited);
+        Assert.assertEquals(Resource.Status.SUCCESS, resultAwaited.status);
+        Assert.assertNotNull(resultAwaited.data);
+        Assert.assertEquals(listStringChosenRestaurantIds, resultAwaited.data);
+
+    }
+
+    @Test
+    public void testRefreshChosenRestaurantIdsFailure() throws InterruptedException {
+        liveDataChosenRestaurantIds.setValue(null);
+
+        SUT.refreshChosenRestaurantIds();
+        Resource<List<String>> resultAwaited = LiveDataTestUtils.getOrAwaitValue(SUT.getChosenRestaurantIds());
+        Assert.assertNotNull(resultAwaited);
+        Assert.assertEquals(Resource.Status.ERROR, resultAwaited.status);
+        Assert.assertNull(resultAwaited.data);
+        Assert.assertEquals("Error fetching chosen restaurant ids", resultAwaited.message);
+
+    }
+
 }

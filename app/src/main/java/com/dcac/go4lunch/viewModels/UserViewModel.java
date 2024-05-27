@@ -23,9 +23,11 @@ public class UserViewModel extends ViewModel {
 
     private final UserRepository userRepository;
     private final Map<LiveData<?>, Observer<?>> observers = new HashMap<>();
+    private final MutableLiveData<Resource<List<String>>> chosenRestaurantIds = new MutableLiveData<>();
 
     public UserViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
+        refreshChosenRestaurantIds();
     }
 
     @Override
@@ -40,7 +42,6 @@ public class UserViewModel extends ViewModel {
         observers.clear();
     }
 
-    // Méthode générique pour supprimer l'observateur avec cast sécurisé
     private <T> void removeObserver(LiveData<T> liveData, Observer<?> observer) {
         @SuppressWarnings("unchecked")
         Observer<T> typedObserver = (Observer<T>) observer;
@@ -176,6 +177,7 @@ public class UserViewModel extends ViewModel {
         userRepository.setRestaurantChoice(uid, restaurantId, choiceDate, restaurantName, restaurantAddress).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
                 liveData.setValue(Resource.success(true));
+                refreshChosenRestaurantIds();
             } else {
                 liveData.setValue(Resource.error("Failed to set restaurant choice", false));
             }
@@ -191,6 +193,7 @@ public class UserViewModel extends ViewModel {
         userRepository.removeRestaurantChoice(uid).observeForever(isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
                 liveData.setValue(Resource.success(true));
+                refreshChosenRestaurantIds();
             } else {
                 liveData.setValue(Resource.error("Failed to remove restaurant choice", false));
             }
@@ -214,22 +217,21 @@ public class UserViewModel extends ViewModel {
         return liveData;
     }
 
-    public LiveData<Resource<List<String>>> getChosenRestaurantIds() {
-        MutableLiveData<Resource<List<String>>> liveData = new MutableLiveData<>();
-        liveData.setValue(Resource.loading(null));
-
-        userRepository.getChosenRestaurantIds().observeForever(restaurantIds -> {
-            if (restaurantIds != null) {
-                liveData.setValue(Resource.success(restaurantIds));
-            } else {
-                liveData.setValue(Resource.error("Error fetching chosen restaurant ids", null));
-            }
-        });
-
-        return liveData;
-    }
-
     public LiveData<Resource<Map<String, List<User>>>> getAllRestaurantChoices() {
         return userRepository.getAllRestaurantChoices();
+    }
+
+    public LiveData<Resource<List<String>>> getChosenRestaurantIds() {
+        return chosenRestaurantIds;
+    }
+
+    public void refreshChosenRestaurantIds() {
+        userRepository.getChosenRestaurantIds().observeForever(resource -> {
+            if (resource != null) {
+                chosenRestaurantIds.setValue(Resource.success(resource));
+            } else {
+                chosenRestaurantIds.setValue(Resource.error("Error fetching chosen restaurant ids", null));
+            }
+        });
     }
 }

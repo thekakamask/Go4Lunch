@@ -15,6 +15,7 @@ public class RestaurantChoice {
         this.restaurantAddress=restaurantAddress;
     }
 
+    @SuppressWarnings("unused")
     public RestaurantChoice() {
     }
 
@@ -22,16 +23,8 @@ public class RestaurantChoice {
         return restaurantId;
     }
 
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
     public String getChoiceDate() {
         return choiceDate;
-    }
-
-    public void setChoiceDate(String choiceDate) {
-        this.choiceDate = choiceDate;
     }
 
     public String getRestaurantName() {

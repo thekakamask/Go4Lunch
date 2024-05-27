@@ -2,8 +2,8 @@ package com.dcac.go4lunch.models;
 
 public class ParametersItem {
 
-    private String title;
-    private String description;
+    private final String title;
+    private final String description;
     private boolean isChecked;
 
     public ParametersItem(String title, String description, boolean isChecked) {
@@ -18,9 +18,7 @@ public class ParametersItem {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+
 
     public boolean isChecked() {
         return isChecked;
@@ -34,7 +32,5 @@ public class ParametersItem {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+
 }

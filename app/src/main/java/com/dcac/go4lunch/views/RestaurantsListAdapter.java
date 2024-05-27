@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,12 +27,11 @@ import java.util.Map;
 
 public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsListAdapter.RestaurantsListViewHolder> {
 
-    //List.Adapter in replacement of RecyclerView.Adapter. it is more performant
-
     private Location userLocation;
     private final Context context;
     private Map<String, Integer> userChoices = new HashMap<>();
     private Map<String, String> openingHours = new HashMap<>();
+    private List<String> chosenRestaurantIds;
 
     public RestaurantsListAdapter(Context context) {
         super(DIFF_CALLBACK);
@@ -66,16 +66,22 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
         notifyDataSetChanged();
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RestaurantsListViewHolder holder, int position) {
-        Results restaurant = getItem(position);
-        holder.bind(restaurant, userLocation);
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     public void setOpeningHours(Map<String, String> openingHours) {
         this.openingHours = openingHours;
         notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setChosenRestaurantIds(List<String> chosenRestaurantIds) {
+        this.chosenRestaurantIds = chosenRestaurantIds;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RestaurantsListViewHolder holder, int position) {
+        Results restaurant = getItem(position);
+        holder.bind(restaurant, userLocation, chosenRestaurantIds);
     }
 
     public class RestaurantsListViewHolder extends RecyclerView.ViewHolder {
@@ -99,7 +105,7 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             });
         }
 
-        public void bind(Results results, Location userLocation) {
+        public void bind(Results results, Location userLocation, List<String> chosenRestaurantIds) {
             binding.restaurantName.setText(results.getName());
             binding.restaurantAddress.setText(results.getVicinity());
 
@@ -135,6 +141,12 @@ public class RestaurantsListAdapter extends ListAdapter<Results, RestaurantsList
             }
 
             setupRatingStars(results.getRating());
+
+            if (chosenRestaurantIds != null && chosenRestaurantIds.contains(results.getPlace_id())) {
+                binding.getRoot().setBackgroundColor(ContextCompat.getColor(context, R.color.green)); // Use a color resource for the chosen restaurant
+            } else {
+                binding.getRoot().setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent)); // Default background color
+            }
         }
 
         private void setupRatingStars(double rating) {

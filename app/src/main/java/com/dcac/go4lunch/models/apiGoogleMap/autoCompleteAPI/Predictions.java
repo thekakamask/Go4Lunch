@@ -10,9 +10,6 @@ public class Predictions {
     @SerializedName("types")
     private List<String> types;
     @Expose
-    @SerializedName("terms")
-    private List<Terms> terms;
-    @Expose
     @SerializedName("structured_formatting")
     private Structured_formatting structured_formatting;
     @Expose
@@ -21,9 +18,6 @@ public class Predictions {
     @Expose
     @SerializedName("place_id")
     private String place_id;
-    @Expose
-    @SerializedName("matched_substrings")
-    private List<Matched_substrings> matched_substrings;
     @Expose
     @SerializedName("description")
     private String description;
@@ -34,14 +28,6 @@ public class Predictions {
 
     public void setTypes(List<String> types) {
         this.types = types;
-    }
-
-    public List<Terms> getTerms() {
-        return terms;
-    }
-
-    public void setTerms(List<Terms> terms) {
-        this.terms = terms;
     }
 
     public Structured_formatting getStructured_formatting() {
@@ -66,14 +52,6 @@ public class Predictions {
 
     public void setPlace_id(String place_id) {
         this.place_id = place_id;
-    }
-
-    public List<Matched_substrings> getMatched_substrings() {
-        return matched_substrings;
-    }
-
-    public void setMatched_substrings(List<Matched_substrings> matched_substrings) {
-        this.matched_substrings = matched_substrings;
     }
 
     public String getDescription() {

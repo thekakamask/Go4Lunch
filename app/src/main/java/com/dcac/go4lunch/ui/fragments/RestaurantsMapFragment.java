@@ -52,7 +52,6 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
 
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +72,10 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
                 switch (resource.status) {
                     case SUCCESS:
                         chosenRestaurantIds.clear();
-                        chosenRestaurantIds.addAll(resource.data);
+                        if (resource.data != null) {
+                            chosenRestaurantIds.addAll(resource.data);
+                        }
+                        updateMapMarkers();
                         break;
                     case ERROR:
                         Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
@@ -91,8 +93,6 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
                              Bundle savedInstanceState) {
         binding = FragmentRestaurantsMapBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
-
     }
 
     @Override
@@ -100,7 +100,6 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
         super.onViewCreated(view, savedInstanceState);
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.getMapAsync(this);
-
     }
 
     @Override
@@ -138,13 +137,10 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
         });
     }
 
-
-
     private void updateMapWithRestaurants(List<PlaceNearbySearch> placeSearches) {
         mMap.clear();
         BitmapDescriptor defaultMarker = bitmapDescriptorFromVector(getContext(), R.drawable.ic_marker_red, R.drawable.lunch_icon);
         BitmapDescriptor chosenMarker = bitmapDescriptorFromVector(getContext(), R.drawable.ic_marker_green, R.drawable.lunch_icon);
-
 
         for (PlaceNearbySearch placeSearch : placeSearches) {
             for (Results result : placeSearch.getResults()) {
@@ -157,12 +153,19 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
                     markerOptions.icon(defaultMarker);
                 }
                 Marker marker = mMap.addMarker(markerOptions);
-                assert marker != null;
-                marker.setTag(result.getPlace_id());
+                if (marker != null) {
+                    marker.setTag(result.getPlace_id());
+                }
             }
-
         }
+    }
 
+    private void updateMapMarkers() {
+        if (mMap != null) {
+            mMap.clear(); // Clear existing markers
+            // Re-add the markers with updated icons based on chosenRestaurantIds
+            subscribeToUpdates();
+        }
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorResId, @DrawableRes int pngResId) {
@@ -204,12 +207,11 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
         return true;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         binding.mapView.onResume();
-        //fetchChosenRestaurants(mainActivity.getUserViewModel());
+        fetchChosenRestaurants();
     }
 
     @Override
@@ -246,5 +248,9 @@ public class RestaurantsMapFragment extends Fragment implements OnMapReadyCallba
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         binding.mapView.onSaveInstanceState(outState);
+    }
+
+    private void fetchChosenRestaurants() {
+        mainActivity.getUserViewModel().refreshChosenRestaurantIds();
     }
 }
