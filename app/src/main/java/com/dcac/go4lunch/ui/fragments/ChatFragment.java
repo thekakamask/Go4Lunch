@@ -75,7 +75,7 @@ public class ChatFragment extends Fragment {
                         .setQuery(query, Message.class)
                         .build();
 
-                adapter = new ChatAdapter(options);
+                adapter = new ChatAdapter(options, userName);
                 binding.chatRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 binding.chatRecyclerView.setAdapter(adapter);
                 adapter.startListening();

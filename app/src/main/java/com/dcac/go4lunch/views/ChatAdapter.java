@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,8 +22,11 @@ import java.util.Locale;
 
 public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatAdapter.MessageViewHolder> {
 
-    public ChatAdapter(@NonNull FirestoreRecyclerOptions<Message> options) {
+    private final String currentUserName;
+
+    public ChatAdapter(@NonNull FirestoreRecyclerOptions<Message> options, String currentUserName) {
         super(options);
+        this.currentUserName = currentUserName;
     }
 
     @NonNull
@@ -34,7 +39,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatAdapter.M
 
     @Override
     protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
-        holder.bind(model);
+        holder.bind(model, model.getUserName().equals(currentUserName));
     }
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
@@ -43,6 +48,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatAdapter.M
         TextView messageTextView;
         ImageView messageImageView;
         TextView dateTextView;
+        ConstraintLayout rootLayout;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,11 +57,13 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatAdapter.M
             messageTextView = itemView.findViewById(R.id.messageTextView);
             messageImageView = itemView.findViewById(R.id.senderImageView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
+            rootLayout = itemView.findViewById(R.id.activity_mentor_chat_item_root_view);
         }
 
-        public void bind(Message message) {
+        public void bind(Message message, boolean isSentByCurrentUser) {
             userNameTextView.setText(message.getUserName());
             messageTextView.setText(message.getText());
+            dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(message.getDateCreated()));
 
             Glide.with(itemView.getContext())
                     .load(message.getUserProfilePicUrl())
@@ -75,13 +83,38 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatAdapter.M
                 messageImageView.setVisibility(View.GONE);
             }
 
-            if (message.getDateCreated() != null) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-                String formattedDate = dateFormat.format(message.getDateCreated());
-                dateTextView.setText(formattedDate);
+            adjustConstraints(isSentByCurrentUser);
+        }
+
+        private void adjustConstraints(boolean isSentByCurrentUser) {
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(rootLayout);
+
+            if (isSentByCurrentUser) {
+                // Constraints for sent messages
+                constraintSet.clear(R.id.profileContainer, ConstraintSet.START);
+                constraintSet.clear(R.id.messageContainer, ConstraintSet.START);
+                constraintSet.clear(R.id.dateTextView, ConstraintSet.START);
+
+                constraintSet.connect(R.id.profileContainer, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+                constraintSet.connect(R.id.messageContainer, ConstraintSet.END, R.id.profileContainer, ConstraintSet.START);
+                constraintSet.connect(R.id.dateTextView, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+
+                constraintSet.setHorizontalBias(R.id.messageContainer, 1.0f); // Align to right
             } else {
-                dateTextView.setText("");
+                // Constraints for received messages
+                constraintSet.clear(R.id.profileContainer, ConstraintSet.END);
+                constraintSet.clear(R.id.messageContainer, ConstraintSet.END);
+                constraintSet.clear(R.id.dateTextView, ConstraintSet.END);
+
+                constraintSet.connect(R.id.profileContainer, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+                constraintSet.connect(R.id.messageContainer, ConstraintSet.START, R.id.profileContainer, ConstraintSet.END);
+                constraintSet.connect(R.id.dateTextView, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+
+                constraintSet.setHorizontalBias(R.id.messageContainer, 0.0f); // Align to left
             }
+
+            constraintSet.applyTo(rootLayout);
         }
     }
 }
