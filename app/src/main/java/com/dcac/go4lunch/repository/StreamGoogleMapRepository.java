@@ -86,11 +86,25 @@ public final class StreamGoogleMapRepository implements IStreamGoogleMap {
 
     @SuppressLint("CheckResult")
     private void fetchPlacesPage(String location, int radius, String type, String pageToken, List<PlaceNearbySearch> combinedResults, MutableLiveData<Resource<List<PlaceNearbySearch>>> liveData, AtomicInteger callsRemaining) {
+        Log.d("PLACES_REPO", "Request => type=" + type
+                + ", location=" + location
+                + ", radius=" + radius
+                + ", pageToken=" + pageToken);
         disposable = service.getNearbyPlaces(location, radius, type, pageToken, null)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         placeNearbySearch -> {
+                            Log.d("PLACES_REPO", "Response status=" + placeNearbySearch.getStatus()
+                                    + ", results="
+                                    + (placeNearbySearch.getResults() != null
+                                    ? placeNearbySearch.getResults().size()
+                                    : "null"));
                             synchronized (combinedResults) {
+                                if (!"OK".equals(placeNearbySearch.getStatus())
+                                        && !"ZERO_RESULTS".equals(placeNearbySearch.getStatus())) {
+
+                                    Log.e("PLACES_REPO", "Google Places ERROR => " + placeNearbySearch.getStatus());
+                                }
                                 combinedResults.add(placeNearbySearch);
                             }
                             if (placeNearbySearch.getNextPageToken() != null) {
@@ -102,11 +116,20 @@ public final class StreamGoogleMapRepository implements IStreamGoogleMap {
                                     Log.e("Repository", "Thread interrupted while waiting for the next page token", e);
                                 }
                             } else if (callsRemaining.decrementAndGet() == 0) {
+                                Log.d("PLACES_REPO", "FINAL RESULT => total responses = " + combinedResults.size());
+
+                                for (int i = 0; i < combinedResults.size(); i++) {
+                                    PlaceNearbySearch p = combinedResults.get(i);
+                                    Log.d("PLACES_REPO", "Response[" + i + "] status=" + p.getStatus()
+                                            + ", results="
+                                            + (p.getResults() != null ? p.getResults().size() : "null"));
+                                }
                                 liveData.postValue(Resource.success(combinedResults));
                                 disposeFetchPlacesPage(); // Disposable when all operation are termianted
                             }
                         },
                         throwable -> {
+                            Log.e("PLACES_REPO", "onError() called", throwable);
                             liveData.postValue(Resource.error(throwable.getMessage(), combinedResults));
                             disposeFetchPlacesPage(); // Disposable in cas of mistake
                         }
@@ -142,7 +165,7 @@ public final class StreamGoogleMapRepository implements IStreamGoogleMap {
     @Override
     public LiveData<Resource<AutoComplete>> getAutoCompletePlaces(String input) {
         return LiveDataReactiveStreams.fromPublisher(
-                service.getAutocompletePlaces(input, null)
+                service.getAutocompletePlaces(input,"establishment", null)
                         .subscribeOn(Schedulers.io())
                         .onErrorReturn(throwable -> {
                             // Create and return an Error Object

@@ -29,5 +29,6 @@ public interface ServiceGoogleMap {
     @GET("place/autocomplete/json")
     Flowable<AutoComplete> getAutocompletePlaces(
             @Query("input") String input,
+            @Query("types") String types,
             @Query("key") String apiKey);
 }

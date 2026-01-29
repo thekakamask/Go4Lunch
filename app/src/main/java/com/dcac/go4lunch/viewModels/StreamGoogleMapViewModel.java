@@ -108,11 +108,16 @@ public class StreamGoogleMapViewModel extends ViewModel {
             openingHoursLiveData.addSource(placeDetailsLiveData, resource -> {
                 if (resource != null && resource.status == Resource.Status.SUCCESS) {
                     PlaceDetails details = resource.data;
-                    if (details != null && details.getResult().getOpening_hours() != null) {
-                        List<String> openingHoursList = details.getResult().getOpening_hours().getWeekday_text();
-                        if (!openingHoursList.isEmpty()) {
-                            cachedOpeningHours.put(placeId, openingHoursList.get(0));
-                        }
+                    if (details != null
+                            && details.getResult() != null
+                            && details.getResult().getOpening_hours() != null
+                            && details.getResult().getOpening_hours().getWeekday_text() != null
+                            && !details.getResult().getOpening_hours().getWeekday_text().isEmpty()) {
+
+                        List<String> openingHoursList =
+                                details.getResult().getOpening_hours().getWeekday_text();
+
+                        cachedOpeningHours.put(placeId, openingHoursList.get(0));
                     }
                 }
                 if (count.decrementAndGet() == 0) {

@@ -17,13 +17,17 @@ import com.dcac.go4lunch.viewModels.StreamGoogleMapViewModel;
 import com.dcac.go4lunch.views.SearchActivityAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
 
     private StreamGoogleMapViewModel streamGoogleMapViewModel;
     private SearchActivityAdapter adapter;
 
+    private static final long SEARCH_DELAY_MS = 300;
+    private final android.os.Handler searchHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private Runnable searchRunnable;
+
+    @Override
     protected ActivitySearchBinding getViewBinding() {
         return ActivitySearchBinding.inflate(getLayoutInflater());
     }
@@ -48,44 +52,47 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding> {
 
     private void setupSearch() {
         binding.searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.toString().trim().length() >= 3) {
-                    fetchAutocompleteResults(charSequence.toString().trim());
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().trim();
+
+                // Cancel previous pending search
+                if (searchRunnable != null) {
+                    searchHandler.removeCallbacks(searchRunnable);
                 }
+
+                if (query.length() < 3) {
+                    adapter.updateData(new ArrayList<>());
+                    return;
+                }
+
+                searchRunnable = () -> fetchAutocompleteResults(query);
+                searchHandler.postDelayed(searchRunnable, SEARCH_DELAY_MS);
             }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
+            @Override public void afterTextChanged(Editable s) {}
         });
     }
 
     private void fetchAutocompleteResults(String query) {
-        streamGoogleMapViewModel.getAutoCompletePlaces(query).observe(this, autoCompleteResource -> {
-            if (autoCompleteResource != null && autoCompleteResource.status == Resource.Status.SUCCESS && autoCompleteResource.data != null) {
-                // Filtered by restaurant
-                List<Predictions> filteredPredictions = new ArrayList<>();
-                for (Predictions prediction : autoCompleteResource.data.getPredictions()) {
-                    if (prediction.getTypes().contains("restaurant")) {
-                        filteredPredictions.add(prediction);
+        streamGoogleMapViewModel
+                .getAutoCompletePlaces(query)
+                .observe(this, autoCompleteResource -> {
+
+                    if (autoCompleteResource == null) return;
+
+                    if (autoCompleteResource.status == Resource.Status.SUCCESS
+                            && autoCompleteResource.data != null
+                            && autoCompleteResource.data.getPredictions() != null) {
+
+                        adapter.updateData(autoCompleteResource.data.getPredictions());
+
+                    } else if (autoCompleteResource.status == Resource.Status.ERROR) {
+                        showError(autoCompleteResource.message);
                     }
-                }
-
-                // Update with filtered predictions
-                adapter.updateData(filteredPredictions);
-            } else {
-                assert autoCompleteResource != null;
-                if (autoCompleteResource.status == Resource.Status.ERROR) {
-                    showError(autoCompleteResource.message);
-                }
-            }
-        });
-
+                });
     }
 
     private void handlePredictionClick(Predictions prediction) {
